@@ -26,28 +26,3 @@ public fun JSONObject.asSequence(): Sequence<Pair<String, Any>> {
 
     }
 }
-
-public inline fun <reified T> JSONObject.get(key: String): T {
-    val keys = linkedListOf(*key.splitBy(".").toTypedArray())
-
-    var json = this
-
-    while (keys.size() != 1) {
-        json = json.getJSONObject(keys.remove())
-    }
-
-    val key = keys[0]
-
-    val clazz = javaClass<T>().kotlin
-    when (clazz.simpleName) {
-        "Boolean" -> return json.getBoolean(key) as T
-        "Double" -> return json.getDouble(key) as T
-        "Int" -> return json.getInt(key) as T
-        "JSONArray" -> return json.getJSONArray(key) as T
-        "JSONObject" -> return json.getJSONObject(key) as T
-        "Long" -> return json.getLong(key) as T
-        "String" -> return json.getString(key) as T
-        else -> throw UnsupportedOperationException()
-    }
-}
-

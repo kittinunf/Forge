@@ -1,5 +1,5 @@
 {
-  "id": 10,
+  "id": 1,
   "name": "Clementina DuBuque",
   "username": "Moriah.Stanton",
   "age": 46,
@@ -11,8 +11,8 @@
     "city": "Lebsackbury",
     "zipcode": "31428-2261",
     "geo": {
-      "lat": "-38.2386",
-      "lng": "57.2232"
+      "lat": -38.2386,
+      "lng": 57.2232
     }
   },
   "phone": "024-648-3804",

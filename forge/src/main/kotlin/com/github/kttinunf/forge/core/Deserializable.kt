@@ -8,6 +8,6 @@ import com.sun.org.apache.xpath.internal.operations.Bool
 
 public interface Deserializable<T> {
 
-    public fun deserialize(json: JSON?): T?
+    public fun deserialize(json: JSON): T?
 
 }

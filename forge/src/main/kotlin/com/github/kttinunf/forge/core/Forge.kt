@@ -9,12 +9,11 @@ import org.json.JSONObject
 public class Forge {
 
     companion object {
-        public inline fun <T, reified U: Deserializable<T>> json(json: String): T? = json<T, U>(JSONObject(json))
 
-        public inline fun <T, reified U: Deserializable<T>> json(json: JSONObject): T? {
-            val u = javaClass<U>().newInstance()
-            return u.deserialize(JSON.parse(json))
-        }
+        public inline fun <T, reified U : Deserializable<T>> fromJson(json: kotlin.String): T? = fromJson<T, U>(JSONObject(json))
+
+        public inline fun <T, reified U : Deserializable<T>> fromJson(json: JSONObject): T? = javaClass<U>().newInstance().deserialize(JSON.parse(json))
+
     }
 
 }

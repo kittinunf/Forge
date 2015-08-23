@@ -3,27 +3,26 @@ package com.github.kttinunf.forge.core
 import com.github.kttinunf.forge.extension.asSequence
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
 
 /**
  * Created by Kittinun Vantasin on 8/21/15.
  */
 
-public open class JSON(open val value: Any) {
+public abstract class JSON(val value: Any) {
 
-    companion object Type {
+    companion object {
 
-        public class Object(override val value: Map<kotlin.String, JSON> = mapOf()) : JSON(value)
+        public class Object(value: Map<kotlin.String, JSON> = mapOf()) : JSON(value)
 
-        public class Array(override val value: List<JSON> = listOf()) : JSON(value)
+        public class Array(value: List<JSON> = listOf()) : JSON(value)
 
-        public class String(override val value: kotlin.String = "") : JSON(value)
+        public class String(value: kotlin.String = "") : JSON(value)
 
-        public class Number(override val value: kotlin.Number = 0) : JSON(value)
+        public class Number(value: kotlin.Number = 0) : JSON(value)
 
-        public class Boolean(override val value: kotlin.Boolean = false) : JSON(value)
+        public class Boolean(value: kotlin.Boolean = false) : JSON(value)
 
-        public class NULL(override val value: Unit = Unit) : JSON(value)
+        public class NULL(value: Unit = Unit) : JSON(value)
 
         public fun parse(json: Any): JSON {
             when (json) {
@@ -86,35 +85,35 @@ public open class JSON(open val value: Any) {
 
     }
 
-//    public fun <T> resolve(): T? {
-//        when (this) {
-//            is JSON.Type.Object -> return value as T
-//            is JSON.Type.Array -> return value as T
-//            is JSON.Type.String -> return value as T
-//            is JSON.Type.Number -> return value as T
-//            is JSON.Type.Boolean -> return value as T
-//            else -> return null
-//        }
-//    }
-//
-//    public fun get(key: String): JSON? {
-//        return when (this) {
-//            is JSON.Type.Object -> value[key]
-//            else -> null
-//        }
-//    }
-//
-//    public fun find(keys: List<String>): JSON? {
-//        return keys.optFold(this) { json, key ->
-//            json?.get(key)
-//        }
-//    }
-//
-//    public fun find(key: String): JSON? {
-//        return get(key)
-//    }
+    public fun <T> valueAs(): T? {
+        when (this) {
+            is JSON.Companion.Object -> return value as T
+            is JSON.Companion.Array -> return value as T
+            is JSON.Companion.String -> return value as T
+            is JSON.Companion.Number -> return value as T
+            is JSON.Companion.Boolean -> return value as T
+            else -> return null
+        }
+    }
+
+    private fun get(key: kotlin.String): JSON? {
+        when (this) {
+            is JSON.Companion.Object -> return (value as Map<kotlin.String, JSON?>)[key]
+            else -> return null
+        }
+    }
+
+    public fun find(keyPath: kotlin.String): JSON? {
+        val keys = keyPath.splitBy(".")
+
+        return keys.optFold(this) { json, key ->
+            json?.get(key)
+        }
+    }
 
 }
+
+
 
 
 
