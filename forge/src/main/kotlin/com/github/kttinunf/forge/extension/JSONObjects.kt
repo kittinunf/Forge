@@ -1,7 +1,6 @@
 package com.github.kttinunf.forge.extension
 
 import org.json.JSONObject
-import kotlin.reflect.jvm.kotlin
 
 /**
  * Created by Kittinun Vantasin on 8/21/15.
