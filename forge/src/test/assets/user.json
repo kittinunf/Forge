@@ -3,8 +3,10 @@
   "name": "Clementina DuBuque",
   "username": "Moriah.Stanton",
   "age": 46,
+  "weight" : 72.5,
   "email": "Rey.Padberg@karina.biz",
   "is_deleted": true,
+  "created_at": "2015-02-27T15:10:39.971Z",
   "address": {
     "street": "Kattie Turnpike",
     "suite": "Suite 198",
@@ -19,7 +21,7 @@
   "website": "ambrose.net",
   "company": {
     "name": "Hoeger LLC",
-    "catchPhrase": "Centralized empowering task-force",
+    "catch_phrase": "Centralized empowering task-force",
     "bs": "target end-to-end models"
   }
 }

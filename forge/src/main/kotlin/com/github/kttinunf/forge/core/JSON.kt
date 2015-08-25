@@ -3,6 +3,7 @@ package com.github.kttinunf.forge.core
 import com.github.kttinunf.forge.extension.asSequence
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.reflect.jvm.kotlin
 
 /**
  * Created by Kittinun Vantasin on 8/21/15.
@@ -10,7 +11,7 @@ import org.json.JSONObject
 
 public abstract class JSON(val value: Any) {
 
-    companion object {
+    companion object Type {
 
         public class Object(value: Map<kotlin.String, JSON> = mapOf()) : JSON(value)
 
@@ -87,18 +88,14 @@ public abstract class JSON(val value: Any) {
 
     public fun <T> valueAs(): T? {
         when (this) {
-            is JSON.Companion.Object -> return value as T
-            is JSON.Companion.Array -> return value as T
-            is JSON.Companion.String -> return value as T
-            is JSON.Companion.Number -> return value as T
-            is JSON.Companion.Boolean -> return value as T
-            else -> return null
+            is JSON.Type.NULL -> return null
+            else -> return value as T
         }
     }
 
     private fun get(key: kotlin.String): JSON? {
         when (this) {
-            is JSON.Companion.Object -> return (value as Map<kotlin.String, JSON?>)[key]
+            is JSON.Type.Object -> return (value as Map<kotlin.String, JSON?>)[key]
             else -> return null
         }
     }

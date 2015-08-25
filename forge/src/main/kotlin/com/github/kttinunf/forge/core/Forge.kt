@@ -10,9 +10,9 @@ public class Forge {
 
     companion object {
 
-        public inline fun <T, reified U : Deserializable<T>> fromJson(json: kotlin.String): T? = fromJson<T, U>(JSONObject(json))
+        public fun <T, U : Deserializable<T>> fromJson(json: kotlin.String, deserializer: U): T? = fromJson(JSONObject(json), deserializer)
 
-        public inline fun <T, reified U : Deserializable<T>> fromJson(json: JSONObject): T? = javaClass<U>().newInstance().deserialize(JSON.parse(json))
+        public fun <T, U : Deserializable<T>> fromJson(json: JSONObject, deserializer: U): T? = deserializer.deserialize(JSON.parse(json))
 
     }
 
