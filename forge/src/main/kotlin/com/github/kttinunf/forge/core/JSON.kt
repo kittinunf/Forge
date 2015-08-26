@@ -3,7 +3,6 @@ package com.github.kttinunf.forge.core
 import com.github.kttinunf.forge.extension.asSequence
 import org.json.JSONArray
 import org.json.JSONObject
-import kotlin.reflect.jvm.kotlin
 
 /**
  * Created by Kittinun Vantasin on 8/21/15.
@@ -103,7 +102,8 @@ public abstract class JSON(val value: Any) {
     public fun find(keyPath: kotlin.String): JSON? {
         val keys = keyPath.splitBy(".")
 
-        return keys.optFold(this) { json, key ->
+        val initial: JSON? = this
+        return keys.fold(initial) { json, key ->
             json?.get(key)
         }
     }

@@ -1,6 +1,5 @@
 package com.github.kttinunf.forge.function
 
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -13,5 +12,3 @@ public fun toDate(style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): (String) -> D
     val formatter = SimpleDateFormat(style)
     formatter.parse(it)
 }
-
-
