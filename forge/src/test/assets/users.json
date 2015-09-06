@@ -4,6 +4,7 @@
     "name": "Leanne Graham",
     "username": "Bret",
     "email": "Sincere@april.biz",
+    "age": 22,
     "address": {
       "street": "Kulas Light",
       "suite": "Apt. 556",
@@ -18,7 +19,7 @@
     "website": "hildegard.org",
     "company": {
       "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
+      "catch_phrase": "Multi-layered client-server neural-net",
       "bs": "harness real-time e-markets"
     }
   },
@@ -27,6 +28,7 @@
     "name": "Ervin Howell",
     "username": "Antonette",
     "email": "Shanna@melissa.tv",
+    "age": 35,
     "address": {
       "street": "Victor Plains",
       "suite": "Suite 879",
@@ -41,7 +43,7 @@
     "website": "anastasia.net",
     "company": {
       "name": "Deckow-Crist",
-      "catchPhrase": "Proactive didactic contingency",
+      "catch_phrase": "Proactive didactic contingency",
       "bs": "synergize scalable supply-chains"
     }
   },
@@ -50,6 +52,7 @@
     "name": "Clementine Bauch",
     "username": "Samantha",
     "email": "Nathan@yesenia.net",
+    "age": 26,
     "address": {
       "street": "Douglas Extension",
       "suite": "Suite 847",
@@ -64,7 +67,7 @@
     "website": "ramiro.info",
     "company": {
       "name": "Romaguera-Jacobson",
-      "catchPhrase": "Face to face bifurcated interface",
+      "catch_phrase": "Face to face bifurcated interface",
       "bs": "e-enable strategic applications"
     }
   },
@@ -73,6 +76,7 @@
     "name": "Patricia Lebsack",
     "username": "Karianne",
     "email": "Julianne.OConner@kory.org",
+    "age": 86,
     "address": {
       "street": "Hoeger Mall",
       "suite": "Apt. 692",
@@ -87,7 +91,7 @@
     "website": "kale.biz",
     "company": {
       "name": "Robel-Corkery",
-      "catchPhrase": "Multi-tiered zero tolerance productivity",
+      "catch_phrase": "Multi-tiered zero tolerance productivity",
       "bs": "transition cutting-edge web services"
     }
   },
@@ -96,6 +100,7 @@
     "name": "Chelsey Dietrich",
     "username": "Kamren",
     "email": "Lucio_Hettinger@annie.ca",
+    "age": 71,
     "address": {
       "street": "Skiles Walks",
       "suite": "Suite 351",
@@ -110,7 +115,7 @@
     "website": "demarco.info",
     "company": {
       "name": "Keebler LLC",
-      "catchPhrase": "User-centric fault-tolerant solution",
+      "catch_phrase": "User-centric fault-tolerant solution",
       "bs": "revolutionize end-to-end systems"
     }
   },
@@ -119,6 +124,7 @@
     "name": "Mrs. Dennis Schulist",
     "username": "Leopoldo_Corkery",
     "email": "Karley_Dach@jasper.info",
+    "age": 61,
     "address": {
       "street": "Norberto Crossing",
       "suite": "Apt. 950",
@@ -133,7 +139,7 @@
     "website": "ola.org",
     "company": {
       "name": "Considine-Lockman",
-      "catchPhrase": "Synchronised bottom-line interface",
+      "catch_phrase": "Synchronised bottom-line interface",
       "bs": "e-enable innovative applications"
     }
   },
@@ -142,6 +148,7 @@
     "name": "Kurtis Weissnat",
     "username": "Elwyn.Skiles",
     "email": "Telly.Hoeger@billy.biz",
+    "age": 19,
     "address": {
       "street": "Rex Trail",
       "suite": "Suite 280",
@@ -156,7 +163,7 @@
     "website": "elvis.io",
     "company": {
       "name": "Johns Group",
-      "catchPhrase": "Configurable multimedia task-force",
+      "catch_phrase": "Configurable multimedia task-force",
       "bs": "generate enterprise e-tailers"
     }
   },
@@ -165,6 +172,7 @@
     "name": "Nicholas Runolfsdottir V",
     "username": "Maxime_Nienow",
     "email": "Sherwood@rosamond.me",
+    "age": 39,
     "address": {
       "street": "Ellsworth Summit",
       "suite": "Suite 729",
@@ -179,7 +187,7 @@
     "website": "jacynthe.com",
     "company": {
       "name": "Abernathy Group",
-      "catchPhrase": "Implemented secondary concept",
+      "catch_phrase": "Implemented secondary concept",
       "bs": "e-enable extensible e-tailers"
     }
   },
@@ -188,6 +196,7 @@
     "name": "Glenna Reichert",
     "username": "Delphine",
     "email": "Chaim_McDermott@dana.io",
+    "age": 22,
     "address": {
       "street": "Dayna Park",
       "suite": "Suite 449",
@@ -202,7 +211,7 @@
     "website": "conrad.com",
     "company": {
       "name": "Yost and Sons",
-      "catchPhrase": "Switchable contextually-based project",
+      "catch_phrase": "Switchable contextually-based project",
       "bs": "aggregate real-time technologies"
     }
   },
@@ -211,6 +220,7 @@
     "name": "Clementina DuBuque",
     "username": "Moriah.Stanton",
     "email": "Rey.Padberg@karina.biz",
+    "age": 28,
     "address": {
       "street": "Kattie Turnpike",
       "suite": "Suite 198",
@@ -225,7 +235,7 @@
     "website": "ambrose.net",
     "company": {
       "name": "Hoeger LLC",
-      "catchPhrase": "Centralized empowering task-force",
+      "catch_phrase": "Centralized empowering task-force",
       "bs": "target end-to-end models"
     }
   }

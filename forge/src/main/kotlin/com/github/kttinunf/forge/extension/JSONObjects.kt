@@ -11,15 +11,15 @@ public fun JSONObject.asSequence(): Sequence<Pair<String, Any>> {
 
         override fun iterator() = object : Iterator<Pair<String, Any>> {
 
-            val iter = keys()
+            val it = keys()
 
             override fun next(): Pair<String, Any> {
-                val key = iter.next()
+                val key = it.next()
                 val value = get(key)
                 return (key to value)
             }
 
-            override fun hasNext() = iter.hasNext()
+            override fun hasNext() = it.hasNext()
 
         }
 

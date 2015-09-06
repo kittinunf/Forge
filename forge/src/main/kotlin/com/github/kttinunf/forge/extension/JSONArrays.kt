@@ -6,19 +6,19 @@ import org.json.JSONArray
  * Created by Kittinun Vantasin on 8/21/15.
  */
 
-fun JSONArray.asSequence(): Sequence<Any> {
+public fun JSONArray.asSequence(): Sequence<Any> {
     return object : Sequence<Any> {
 
         override fun iterator() = object : Iterator<Any> {
 
-            val range = (0..this@asSequence.length())
+            val it = (0..this@asSequence.length() - 1).iterator()
 
             override fun next(): Any {
-                val i = range.iterator().next()
+                val i = it.next()
                 return this@asSequence.get(i)
             }
 
-            override fun hasNext() = range.iterator().hasNext()
+            override fun hasNext() = it.hasNext()
 
         }
     }

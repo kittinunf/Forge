@@ -3,18 +3,41 @@ package com.github.kttinunf.forge.core
 import com.github.kttinunf.forge.extension.asSequence
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.Boolean
 
 /**
  * Created by Kittinun Vantasin on 8/21/15.
  */
 
-public abstract class JSON(val value: Any) {
+public abstract class JSON(val value: Any) : Sequence<JSON> {
+
+    override fun iterator() = sequenceOf(this).iterator()
 
     companion object Type {
 
-        public class Object(value: Map<kotlin.String, JSON> = mapOf()) : JSON(value)
+        public class Object(value: Map<kotlin.String, JSON> = mapOf()) : JSON(value) {
 
-        public class Array(value: List<JSON> = listOf()) : JSON(value)
+            override fun iterator() = object : Iterator<JSON> {
+
+                val map = value as Map<kotlin.String, JSON>
+                val it = map.keySet().iterator()
+
+                override fun next(): JSON {
+                    val key = it.next()
+                    return map[key]!!
+                }
+
+                override fun hasNext() = it.hasNext()
+
+            }
+
+        }
+
+        public class Array(value: List<JSON> = listOf()) : JSON(value) {
+
+            override fun iterator() = (value as List<JSON>).iterator()
+
+        }
 
         public class String(value: kotlin.String = "") : JSON(value)
 
@@ -27,12 +50,13 @@ public abstract class JSON(val value: Any) {
         public fun parse(json: Any): JSON {
             when (json) {
                 is JSONObject -> return parse(toMap(json))
+                is JSONArray -> return parse(toList(json))
 
-                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(hashMapOf<kotlin.String, JSON>()) { aggregator, entry ->
+                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(hashMapOf<kotlin.String, JSON>()) { accum, entry ->
                     val (key, value) = entry
                     val jsonValue = parse(value)
-                    aggregator += key to jsonValue
-                    aggregator
+                    accum += key to jsonValue
+                    accum
                 })
 
                 is List<*> -> return Array(json.map { parse(it!!) })
@@ -53,9 +77,15 @@ public abstract class JSON(val value: Any) {
             } else emptyMap()
         }
 
+        private fun toList(json: JSONArray): List<Any> {
+            return if (json != JSONObject.NULL) {
+                _toList(json)
+            } else emptyList()
+        }
+
         //recursive
         private fun _toMap(json: JSONObject): Map<kotlin.String, Any> {
-            return json.asSequence().fold(hashMapOf<kotlin.String, Any>()) { aggregator, item ->
+            return json.asSequence().fold(hashMapOf<kotlin.String, Any>()) { accum, item ->
                 val (key, value) = item
                 val newValue: Any = if (value is JSONObject) {
                     _toMap(value)
@@ -64,13 +94,14 @@ public abstract class JSON(val value: Any) {
                 } else {
                     value
                 }
-                aggregator += (key to newValue)
-                aggregator
+                accum += (key to newValue)
+                accum
             }
         }
 
+        //recursive
         private fun _toList(json: JSONArray): List<Any> {
-            return json.asSequence().fold(arrayListOf<Any>()) { aggregator, value ->
+            return json.asSequence().fold(arrayListOf<Any>()) { accum, value ->
                 val newValue: Any = if (value is JSONArray) {
                     _toList(value)
                 } else if (value is JSONObject) {
@@ -78,8 +109,8 @@ public abstract class JSON(val value: Any) {
                 } else {
                     value
                 }
-                aggregator.add(newValue)
-                aggregator
+                accum.add(newValue)
+                accum
             }
         }
 
@@ -89,6 +120,18 @@ public abstract class JSON(val value: Any) {
         when (this) {
             is JSON.Type.NULL -> return null
             else -> return value as T
+        }
+    }
+
+    public fun <T> valueAsList(): List<T?>? {
+        when (this) {
+            is JSON.Type.NULL -> return null
+            else -> {
+                return (value as List<JSON>).fold(arrayListOf<T>()) { accum, j ->
+                    accum.add(j.valueAs())
+                    accum
+                }
+            }
         }
     }
 
@@ -109,8 +152,4 @@ public abstract class JSON(val value: Any) {
     }
 
 }
-
-
-
-
 

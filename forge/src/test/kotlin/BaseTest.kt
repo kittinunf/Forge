@@ -11,6 +11,8 @@ public open class BaseTest {
     val assetsDir: File
 
     var userJson: String by Delegates.notNull()
+    var userFriendsJson: String by Delegates.notNull()
+    var usersJson: String by Delegates.notNull()
 
     init {
         val dir = System.getProperty("user.dir")
@@ -20,6 +22,8 @@ public open class BaseTest {
     Before
     fun setUp() {
         userJson = File(assetsDir, "user.json").readText()
+        userFriendsJson = File(assetsDir, "user_and_friends.json").readText()
+        usersJson = File(assetsDir, "users.json").readText()
     }
 
 }

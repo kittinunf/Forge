@@ -1,14 +1,18 @@
 package com.github.kttinunf.forge.core
 
+import kotlin.String
+
 /**
  * Created by Kittinun Vantasin on 8/21/15.
  */
 
-public fun <T> JSON.at(key: kotlin.String, deserializer: JSON.() -> T): T? {
-    return find(key)?.deserializer()
-}
+public fun <T> JSON.at(key: String, deserializer: JSON.() -> T): T? = find(key)?.deserializer()
 
-public fun <T> JSON.at(key: kotlin.String): T? = find(key)?.valueAs()
+public fun <T> JSON.at(key: String): T? = find(key)?.valueAs()
+
+public fun <T> JSON.list(key: String, deserializer: JSON.() -> List<T?>): List<T?>? = find(key)?.deserializer()
+
+public fun <T> JSON.list(key: String): List<T?>? = find(key)?.valueAsList()
 
 public fun <T, U> Function1<T, U>?.map(t: T?): U? {
     when(this) {
