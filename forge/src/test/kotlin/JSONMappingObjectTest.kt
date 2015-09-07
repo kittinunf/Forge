@@ -20,11 +20,11 @@ import kotlin.test.assertTrue
 
 public class JSONMappingObjectTest : BaseTest() {
 
-    data class UserModel(val id: Int, val name: String, val age: Int, val email: String) {
+    data class User(val id: Int, val name: String, val age: Int, val email: String) {
 
-        class Deserializer : Deserializable<UserModel> {
-            override val deserializer: (JSON) -> UserModel? = { json ->
-                ::UserModel.create.
+        class Deserializer : Deserializable<User> {
+            override val deserializer: (JSON) -> User? = { json ->
+                ::User.create.
                         map(json at "id").
                         map(json at "name").
                         map(json at "age").
@@ -34,10 +34,10 @@ public class JSONMappingObjectTest : BaseTest() {
 
     }
 
-    class UserModelDeserializer : Deserializable<UserModel> {
+    class UserDeserializer : Deserializable<User> {
 
-        override val deserializer: (JSON) -> UserModel? = { json ->
-            ::UserModel.create.
+        override val deserializer: (JSON) -> User? = { json ->
+            ::User.create.
                     map(json at "id").
                     map(json at "name").
                     map(json at "age").
@@ -54,21 +54,21 @@ public class JSONMappingObjectTest : BaseTest() {
                 map(json at "catch_phrase")
     }
 
-    data class UserModelWithCompany(val username: String, val isDeleted: Boolean, val company: Company)
+    data class UserWithCompany(val username: String, val isDeleted: Boolean, val company: Company)
 
     val userModelWithCompanyDeserializer = { json: JSON ->
-        ::UserModelWithCompany.create.
+        ::UserWithCompany.create.
                 map(json at "username").
                 map(json at "is_deleted").
                 map(json.at("company", companyDeserializer))
     }
 
-    data class UserModelCreatedAt(val id: Int, val createdAt: Date) {
+    data class UserCreatedAt(val id: Int, val createdAt: Date) {
 
-        class Deserializer : Deserializable<UserModelCreatedAt> {
+        class Deserializer : Deserializable<UserCreatedAt> {
 
-            override val deserializer: (JSON) -> UserModelCreatedAt? = { json ->
-                ::UserModelCreatedAt.create.
+            override val deserializer: (JSON) -> UserCreatedAt? = { json ->
+                ::UserCreatedAt.create.
                         map(json at "id").
                         map(toDate() map (json at "created_at"))
             }
@@ -77,12 +77,12 @@ public class JSONMappingObjectTest : BaseTest() {
 
     }
 
-    data class UserModelWithOptionalFields(val name: String, val city: String?, val gender: String?, val phone: String, val weight: Float) {
+    data class UserWithOptionalFields(val name: String, val city: String?, val gender: String?, val phone: String, val weight: Float) {
 
-        class Deserializer : Deserializable<UserModelWithOptionalFields> {
+        class Deserializer : Deserializable<UserWithOptionalFields> {
 
-            override val deserializer: (JSON) -> UserModelWithOptionalFields? = { json ->
-                ::UserModelWithOptionalFields.create.
+            override val deserializer: (JSON) -> UserWithOptionalFields? = { json ->
+                ::UserWithOptionalFields.create.
                         map(json at "name").
                         map(json at "city").
                         map(json at "gender").
@@ -109,7 +109,7 @@ public class JSONMappingObjectTest : BaseTest() {
     fun testUserModelCurry() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val curry = ::UserModel.curry()
+        val curry = ::User.curry()
 
         val id: Int = (json at "id")!!
         val name: String = (json at "name")!!
@@ -128,7 +128,7 @@ public class JSONMappingObjectTest : BaseTest() {
     fun testUserModelOptionalCurry() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val curry = ::UserModelWithOptionalFields.curry()
+        val curry = ::UserWithOptionalFields.curry()
 
         val name: String = (json at "name")!!
         val phone: String = (json at "phone")!!
@@ -145,7 +145,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
     Test
     fun testUserModelInModelDeserializing() {
-        val user = Forge.modelFromJson(userJson, UserModel.Deserializer())
+        val user = Forge.modelFromJson(userJson, User.Deserializer())
 
         assertTrue { user?.id == 1 }
         assertTrue { user?.name == "Clementina DuBuque" }
@@ -155,7 +155,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
     Test
     fun testUserModelDeserializing() {
-        val user = Forge.modelFromJson(userJson, UserModelDeserializer())
+        val user = Forge.modelFromJson(userJson, UserDeserializer())
 
         assertTrue { user?.id == 1 }
         assertTrue { user?.name == "Clementina DuBuque" }
@@ -176,7 +176,7 @@ public class JSONMappingObjectTest : BaseTest() {
     Test
     fun testUserModelCreatedAtDeserializing() {
 
-        val user = Forge.modelFromJson(userJson, UserModelCreatedAt.Deserializer())!!
+        val user = Forge.modelFromJson(userJson, UserCreatedAt.Deserializer())!!
 
         assertTrue { user.id == 1 }
 
@@ -190,7 +190,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
     Test
     fun testUserModelWithOptionalFieldsDeserializing() {
-        val user = Forge.modelFromJson(userJson, UserModelWithOptionalFields.Deserializer())!!
+        val user = Forge.modelFromJson(userJson, UserWithOptionalFields.Deserializer())!!
 
         assertTrue { user.name == "Clementina DuBuque" }
         assertNull(user.city)

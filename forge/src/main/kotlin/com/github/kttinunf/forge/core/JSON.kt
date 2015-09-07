@@ -45,7 +45,7 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
 
         public class Boolean(value: kotlin.Boolean = false) : JSON(value)
 
-        public class NULL(value: Unit = Unit) : JSON(value)
+        public class Null(value: Unit = Unit) : JSON(value)
 
         public fun parse(json: Any): JSON {
             when (json) {
@@ -67,7 +67,7 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
 
                 is kotlin.Boolean -> return Boolean(json)
 
-                else -> return NULL()
+                else -> return Null()
             }
         }
 
@@ -118,20 +118,8 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
 
     public fun <T> valueAs(): T? {
         when (this) {
-            is JSON.Type.NULL -> return null
+            is JSON.Type.Null -> return null
             else -> return value as T
-        }
-    }
-
-    public fun <T> valueAsList(): List<T?>? {
-        when (this) {
-            is JSON.Type.NULL -> return null
-            else -> {
-                return (value as List<JSON>).fold(arrayListOf<T>()) { accum, j ->
-                    accum.add(j.valueAs())
-                    accum
-                }
-            }
         }
     }
 
@@ -152,4 +140,3 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
     }
 
 }
-
