@@ -16,7 +16,7 @@ public open class BaseTest {
 
     init {
         val dir = System.getProperty("user.dir")
-        assetsDir = File(dir, "forge/src/test/assets/")
+        assetsDir = File(dir, "/src/test/assets/")
     }
 
     Before

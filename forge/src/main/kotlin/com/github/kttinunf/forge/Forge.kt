@@ -1,8 +1,6 @@
 package com.github.kttinunf.forge
 
-import com.github.kttinunf.forge.core.Deserializable
-import com.github.kttinunf.forge.core.JSON
-import com.github.kttinunf.forge.core.modelFromJson
+import com.github.kttinunf.forge.core.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -12,15 +10,15 @@ import org.json.JSONObject
 
 object Forge {
 
-    public fun <T, U : Deserializable<T>> modelFromJson(json: String, deserializer: U): T? = deserializer.deserializer(JSON.parse(JSONObject(json)))
+    public fun <T: Any, U : Deserializable<T>> modelFromJson(json: String, deserializer: U): Result<T, Exception> = deserializer.deserializer(JSON.parse(JSONObject(json)))
 
-    public fun <T> modelFromJson(json: String, deserializer: JSON.() -> T): T? = JSON.parse(JSONObject(json)).deserializer()
+    public fun <T: Any> modelFromJson(json: String, deserializer: JSON.() -> Result<T, Exception>): Result<T, Exception> = JSON.parse(JSONObject(json)).deserializer()
 
-    public fun <T, U : Deserializable<T>> modelsFromJson(json: String, deserializer: U): List<T?> =
-            JSON.parse(JSONArray(json)).toList().map { modelFromJson(it, deserializer) }
+    public fun <T: Any, U : Deserializable<T>> modelsFromJson(json: String, deserializer: U): List<Result<T, Exception>> =
+            JSON.parse(JSONArray(json)).toList().map { it.modelFromJson(deserializer) }
 
-    public fun <T> modelsFromJson(json: String, deserializer: JSON.() -> T): List<T?> =
-            JSON.parse(JSONArray(json)).toList().map { modelFromJson(it, deserializer) }
+    public fun <T: Any> modelsFromJson(json: String, deserializer: JSON.() -> Result<T, Exception>): List<Result<T, Exception>> =
+            JSON.parse(JSONArray(json)).toList().map { it.modelFromJson(deserializer) }
 
 }
 

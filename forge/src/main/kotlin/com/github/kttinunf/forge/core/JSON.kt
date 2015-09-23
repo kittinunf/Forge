@@ -3,7 +3,6 @@ package com.github.kttinunf.forge.core
 import com.github.kttinunf.forge.extension.asSequence
 import org.json.JSONArray
 import org.json.JSONObject
-import kotlin.Boolean
 
 /**
  * Created by Kittinun Vantasin on 8/21/15.
@@ -116,10 +115,16 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
 
     }
 
-    public fun <T> valueAs(): T? {
+    public fun <T : Any?> valueAs(): Result<T, Exception> {
         when (this) {
-            is JSON.Type.Null -> return null
-            else -> return value as T
+            is JSON.Type.Null -> return Result.Success<T, Exception>(null)
+            else -> {
+                return (value as? T).unfold({
+                    Result.Success<T, Exception>(it)
+                }, {
+                    Result.Failure<T, Exception>(TypeMisMatchException(this.toString()))
+                })
+            }
         }
     }
 
@@ -131,7 +136,7 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
     }
 
     public fun find(keyPath: kotlin.String): JSON? {
-        val keys = keyPath.splitBy(".")
+        val keys = keyPath.split(".")
 
         val initial: JSON? = this
         return keys.fold(initial) { json, key ->
