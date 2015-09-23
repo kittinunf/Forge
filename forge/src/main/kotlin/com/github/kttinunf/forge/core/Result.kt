@@ -9,13 +9,6 @@ sealed public class Result<out T : Any?, out E : Any> {
     public abstract fun component1(): T?
     public abstract fun component2(): E?
 
-    public fun <U> map(f: (T) -> U): Result<U, E> {
-        when (this) {
-            is Success -> return Success(f(get()))
-            is Failure -> return Failure(get())
-        }
-    }
-
     public fun fold(ft: (T?) -> Unit, fe: (E) -> Unit) {
         return when (this) {
             is Success<T, E> -> ft(this.value)

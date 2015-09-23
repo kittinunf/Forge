@@ -8,43 +8,44 @@ import org.json.JSONObject
  * Created by Kittinun Vantasin on 8/21/15.
  */
 
-public abstract class JSON(val value: Any) : Sequence<JSON> {
+sealed public class JSON() : Sequence<JSON> {
+
+    abstract val value: Any
 
     override fun iterator() = sequenceOf(this).iterator()
 
-    companion object Type {
+    public class Object(override val value: Map<kotlin.String, JSON> = mapOf()) : JSON() {
 
-        public class Object(value: Map<kotlin.String, JSON> = mapOf()) : JSON(value) {
+        override fun iterator() = object : Iterator<JSON> {
 
-            override fun iterator() = object : Iterator<JSON> {
+            val it = value.keySet().iterator()
 
-                val map = value as Map<kotlin.String, JSON>
-                val it = map.keySet().iterator()
-
-                override fun next(): JSON {
-                    val key = it.next()
-                    return map[key]!!
-                }
-
-                override fun hasNext() = it.hasNext()
-
+            override fun next(): JSON {
+                val key = it.next()
+                return value[key]!!
             }
 
-        }
-
-        public class Array(value: List<JSON> = listOf()) : JSON(value) {
-
-            override fun iterator() = (value as List<JSON>).iterator()
+            override fun hasNext() = it.hasNext()
 
         }
 
-        public class String(value: kotlin.String = "") : JSON(value)
+    }
 
-        public class Number(value: kotlin.Number = 0) : JSON(value)
+    public class Array(override val value: List<JSON> = listOf()) : JSON() {
 
-        public class Boolean(value: kotlin.Boolean = false) : JSON(value)
+        override fun iterator() = value.iterator()
 
-        public class Null(value: Unit = Unit) : JSON(value)
+    }
+
+    public class String(override val value: kotlin.String = "") : JSON()
+
+    public class Number(override val value: kotlin.Number = 0) : JSON()
+
+    public class Boolean(override val value: kotlin.Boolean = false) : JSON()
+
+    public class Null(override val value: Unit = Unit) : JSON()
+
+    companion object {
 
         public fun parse(json: Any): JSON {
             when (json) {
@@ -117,7 +118,7 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
 
     public fun <T : Any?> valueAs(): Result<T, Exception> {
         when (this) {
-            is JSON.Type.Null -> return Result.Success<T, Exception>(null)
+            is JSON.Null -> return Result.Success<T, Exception>(null)
             else -> {
                 return (value as? T).unfold({
                     Result.Success<T, Exception>(it)
@@ -128,19 +129,15 @@ public abstract class JSON(val value: Any) : Sequence<JSON> {
         }
     }
 
-    private fun get(key: kotlin.String): JSON? {
-        when (this) {
-            is JSON.Type.Object -> return (value as Map<kotlin.String, JSON?>)[key]
-            else -> return null
-        }
-    }
-
     public fun find(keyPath: kotlin.String): JSON? {
         val keys = keyPath.split(".")
 
         val initial: JSON? = this
         return keys.fold(initial) { json, key ->
-            json?.get(key)
+            when (json) {
+                is JSON.Object -> json.value.get(key)
+                else -> null
+            }
         }
     }
 
