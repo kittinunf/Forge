@@ -1,4 +1,3 @@
-import BaseTest
 import com.github.kttinunf.forge.Forge
 import com.github.kttinunf.forge.core.*
 import com.github.kttinunf.forge.function.toDate
@@ -6,8 +5,7 @@ import com.github.kttinunf.forge.util.create
 import com.github.kttinunf.forge.util.curry
 import org.json.JSONObject
 import org.junit.Test
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -93,8 +91,8 @@ public class JSONMappingObjectTest : BaseTest() {
             override val deserializer: (JSON) -> Result<UserWithOptionalFields, Exception> = { json ->
                 ::UserWithOptionalFields.create.
                         map(json at "name").
-                        apply(json at "city").
-                        apply(json at "gender").
+                        apply(json maybeAt "city").
+                        apply(json maybeAt "gender").
                         apply(json at "phone").
                         apply(json at "weight")
             }
@@ -114,7 +112,7 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { concatOfThree.curry()("a")("bb")("ccc") == "abbccc" }
     }
 
-    Test
+    @Test
     fun testUserModelCurry() {
         val json = JSON.parse((JSONObject(userJson)))
 
@@ -133,7 +131,7 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { user.email == "Rey.Padberg@karina.biz" }
     }
 
-    Test
+    @Test
     fun testUserModelOptionalCurry() {
         val json = JSON.parse((JSONObject(userJson)))
 
@@ -142,8 +140,8 @@ public class JSONMappingObjectTest : BaseTest() {
         val name: Result<String, Exception> = (json at "name")
         val phone: Result<String, Exception> = (json at "phone")
         val weight: Result<Float, Exception> = (json at "weight")
-        val city: Result<String, Exception> = (json at "city")
-        val gender: Result<String, Exception> = (json at "gender")
+        val city: Result<String, Exception> = (json maybeAt "city")
+        val gender: Result<String, Exception> = (json maybeAt "gender")
 
         val user = curry(name.get())(city.get())(gender.get())(phone.get())(weight.get())
 
@@ -154,7 +152,18 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { user.weight == 72.5f }
     }
 
-    Test
+    @Test
+    fun testSimpleUserDeserializing() {
+
+        val result = Forge.modelFromJson(userJson, SimpleUser.Deserializer())
+
+        val (user, _) = result
+
+        assertTrue { user!!.id == 1 }
+        assertTrue { user!!.name == "Clementina DuBuque" }
+    }
+
+    @Test
     fun testUserModelInModelDeserializing() {
         val result = Forge.modelFromJson(userJson, User.Deserializer())
         val user: User = result.get()
@@ -165,7 +174,7 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { user.email == "Rey.Padberg@karina.biz" }
     }
 
-    Test
+    @Test
     fun testUserModelDeserializing() {
         val result = Forge.modelFromJson(userJson, UserDeserializer())
         val user: User = result.get()
@@ -176,7 +185,7 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { user.email == "Rey.Padberg@karina.biz" }
     }
 
-    Test
+    @Test
     fun testUserModelWithCompanyDeserializing() {
         val result = Forge.modelFromJson(userJson, userModelWithCompanyDeserializer)
         val user: UserWithCompany = result.get()
@@ -187,7 +196,7 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { user.company.catchPhrase == "Centralized empowering task-force" }
     }
 
-    Test
+    @Test
     fun testUserModelCreatedAtDeserializing() {
         val result = Forge.modelFromJson(userJson, UserCreatedAt.Deserializer())
         val user: UserCreatedAt = result.get()
@@ -202,7 +211,7 @@ public class JSONMappingObjectTest : BaseTest() {
         assertTrue { c.get(Calendar.YEAR) == 2015 }
     }
 
-    Test
+    @Test
     fun testUserModelWithOptionalFieldsDeserializing() {
         val result = Forge.modelFromJson(userJson, UserWithOptionalFields.Deserializer())
         val user: UserWithOptionalFields = result.get()

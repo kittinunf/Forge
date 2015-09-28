@@ -1,7 +1,7 @@
 import com.github.kttinunf.forge.core.JSON
 import com.github.kttinunf.forge.core.PropertyNotFoundException
 import com.github.kttinunf.forge.core.Result
-import com.github.kttinunf.forge.core.unfold
+import com.github.kttinunf.forge.core.TypeMisMatchException
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertNotNull
@@ -61,21 +61,24 @@ public class JSONObjectTest : BaseTest() {
     fun testJSONInvalidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val wrongName: Result<String, Exception>? = json.find("n").unfold({
-            it.valueAs<String>()
-        }, {
-            Result.Failure(PropertyNotFoundException("n"))
-        })
-        assertNotNull(wrongName!!.get())
-        assertTrue { wrongName.get<Exception>() is PropertyNotFoundException }
+        val notFoundName: Result<String, Exception>? = json.find("n")?.
+                let { it.valueAs<String>() } ?:
+                Result.Failure(PropertyNotFoundException("n"))
 
-        val wrongAddressStreet: Result<String, Exception>? = json.find("address.st").unfold({
-            it.valueAs<String>()
-        }, {
-            Result.Failure(PropertyNotFoundException("address.st"))
-        })
-        assertNotNull(wrongAddressStreet!!.get())
-        assertTrue { wrongAddressStreet.get<Exception>() is PropertyNotFoundException }
+        assertNotNull(notFoundName!!.get())
+        assertTrue { notFoundName.get<Exception>() is PropertyNotFoundException }
+
+        val notFoundAddressSt: Result<String, Exception>? = json.find("address.st")?.
+                let { it.valueAs<String>() } ?:
+                Result.Failure(PropertyNotFoundException("address.st"))
+
+        assertNotNull(notFoundAddressSt!!.get())
+        assertTrue { notFoundAddressSt.get<Exception>() is PropertyNotFoundException }
+
+        val wrongTypeEmail: Result<Float, Exception>? = json.find("email")?.
+                let { it.valueAs<Float>() }
+
+        assertTrue { wrongTypeEmail!!.get<Exception>() is TypeMisMatchException }
     }
 
 }

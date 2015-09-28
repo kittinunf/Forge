@@ -120,11 +120,10 @@ sealed public class JSON() : Sequence<JSON> {
         when (this) {
             is JSON.Null -> return Result.Success<T, Exception>(null)
             else -> {
-                return (value as? T).unfold({
-                    Result.Success<T, Exception>(it)
-                }, {
-                    Result.Failure<T, Exception>(TypeMisMatchException(this.toString()))
-                })
+                return (value as? T)?.
+                        let { Result.Success<T, Exception>(it) } ?:
+                        Result.Failure<T, Exception>(TypeMisMatchException(this.toString()))
+
             }
         }
     }
