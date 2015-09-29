@@ -18,10 +18,10 @@ public class JSONMappingObjectTest : BaseTest() {
     data class SimpleUser(val id: Int, val name: String) {
 
         class Deserializer : Deserializable<SimpleUser> {
-            override val deserializer: (JSON) -> Result<SimpleUser, Exception> = { j ->
+            override val deserializer: (JSON) -> Result<SimpleUser, Exception> = { json ->
                 ::SimpleUser.create.
-                        map(j at "id").
-                        apply(j at "name")
+                        map(json at "id").
+                        apply(json at "name")
             }
         }
 
@@ -154,9 +154,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
     @Test
     fun testSimpleUserDeserializing() {
-
         val result = Forge.modelFromJson(userJson, SimpleUser.Deserializer())
-
         val (user, _) = result
 
         assertTrue { user!!.id == 1 }
