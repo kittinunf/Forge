@@ -18,7 +18,7 @@ public class JSONMappingObjectTest : BaseTest() {
     data class SimpleUser(val id: Int, val name: String) {
 
         class Deserializer : Deserializable<SimpleUser> {
-            override val deserializer: (JSON) -> Result<SimpleUser, Exception> = { json ->
+            override val deserializer: (JSON) -> Result<SimpleUser> = { json ->
                 ::SimpleUser.create.
                         map(json at "id").
                         apply(json at "name")
@@ -30,7 +30,7 @@ public class JSONMappingObjectTest : BaseTest() {
     data class User(val id: Int, val name: String, val age: Int, val email: String) {
 
         class Deserializer : Deserializable<User> {
-            override val deserializer: (JSON) -> Result<User, Exception> = { json ->
+            override val deserializer: (JSON) -> Result<User> = { json ->
                 ::User.create.
                         map(json at "id").
                         apply(json at "name").
@@ -43,7 +43,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
     class UserDeserializer : Deserializable<User> {
 
-        override val deserializer: (JSON) -> Result<User, Exception> = { json ->
+        override val deserializer: (JSON) -> Result<User> = { json ->
             ::User.create.
                     map(json at "id").
                     apply(json at "name").
@@ -74,7 +74,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
         class Deserializer : Deserializable<UserCreatedAt> {
 
-            override val deserializer: (JSON) -> Result<UserCreatedAt, Exception> = { json ->
+            override val deserializer: (JSON) -> Result<UserCreatedAt> = { json ->
                 ::UserCreatedAt.create.
                         map(json at "id").
                         apply(toDate() map (json at "created_at"))
@@ -88,7 +88,7 @@ public class JSONMappingObjectTest : BaseTest() {
 
         class Deserializer : Deserializable<UserWithOptionalFields> {
 
-            override val deserializer: (JSON) -> Result<UserWithOptionalFields, Exception> = { json ->
+            override val deserializer: (JSON) -> Result<UserWithOptionalFields> = { json ->
                 ::UserWithOptionalFields.create.
                         map(json at "name").
                         apply(json maybeAt "city").
@@ -118,10 +118,10 @@ public class JSONMappingObjectTest : BaseTest() {
 
         val curry = ::User.curry()
 
-        val id: Result<Int, Exception> = (json at "id")
-        val name: Result<String, Exception> = (json at "name")
-        val age: Result<Int, Exception> = (json at "age")
-        val email: Result<String, Exception> = (json at "email")
+        val id: Result<Int> = (json at "id")
+        val name: Result<String> = (json at "name")
+        val age: Result<Int> = (json at "age")
+        val email: Result<String> = (json at "email")
 
         val user = curry(id.get())(name.get())(age.get())(email.get())
 
@@ -137,11 +137,11 @@ public class JSONMappingObjectTest : BaseTest() {
 
         val curry = ::UserWithOptionalFields.curry()
 
-        val name: Result<String, Exception> = (json at "name")
-        val phone: Result<String, Exception> = (json at "phone")
-        val weight: Result<Float, Exception> = (json at "weight")
-        val city: Result<String, Exception> = (json maybeAt "city")
-        val gender: Result<String, Exception> = (json maybeAt "gender")
+        val name: Result<String> = (json at "name")
+        val phone: Result<String> = (json at "phone")
+        val weight: Result<Float> = (json at "weight")
+        val city: Result<String> = (json maybeAt "city")
+        val gender: Result<String> = (json maybeAt "gender")
 
         val user = curry(name.get())(city.get())(gender.get())(phone.get())(weight.get())
 

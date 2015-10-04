@@ -1,4 +1,3 @@
-import BaseTest
 import com.github.kttinunf.forge.Forge
 import com.github.kttinunf.forge.core.*
 import com.github.kttinunf.forge.util.create
@@ -14,7 +13,7 @@ public class JSONMappingArrayTest : BaseTest() {
     data class User(val id: Int, val username: String, val name: String, val age: Int, val email: String) {
 
         class Deserializer : Deserializable<User> {
-            override val deserializer: (JSON) -> Result<User, Exception> = { json ->
+            override val deserializer: (JSON) -> Result<User> = { json ->
                 ::User.create.
                         map(json at "id").
                         apply(json at "username").

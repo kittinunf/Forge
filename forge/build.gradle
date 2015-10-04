@@ -16,7 +16,7 @@ dependencies {
 
 buildscript {
     ext {
-        kotlin_version = '0.13.1513'
+        kotlin_version = '0.14.449'
         json_version = '20141113'
 
         junit_version = '4.12'

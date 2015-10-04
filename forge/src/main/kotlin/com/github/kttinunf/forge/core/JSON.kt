@@ -116,13 +116,13 @@ sealed public class JSON() : Sequence<JSON> {
 
     }
 
-    public fun <T : Any?> valueAs(): Result<T, Exception> {
+    public fun <T : Any?> valueAs(): Result<T> {
         when (this) {
-            is JSON.Null -> return Result.Success<T, Exception>(null)
+            is JSON.Null -> return Result.Success<T>(null)
             else -> {
                 return (value as? T)?.
-                        let { Result.Success<T, Exception>(it) } ?:
-                        Result.Failure<T, Exception>(TypeMisMatchException(this.toString()))
+                        let { Result.Success(it) } ?:
+                        Result.Failure<T>(TypeMisMatchException(this.toString()))
 
             }
         }

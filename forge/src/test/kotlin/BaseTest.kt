@@ -16,10 +16,10 @@ public open class BaseTest {
 
     init {
         val dir = System.getProperty("user.dir")
-        assetsDir = File(dir, "/src/test/assets/")
+        assetsDir = File(dir, "forge/src/test/assets/")
     }
 
-    Before
+    @Before
     fun setUp() {
         userJson = File(assetsDir, "user.json").readText()
         userFriendsJson = File(assetsDir, "user_and_friends.json").readText()

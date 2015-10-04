@@ -6,6 +6,6 @@ package com.github.kttinunf.forge.core
 
 public interface Deserializable<out T: Any> {
 
-    val deserializer: (JSON) -> Result<T, Exception>
+    val deserializer: (JSON) -> Result<T>
 
 }

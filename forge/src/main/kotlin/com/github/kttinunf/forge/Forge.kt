@@ -10,14 +10,14 @@ import org.json.JSONObject
 
 object Forge {
 
-    public fun <T: Any, U : Deserializable<T>> modelFromJson(json: String, deserializer: U): Result<T, Exception> = deserializer.deserializer(JSON.parse(JSONObject(json)))
+    public fun <T: Any, U : Deserializable<T>> modelFromJson(json: String, deserializer: U): Result<T> = deserializer.deserializer(JSON.parse(JSONObject(json)))
 
-    public fun <T: Any> modelFromJson(json: String, deserializer: JSON.() -> Result<T, Exception>): Result<T, Exception> = JSON.parse(JSONObject(json)).deserializer()
+    public fun <T: Any> modelFromJson(json: String, deserializer: JSON.() -> Result<T>): Result<T> = JSON.parse(JSONObject(json)).deserializer()
 
-    public fun <T: Any, U : Deserializable<T>> modelsFromJson(json: String, deserializer: U): List<Result<T, Exception>> =
+    public fun <T: Any, U : Deserializable<T>> modelsFromJson(json: String, deserializer: U): List<Result<T>> =
             JSON.parse(JSONArray(json)).toList().map { deserializer.deserializer(it) }
 
-    public fun <T: Any> modelsFromJson(json: String, deserializer: JSON.() -> Result<T, Exception>): List<Result<T, Exception>> =
+    public fun <T: Any> modelsFromJson(json: String, deserializer: JSON.() -> Result<T>): List<Result<T>> =
             JSON.parse(JSONArray(json)).toList().map { it.deserializer() }
 
 }
