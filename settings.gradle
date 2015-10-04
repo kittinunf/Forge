@@ -1,1 +1,1 @@
-include ':app', ':forge'
+include ':forge'
