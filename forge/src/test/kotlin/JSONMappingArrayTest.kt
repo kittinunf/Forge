@@ -2,6 +2,7 @@ import com.github.kttinunf.forge.Forge
 import com.github.kttinunf.forge.core.*
 import com.github.kttinunf.forge.util.create
 import org.junit.Test
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 /**
@@ -63,6 +64,57 @@ public class JSONMappingArrayTest : BaseTest() {
         assertTrue { companies.count() == 10 }
         assertTrue { companies[5].name == "Considine-Lockman" }
         assertTrue { companies[6].catchPhrase == "Configurable multimedia task-force" }
+    }
+
+    data class Dog(val name: String, val breed: String, val male: Boolean)
+
+    val dogDeserializer = { j: JSON ->
+        ::Dog.create.
+                map(j at "name").
+                apply(j at "breed").
+                apply(j at "is_male")
+    }
+
+    data class UserWithDogs(val email: String, val phone: String, val dogs: List<Result<Dog>>?)
+
+    val userWithDogDeserializer = { j: JSON ->
+        ::UserWithDogs.create.
+                map(j at "email").
+                apply(j at "phone").
+                apply(j.maybeList("dogs", dogDeserializer))
+    }
+
+    @Test
+    fun testUserWithDogsArrayDeserializing() {
+        val users = Forge.modelsFromJson(usersJson, userWithDogDeserializer)
+        val dogs = users.map { r: Result<UserWithDogs> ->
+            r.map { it.dogs }.let { it?.map { it.get<Dog>() } }
+        }
+
+        assertTrue { users[0].let { it.email == "Sincere@april.biz" } ?: false }
+        assertTrue { dogs[0]!!.size() == 1 }
+        assertTrue { dogs[0]!!.first().name == "Lucy" }
+
+        assertTrue { users[1].let { it.phone == "010-692-6593 x09125" } ?: false }
+        assertTrue { dogs[1]!!.size() == 2 }
+        assertTrue { dogs[1]!!.first().breed == "Rottweiler" }
+        assertTrue { dogs[1]!!.last().name == "Maggie" }
+
+        assertTrue { users[2].let { it.email == "Nathan@yesenia.net" } ?: false }
+        assertNull(dogs[2])
+
+        assertTrue { users[3].let { it.email == "Julianne.OConner@kory.org" } ?: false }
+        assertTrue { dogs[3]!!.size() == 1 }
+        assertTrue { dogs[3]!!.first().name == "Cooper" }
+        assertTrue { dogs[3]!!.first().male == true }
+
+        assertTrue { users[4].let { it.phone == "(254)954-1289" } ?: false }
+        assertTrue { dogs[4]!!.size() == 4 }
+        assertTrue { dogs[4]!!.first().breed == "Yorkshire Terrier" }
+        assertTrue { dogs[4]!![1].name == "Max" }
+        assertTrue { dogs[4]!![2].name == "Daisy" }
+        assertTrue { dogs[4]!![3].male == false }
+
     }
 
 }

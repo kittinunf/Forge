@@ -21,7 +21,14 @@
       "name": "Romaguera-Crona",
       "catch_phrase": "Multi-layered client-server neural-net",
       "bs": "harness real-time e-markets"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Lucy",
+        "breed": "Dachshund",
+        "is_male": false
+      }
+    ]
   },
   {
     "id": 2,
@@ -45,7 +52,19 @@
       "name": "Deckow-Crist",
       "catch_phrase": "Proactive didactic contingency",
       "bs": "synergize scalable supply-chains"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Buster",
+        "breed": "Rottweiler",
+        "is_male": true
+      },
+      {
+        "name": "Maggie",
+        "breed": "Poodle",
+        "is_male": false
+      }
+    ]
   },
   {
     "id": 3,
@@ -93,7 +112,14 @@
       "name": "Robel-Corkery",
       "catch_phrase": "Multi-tiered zero tolerance productivity",
       "bs": "transition cutting-edge web services"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Cooper",
+        "breed": "Boxer",
+        "is_male": true
+      }
+    ]
   },
   {
     "id": 5,
@@ -117,7 +143,29 @@
       "name": "Keebler LLC",
       "catch_phrase": "User-centric fault-tolerant solution",
       "bs": "revolutionize end-to-end systems"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Lola",
+        "breed": "Yorkshire Terrier",
+        "is_male": false
+      },
+      {
+        "name": "Max",
+        "breed": "Bulldog",
+        "is_male": true
+      },
+      {
+        "name": "Daisy",
+        "breed": "Dachshund",
+        "is_male": false
+      },
+      {
+        "name": "Abby",
+        "breed": "Pug",
+        "is_male": false
+      }
+    ]
   },
   {
     "id": 6,
@@ -165,7 +213,14 @@
       "name": "Johns Group",
       "catch_phrase": "Configurable multimedia task-force",
       "bs": "generate enterprise e-tailers"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Lucky",
+        "breed": "Beagle",
+        "is_male": true
+      }
+    ]
   },
   {
     "id": 8,
@@ -189,7 +244,19 @@
       "name": "Abernathy Group",
       "catch_phrase": "Implemented secondary concept",
       "bs": "e-enable extensible e-tailers"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Jumbo",
+        "breed": "Golden Retriever",
+        "is_male": true
+      },
+      {
+        "name": "Fringe",
+        "breed": "German Shepherd",
+        "is_male": true
+      }
+    ]
   },
   {
     "id": 9,
@@ -237,6 +304,13 @@
       "name": "Hoeger LLC",
       "catch_phrase": "Centralized empowering task-force",
       "bs": "target end-to-end models"
-    }
+    },
+    "dogs" : [
+      {
+        "name": "Ruby",
+        "breed": "Labrador",
+        "is_male": false
+      }
+    ]
   }
 ]
