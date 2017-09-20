@@ -1,11 +1,7 @@
 package com.github.kttinunf.forge.core
 
-/**
- * Created by Kittinun Vantasin on 8/20/15.
- */
+interface Deserializable<out T : Any> {
 
-public interface Deserializable<out T: Any> {
-
-    val deserializer: (JSON) -> Result<T>
+    val deserializer: (JSON) -> EncodedResult<T>
 
 }

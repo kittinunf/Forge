@@ -2,11 +2,7 @@ package com.github.kttinunf.forge.extension
 
 import org.json.JSONObject
 
-/**
- * Created by Kittinun Vantasin on 8/21/15.
- */
-
-public fun JSONObject.asSequence(): Sequence<Pair<String, Any>> {
+fun JSONObject.asSequence(): Sequence<Pair<String, Any>> {
     return object : Sequence<Pair<String, Any>> {
 
         override fun iterator() = object : Iterator<Pair<String, Any>> {

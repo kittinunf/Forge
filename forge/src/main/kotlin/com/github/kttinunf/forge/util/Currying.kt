@@ -1,19 +1,15 @@
 package com.github.kttinunf.forge.util
 
-/**
- * Created by Kittinun Vantasin on 8/23/15.
- */
-
-public fun <A, B, X> Function2<A, B, X>.curry(): (A) -> (B) -> X {
+fun <A, B, X> Function2<A, B, X>.curry(): (A) -> (B) -> X {
     return { a ->
         { b -> invoke(a, b) }
     }
 }
 
-public val <A, B, X> Function2<A, B, X>.create: (A) -> (B) -> (X)
+val <A, B, X> Function2<A, B, X>.create: (A) -> (B) -> (X)
     get() = curry()
 
-public fun <A, B, C, X> Function3<A, B, C, X>.curry(): (A) -> (B) -> (C) -> X {
+fun <A, B, C, X> Function3<A, B, C, X>.curry(): (A) -> (B) -> (C) -> X {
     return { a ->
         { b ->
             { c -> invoke(a, b, c) }
@@ -21,10 +17,10 @@ public fun <A, B, C, X> Function3<A, B, C, X>.curry(): (A) -> (B) -> (C) -> X {
     }
 }
 
-public val <A, B, C, X> Function3<A, B, C, X>.create: (A) -> (B) -> (C) -> X
+val <A, B, C, X> Function3<A, B, C, X>.create: (A) -> (B) -> (C) -> X
     get() = curry()
 
-public fun <A, B, C, D, X> Function4<A, B, C, D, X>.curry(): (A) -> (B) -> (C) -> (D) -> X {
+fun <A, B, C, D, X> Function4<A, B, C, D, X>.curry(): (A) -> (B) -> (C) -> (D) -> X {
     return { a ->
         { b ->
             { c ->
@@ -34,10 +30,10 @@ public fun <A, B, C, D, X> Function4<A, B, C, D, X>.curry(): (A) -> (B) -> (C) -
     }
 }
 
-public val <A, B, C, D, X> Function4<A, B, C, D, X>.create: (A) -> (B) -> (C) -> (D) -> X
+val <A, B, C, D, X> Function4<A, B, C, D, X>.create: (A) -> (B) -> (C) -> (D) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> X {
+fun <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> X {
     return { a ->
         { b ->
             { c ->
@@ -49,11 +45,11 @@ public fun <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.curry(): (A) -> (B) ->
     }
 }
 
-public val <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> X
+val <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> X
     get() = curry()
 
 
-public fun <A, B, C, D, E, F, X> Function6<A, B, C, D, E, F, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> X {
+fun <A, B, C, D, E, F, X> Function6<A, B, C, D, E, F, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> X {
     return { a ->
         { b ->
             { c ->
@@ -67,10 +63,10 @@ public fun <A, B, C, D, E, F, X> Function6<A, B, C, D, E, F, X>.curry(): (A) -> 
     }
 }
 
-public val <A, B, C, D, E, F, X> Function6<A, B, C, D, E, F, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> X
+val <A, B, C, D, E, F, X> Function6<A, B, C, D, E, F, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, F, G, X> Function7<A, B, C, D, E, F, G, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> X {
+fun <A, B, C, D, E, F, G, X> Function7<A, B, C, D, E, F, G, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> X {
     return { a ->
         { b ->
             { c ->
@@ -88,10 +84,10 @@ public fun <A, B, C, D, E, F, G, X> Function7<A, B, C, D, E, F, G, X>.curry(): (
     }
 }
 
-public val <A, B, C, D, E, F, G, X> Function7<A, B, C, D, E, F, G, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> X
+val <A, B, C, D, E, F, G, X> Function7<A, B, C, D, E, F, G, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, F, G, H, X> Function8<A, B, C, D, E, F, G, H, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> X {
+fun <A, B, C, D, E, F, G, H, X> Function8<A, B, C, D, E, F, G, H, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> X {
     return { a ->
         { b ->
             { c ->
@@ -111,10 +107,10 @@ public fun <A, B, C, D, E, F, G, H, X> Function8<A, B, C, D, E, F, G, H, X>.curr
     }
 }
 
-public val <A, B, C, D, E, F, G, H, X> Function8<A, B, C, D, E, F, G, H, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> X
+val <A, B, C, D, E, F, G, H, X> Function8<A, B, C, D, E, F, G, H, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, F, G, H, I, X> Function9<A, B, C, D, E, F, G, H, I, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> X {
+fun <A, B, C, D, E, F, G, H, I, X> Function9<A, B, C, D, E, F, G, H, I, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> X {
     return { a ->
         { b ->
             { c ->
@@ -136,10 +132,10 @@ public fun <A, B, C, D, E, F, G, H, I, X> Function9<A, B, C, D, E, F, G, H, I, X
     }
 }
 
-public val <A, B, C, D, E, F, G, H, I, X> Function9<A, B, C, D, E, F, G, H, I, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> X
+val <A, B, C, D, E, F, G, H, I, X> Function9<A, B, C, D, E, F, G, H, I, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, F, G, H, I, J, X> Function10<A, B, C, D, E, F, G, H, I, J, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> X {
+fun <A, B, C, D, E, F, G, H, I, J, X> Function10<A, B, C, D, E, F, G, H, I, J, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> X {
     return { a ->
         { b ->
             { c ->
@@ -163,10 +159,10 @@ public fun <A, B, C, D, E, F, G, H, I, J, X> Function10<A, B, C, D, E, F, G, H, 
     }
 }
 
-public val <A, B, C, D, E, F, G, H, I, J, X> Function10<A, B, C, D, E, F, G, H, I, J, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> X
+val <A, B, C, D, E, F, G, H, I, J, X> Function10<A, B, C, D, E, F, G, H, I, J, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, F, G, H, I, J, K, X> Function11<A, B, C, D, E, F, G, H, I, J, K, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> X {
+fun <A, B, C, D, E, F, G, H, I, J, K, X> Function11<A, B, C, D, E, F, G, H, I, J, K, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> X {
     return { a ->
         { b ->
             { c ->
@@ -192,10 +188,10 @@ public fun <A, B, C, D, E, F, G, H, I, J, K, X> Function11<A, B, C, D, E, F, G, 
     }
 }
 
-public val <A, B, C, D, E, F, G, H, I, J, K, X> Function11<A, B, C, D, E, F, G, H, I, J, K, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> X
+val <A, B, C, D, E, F, G, H, I, J, K, X> Function11<A, B, C, D, E, F, G, H, I, J, K, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> X
     get() = curry()
 
-public fun <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I, J, K, L, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> X {
+fun <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I, J, K, L, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> X {
     return { a ->
         { b ->
             { c ->
@@ -223,7 +219,7 @@ public fun <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, 
     }
 }
 
-public val <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I, J, K, L, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> X
+val <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I, J, K, L, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> X
     get() = curry()
 
 

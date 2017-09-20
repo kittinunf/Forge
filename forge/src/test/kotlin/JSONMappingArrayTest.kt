@@ -1,20 +1,24 @@
 import com.github.kttinunf.forge.Forge
-import com.github.kttinunf.forge.core.*
+import com.github.kttinunf.forge.core.Deserializable
+import com.github.kttinunf.forge.core.EncodedResult
+import com.github.kttinunf.forge.core.JSON
+import com.github.kttinunf.forge.core.apply
+import com.github.kttinunf.forge.core.at
+import com.github.kttinunf.forge.core.map
+import com.github.kttinunf.forge.core.maybeList
 import com.github.kttinunf.forge.util.create
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.nullValue
+import org.hamcrest.MatcherAssert.assertThat
+import org.json.JSONObject
 import org.junit.Test
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
-/**
- * Created by Kittinun Vantasin on 8/27/15.
- */
-
-public class JSONMappingArrayTest : BaseTest() {
+class JSONMappingArrayTest : BaseTest() {
 
     data class User(val id: Int, val username: String, val name: String, val age: Int, val email: String) {
 
         class Deserializer : Deserializable<User> {
-            override val deserializer: (JSON) -> Result<User> = { json ->
+            override val deserializer: (JSON) -> EncodedResult<User> = { json ->
                 ::User.create.
                         map(json at "id").
                         apply(json at "username").
@@ -48,12 +52,12 @@ public class JSONMappingArrayTest : BaseTest() {
         val results = Forge.modelsFromJson(usersJson, User.Deserializer())
         val users: List<User> = results.map { it.get<User>() }
 
-        assertTrue { users.count() == 10 }
-        assertTrue { users[0].id == 1 }
-        assertTrue { users[1].username == "Antonette" }
-        assertTrue { users[2].name == "Clementine Bauch" }
-        assertTrue { users[3].age == 86 }
-        assertTrue { users[4].email == "Lucio_Hettinger@annie.ca" }
+        assertThat(users.count(), equalTo(10))
+        assertThat(users[0].id, equalTo(1))
+        assertThat(users[1].username, equalTo("Antonette"))
+        assertThat(users[2].name, equalTo("Clementine Bauch"))
+        assertThat(users[3].age, equalTo(86))
+        assertThat(users[4].email, equalTo("Lucio_Hettinger@annie.ca"))
     }
 
     @Test
@@ -61,9 +65,9 @@ public class JSONMappingArrayTest : BaseTest() {
         val users = Forge.modelsFromJson(usersJson, userModelWithCompany)
         val companies = users.map { it.get<UserWithCompany>().company }
 
-        assertTrue { companies.count() == 10 }
-        assertTrue { companies[5].name == "Considine-Lockman" }
-        assertTrue { companies[6].catchPhrase == "Configurable multimedia task-force" }
+        assertThat(companies.count(), equalTo(10))
+        assertThat(companies[5].name, equalTo("Considine-Lockman"))
+        assertThat(companies[6].catchPhrase, equalTo("Configurable multimedia task-force"))
     }
 
     data class Dog(val name: String, val breed: String, val male: Boolean)
@@ -75,7 +79,7 @@ public class JSONMappingArrayTest : BaseTest() {
                 apply(j at "is_male")
     }
 
-    data class UserWithDogs(val email: String, val phone: String, val dogs: List<Result<Dog>>?)
+    data class UserWithDogs(val email: String, val phone: String, val dogs: List<EncodedResult<Dog>>?)
 
     val userWithDogDeserializer = { j: JSON ->
         ::UserWithDogs.create.
@@ -87,34 +91,38 @@ public class JSONMappingArrayTest : BaseTest() {
     @Test
     fun testUserWithDogsArrayDeserializing() {
         val users = Forge.modelsFromJson(usersJson, userWithDogDeserializer)
-        val dogs = users.map { r: Result<UserWithDogs> ->
+        val dogs = users.map { r: EncodedResult<UserWithDogs> ->
             r.map { it.dogs }.let { it?.map { it.get<Dog>() } }
         }
 
-        assertTrue { users[0].let { it.email == "Sincere@april.biz" } ?: false }
-        assertTrue { dogs[0]!!.size() == 1 }
-        assertTrue { dogs[0]!!.first().name == "Lucy" }
+        val firstUser = users[0].get<UserWithDogs>()
+        assertThat(firstUser.email, equalTo("Sincere@april.biz"))
+        assertThat(dogs[0]!!.size, equalTo(1))
+        assertThat(dogs[0]!!.first().name, equalTo("Lucy"))
 
-        assertTrue { users[1].let { it.phone == "010-692-6593 x09125" } ?: false }
-        assertTrue { dogs[1]!!.size() == 2 }
-        assertTrue { dogs[1]!!.first().breed == "Rottweiler" }
-        assertTrue { dogs[1]!!.last().name == "Maggie" }
+        val secondUser = users[1].get<UserWithDogs>()
+        assertThat(secondUser.phone, equalTo("010-692-6593 x09125"))
+        assertThat(dogs[1]!!.size, equalTo(2))
+        assertThat(dogs[1]!!.first().breed, equalTo("Rottweiler"))
+        assertThat(dogs[1]!!.last().name, equalTo("Maggie"))
 
-        assertTrue { users[2].let { it.email == "Nathan@yesenia.net" } ?: false }
-        assertNull(dogs[2])
+        val thirdUser = users[2].get<UserWithDogs>()
+        assertThat(thirdUser.email, equalTo("Nathan@yesenia.net"))
+        assertThat(dogs[2], nullValue())
 
-        assertTrue { users[3].let { it.email == "Julianne.OConner@kory.org" } ?: false }
-        assertTrue { dogs[3]!!.size() == 1 }
-        assertTrue { dogs[3]!!.first().name == "Cooper" }
-        assertTrue { dogs[3]!!.first().male == true }
+        val fourthUser = users[3].get<UserWithDogs>()
+        assertThat(fourthUser.email, equalTo("Julianne.OConner@kory.org"))
+        assertThat(dogs[3]!!.size, equalTo(1))
+        assertThat(dogs[3]!!.first().name, equalTo("Cooper"))
+        assertThat(dogs[3]!!.first().male, equalTo(true))
 
-        assertTrue { users[4].let { it.phone == "(254)954-1289" } ?: false }
-        assertTrue { dogs[4]!!.size() == 4 }
-        assertTrue { dogs[4]!!.first().breed == "Yorkshire Terrier" }
-        assertTrue { dogs[4]!![1].name == "Max" }
-        assertTrue { dogs[4]!![2].name == "Daisy" }
-        assertTrue { dogs[4]!![3].male == false }
-
+        val fifthUser = users[4].get<UserWithDogs>()
+        assertThat(fifthUser.phone, equalTo("(254)954-1289"))
+        assertThat(dogs[4]!!.size, equalTo(4))
+        assertThat(dogs[4]!!.first().breed, equalTo("Yorkshire Terrier"))
+        assertThat(dogs[4]!![1].name, equalTo("Max"))
+        assertThat(dogs[4]!![2].name, equalTo("Daisy"))
+        assertThat(dogs[4]!![3].male, equalTo(false))
     }
 
 }

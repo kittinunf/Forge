@@ -1,78 +1,76 @@
+import com.github.kttinunf.forge.core.EncodedResult
 import com.github.kttinunf.forge.core.JSON
 import com.github.kttinunf.forge.core.PropertyNotFoundException
-import com.github.kttinunf.forge.core.Result
 import org.json.JSONObject
 import org.junit.Test
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.MatcherAssert.assertThat
 
-/**
- * Created by Kittinun Vantasin on 8/21/15.
- */
-
-public class JSONObjectTest : BaseTest() {
+class JSONObjectTest : BaseTest() {
 
     @Test
     fun testParseJSON1() {
         val j = JSONObject("{ \"hello\" : \"world\" }")
         val json = JSON.parse(j)
-        assertNotNull(json.value)
+        assertThat(json.value, notNullValue())
     }
 
     @Test
     fun testParseJSON2() {
         val j = JSONObject(userJson)
         val json = JSON.parse(j)
-        assertNotNull(json.value)
+        assertThat(json.value, notNullValue())
     }
 
     @Test
     fun testJSONValidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val id: Result<Int>? = json.find("id")?.valueAs()
-        assertNotNull(id)
-        assertTrue { id!!.get<Int>() == 1 }
+        val id: EncodedResult<Int>? = json.find("id")?.valueAs()
+        assertThat(id, notNullValue())
+        assertThat(id!!.get<Int>(), equalTo(1))
 
-        val name: Result<String>? = json.find("name")?.valueAs()
+        val name: EncodedResult<String>? = json.find("name")?.valueAs()
 
-        assertNotNull(name)
-        assertTrue { name!!.get<String>() == "Clementina DuBuque" }
+        assertThat(name, notNullValue())
+        assertThat(name!!.get<String>(), equalTo("Clementina DuBuque"))
 
-        val isDeleted: Result<Boolean>? = json.find("is_deleted")?.valueAs()
+        val isDeleted: EncodedResult<Boolean>? = json.find("is_deleted")?.valueAs()
 
-        assertNotNull(isDeleted)
-        assertTrue { isDeleted!!.get<Boolean>() == true }
+        assertThat(isDeleted, notNullValue())
+        assertThat(isDeleted!!.get<Boolean>(), equalTo(true))
 
-        val addressStreet: Result<String>? = json.find("address.street")?.valueAs()
+        val addressStreet: EncodedResult<String>? = json.find("address.street")?.valueAs()
 
-        assertNotNull(addressStreet)
-        assertTrue { addressStreet!!.get<String>() == "Kattie Turnpike" }
+        assertThat(addressStreet, notNullValue())
+        assertThat(addressStreet!!.get<String>(), equalTo("Kattie Turnpike"))
 
 
-        val addressGeoLat: Result<Double>? = json.find("address.geo.lat")?.valueAs()
+        val addressGeoLat: EncodedResult<Double>? = json.find("address.geo.lat")?.valueAs()
 
-        assertNotNull(addressGeoLat)
-        assertTrue { addressGeoLat!!.get<Double>() == -38.2386 }
+        assertThat(addressGeoLat, notNullValue())
+        assertThat(addressGeoLat!!.get<Double>(), equalTo(-38.2386))
     }
 
     @Test
     fun testJSONInvalidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val notFoundName: Result<String>? = json.find("n")?.
+        val notFoundName: EncodedResult<String>? = json.find("n")?.
                 let { it.valueAs<String>() } ?:
-                Result.Failure(PropertyNotFoundException("n"))
+                EncodedResult.Failure(PropertyNotFoundException("n"))
 
-        assertNotNull(notFoundName!!.get())
-        assertTrue { notFoundName.get<Exception>() is PropertyNotFoundException }
+        assertThat(notFoundName, notNullValue())
+        assertThat(notFoundName!!.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
 
-        val notFoundAddressSt: Result<String>? = json.find("address.st")?.
+        val notFoundAddressSt: EncodedResult<String>? = json.find("address.st")?.
                 let { it.valueAs<String>() } ?:
-                Result.Failure(PropertyNotFoundException("address.st"))
+                EncodedResult.Failure(PropertyNotFoundException("address.st"))
 
-        assertNotNull(notFoundAddressSt!!.get())
-        assertTrue { notFoundAddressSt.get<Exception>() is PropertyNotFoundException }
+        assertThat(notFoundAddressSt, notNullValue())
+        assertThat(notFoundAddressSt!!.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
     }
 
 }

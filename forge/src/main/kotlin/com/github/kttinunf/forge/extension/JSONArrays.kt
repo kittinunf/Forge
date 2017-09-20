@@ -2,16 +2,12 @@ package com.github.kttinunf.forge.extension
 
 import org.json.JSONArray
 
-/**
- * Created by Kittinun Vantasin on 8/21/15.
- */
-
-public fun JSONArray.asSequence(): Sequence<Any> {
+fun JSONArray.asSequence(): Sequence<Any> {
     return object : Sequence<Any> {
 
         override fun iterator() = object : Iterator<Any> {
 
-            val it = (0..this@asSequence.length() - 1).iterator()
+            val it = (0 until this@asSequence.length()).iterator()
 
             override fun next(): Any {
                 val i = it.next()

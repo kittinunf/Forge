@@ -1,18 +1,13 @@
 import org.junit.Before
 import java.io.File
-import kotlin.properties.Delegates
 
-/**
- * Created by Kittinun Vantasin on 8/23/15.
- */
-
-public open class BaseTest {
+open class BaseTest {
 
     val assetsDir: File
 
-    var userJson: String by Delegates.notNull()
-    var userFriendsJson: String by Delegates.notNull()
-    var usersJson: String by Delegates.notNull()
+    lateinit var userJson: String
+    lateinit var userFriendsJson: String
+    lateinit var usersJson: String
 
     init {
         val dir = System.getProperty("user.dir")

@@ -4,21 +4,17 @@ import com.github.kttinunf.forge.extension.asSequence
 import org.json.JSONArray
 import org.json.JSONObject
 
-/**
- * Created by Kittinun Vantasin on 8/21/15.
- */
-
-sealed public class JSON() : Sequence<JSON> {
+sealed class JSON : Sequence<JSON> {
 
     abstract val value: Any
 
     override fun iterator() = sequenceOf(this).iterator()
 
-    public class Object(override val value: Map<kotlin.String, JSON> = mapOf()) : JSON() {
+    class Object(override val value: Map<kotlin.String, JSON> = mapOf()) : JSON() {
 
         override fun iterator() = object : Iterator<JSON> {
 
-            val it = value.keySet().iterator()
+            val it = value.keys.iterator()
 
             override fun next(): JSON {
                 val key = it.next()
@@ -31,23 +27,23 @@ sealed public class JSON() : Sequence<JSON> {
 
     }
 
-    public class Array(override val value: List<JSON> = listOf()) : JSON() {
+    class Array(override val value: List<JSON> = listOf()) : JSON() {
 
         override fun iterator() = value.iterator()
 
     }
 
-    public class String(override val value: kotlin.String = "") : JSON()
+    class String(override val value: kotlin.String = "") : JSON()
 
-    public class Number(override val value: kotlin.Number = 0) : JSON()
+    class Number(override val value: kotlin.Number = 0) : JSON()
 
-    public class Boolean(override val value: kotlin.Boolean = false) : JSON()
+    class Boolean(override val value: kotlin.Boolean = false) : JSON()
 
-    public class Null(override val value: Unit = Unit) : JSON()
+    class Null(override val value: Unit = Unit) : JSON()
 
     companion object {
 
-        public fun parse(json: Any): JSON {
+        fun parse(json: Any): JSON {
             when (json) {
                 is JSONObject -> return parse(toMap(json))
                 is JSONArray -> return parse(toList(json))
@@ -116,19 +112,19 @@ sealed public class JSON() : Sequence<JSON> {
 
     }
 
-    public fun <T : Any?> valueAs(): Result<T> {
+    fun <T : Any?> valueAs(): EncodedResult<T> {
         when (this) {
-            is JSON.Null -> return Result.Success<T>(null)
+            is JSON.Null -> return EncodedResult.Success<T>(null)
             else -> {
                 return (value as? T)?.
-                        let { Result.Success(it) } ?:
-                        Result.Failure<T>(TypeMisMatchException(this.toString()))
+                        let { EncodedResult.Success(it) } ?:
+                        EncodedResult.Failure<T>(TypeMisMatchException(this.toString()))
 
             }
         }
     }
 
-    public fun find(keyPath: kotlin.String): JSON? {
+    fun find(keyPath: kotlin.String): JSON? {
         val keys = keyPath.split(".")
 
         val initial: JSON? = this
