@@ -34,7 +34,7 @@ sealed class EncodedResult<out T : Any?> {
         }
     }
 
-    class Success<out T : Any?>(val value: T?) : EncodedResult<T>() {
+    class Success<out T : Any?>(val value: T) : EncodedResult<T>() {
 
         override fun component1() = value
         override fun component2() = null
