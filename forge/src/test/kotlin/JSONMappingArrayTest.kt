@@ -10,7 +10,6 @@ import com.github.kttinunf.forge.util.create
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
-import org.json.JSONObject
 import org.junit.Test
 
 class JSONMappingArrayTest : BaseTest() {
@@ -50,7 +49,7 @@ class JSONMappingArrayTest : BaseTest() {
     @Test
     fun testUserModelArrayDeserializing() {
         val results = Forge.modelsFromJson(usersJson, User.Deserializer())
-        val users: List<User> = results.map { it.get<User>() }
+        val users = results.map { it.get<User>() }
 
         assertThat(users.count(), equalTo(10))
         assertThat(users[0].id, equalTo(1))
@@ -63,7 +62,7 @@ class JSONMappingArrayTest : BaseTest() {
     @Test
     fun testUserModelWithCompanyArrayDeserializing() {
         val users = Forge.modelsFromJson(usersJson, userModelWithCompany)
-        val companies = users.map { it.get<UserWithCompany>().company }
+        val companies = users.map { it.get().company }
 
         assertThat(companies.count(), equalTo(10))
         assertThat(companies[5].name, equalTo("Considine-Lockman"))
@@ -92,7 +91,7 @@ class JSONMappingArrayTest : BaseTest() {
     fun testUserWithDogsArrayDeserializing() {
         val users = Forge.modelsFromJson(usersJson, userWithDogDeserializer)
         val dogs = users.map { r: EncodedResult<UserWithDogs> ->
-            r.map { it.dogs }.let { it?.map { it.get<Dog>() } }
+            r.map { it.dogs }.let { it?.map { it.get() } }
         }
 
         val firstUser = users[0].get<UserWithDogs>()

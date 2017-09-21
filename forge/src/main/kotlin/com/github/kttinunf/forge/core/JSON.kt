@@ -118,7 +118,7 @@ sealed class JSON : Sequence<JSON> {
             else -> {
                 return (value as? T)?.
                         let { EncodedResult.Success(it) } ?:
-                        EncodedResult.Failure<T>(TypeMisMatchException(this.toString()))
+                        EncodedResult.Failure(TypeMisMatchException(this.toString()))
 
             }
         }
