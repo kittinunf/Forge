@@ -5,9 +5,11 @@ sealed class EncodedResult<out T> {
     operator abstract fun component1(): T?
     operator abstract fun component2(): Exception?
 
-    fun fold(ft: (T?) -> Unit, fe: (Exception) -> Unit) = when (this) {
-        is Success<T> -> ft(this.value)
-        is Failure<T> -> fe(this.error)
+    fun fold(ft: (T?) -> Unit, fe: (Exception) -> Unit) {
+        return when (this) {
+            is Success<T> -> ft(this.value)
+            is Failure<T> -> fe(this.error)
+        }
     }
 
     fun <U> map(f: (T) -> U): EncodedResult<U> {
