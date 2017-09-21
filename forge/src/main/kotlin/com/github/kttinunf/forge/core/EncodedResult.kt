@@ -34,14 +34,14 @@ sealed class EncodedResult<out T : Any?> {
         }
     }
 
-    class Success<T : Any?>(val value: T?) : EncodedResult<T>() {
+    class Success<out T>(val value: T) : EncodedResult<T>() {
 
         override fun component1() = value
         override fun component2() = null
 
     }
 
-    class Failure<T : Any?>(val error: Exception) : EncodedResult<T>() {
+    class Failure<out T>(val error: Exception) : EncodedResult<T>() {
 
         override fun component1() = null
         override fun component2() = error
