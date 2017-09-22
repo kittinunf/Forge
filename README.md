@@ -17,6 +17,6 @@ repositories {
 
 ```Groovy
 dependencies {
-    compile 'com.github.kittinunf.fuse:fuse:<latest-version>'
+    compile 'com.github.kittinunf:forge:<latest-version>'
 }
 ```
