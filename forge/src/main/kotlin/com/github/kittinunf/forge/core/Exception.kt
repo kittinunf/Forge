@@ -1,4 +1,4 @@
-package com.github.kttinunf.forge.core
+package com.github.kittinunf.forge.core
 
 class PropertyNotFoundException(val propertyName: String) : RuntimeException("Property name $propertyName is not found")
 

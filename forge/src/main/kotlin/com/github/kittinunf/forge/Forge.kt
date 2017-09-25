@@ -1,8 +1,8 @@
-package com.github.kttinunf.forge
+package com.github.kittinunf.forge
 
-import com.github.kttinunf.forge.core.Deserializable
-import com.github.kttinunf.forge.core.JSON
-import com.github.kttinunf.forge.core.EncodedResult
+import com.github.kittinunf.forge.core.Deserializable
+import com.github.kittinunf.forge.core.JSON
+import com.github.kittinunf.forge.core.EncodedResult
 import org.json.JSONArray
 import org.json.JSONObject
 
