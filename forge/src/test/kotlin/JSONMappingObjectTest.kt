@@ -1,4 +1,4 @@
-import com.github.kttinunf.forge.Forge
+import com.github.kittinunf.forge.Forge
 import com.github.kittinunf.forge.core.Deserializable
 import com.github.kittinunf.forge.core.EncodedResult
 import com.github.kittinunf.forge.core.JSON
