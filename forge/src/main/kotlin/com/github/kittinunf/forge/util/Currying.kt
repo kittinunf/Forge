@@ -1,4 +1,4 @@
-package com.github.kttinunf.forge.util
+package com.github.kittinunf.forge.util
 
 fun <A, B, X> Function2<A, B, X>.curry(): (A) -> (B) -> X {
     return { a ->

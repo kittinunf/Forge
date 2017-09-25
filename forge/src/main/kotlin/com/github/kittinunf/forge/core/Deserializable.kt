@@ -1,4 +1,4 @@
-package com.github.kttinunf.forge.core
+package com.github.kittinunf.forge.core
 
 interface Deserializable<out T : Any> {
 

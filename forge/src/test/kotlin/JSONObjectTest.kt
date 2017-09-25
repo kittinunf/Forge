@@ -1,6 +1,6 @@
-import com.github.kttinunf.forge.core.EncodedResult
-import com.github.kttinunf.forge.core.JSON
-import com.github.kttinunf.forge.core.PropertyNotFoundException
+import com.github.kittinunf.forge.core.EncodedResult
+import com.github.kittinunf.forge.core.JSON
+import com.github.kittinunf.forge.core.PropertyNotFoundException
 import org.json.JSONObject
 import org.junit.Test
 import org.hamcrest.CoreMatchers.equalTo

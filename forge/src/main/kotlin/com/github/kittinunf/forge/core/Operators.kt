@@ -1,4 +1,4 @@
-package com.github.kttinunf.forge.core
+package com.github.kittinunf.forge.core
 
 infix fun <T, U> Function1<T, U>.map(encodedResult: EncodedResult<T>) = encodedResult.map(this)
 

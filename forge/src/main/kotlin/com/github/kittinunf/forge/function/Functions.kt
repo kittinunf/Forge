@@ -1,4 +1,4 @@
-package com.github.kttinunf.forge.function
+package com.github.kittinunf.forge.function
 
 import java.text.SimpleDateFormat
 import java.util.*

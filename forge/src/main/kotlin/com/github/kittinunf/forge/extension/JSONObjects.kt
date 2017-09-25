@@ -1,4 +1,4 @@
-package com.github.kttinunf.forge.extension
+package com.github.kittinunf.forge.extension
 
 import org.json.JSONObject
 

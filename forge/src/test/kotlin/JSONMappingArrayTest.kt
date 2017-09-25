@@ -1,16 +1,15 @@
 import com.github.kttinunf.forge.Forge
-import com.github.kttinunf.forge.core.Deserializable
-import com.github.kttinunf.forge.core.EncodedResult
-import com.github.kttinunf.forge.core.JSON
-import com.github.kttinunf.forge.core.apply
-import com.github.kttinunf.forge.core.at
-import com.github.kttinunf.forge.core.map
-import com.github.kttinunf.forge.core.maybeList
-import com.github.kttinunf.forge.util.create
+import com.github.kittinunf.forge.core.Deserializable
+import com.github.kittinunf.forge.core.EncodedResult
+import com.github.kittinunf.forge.core.JSON
+import com.github.kittinunf.forge.core.apply
+import com.github.kittinunf.forge.core.at
+import com.github.kittinunf.forge.core.map
+import com.github.kittinunf.forge.core.maybeList
+import com.github.kittinunf.forge.util.create
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
-import org.json.JSONObject
 import org.junit.Test
 
 class JSONMappingArrayTest : BaseTest() {
