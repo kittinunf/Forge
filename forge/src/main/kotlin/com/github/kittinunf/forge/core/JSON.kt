@@ -110,12 +110,12 @@ sealed class JSON : Sequence<JSON> {
 
     }
 
-    fun <T : Any?> valueAs(): EncodedResult<T> = when (this) {
-        is JSON.Null -> EncodedResult.Success<T>(null)
+    fun <T : Any?> valueAs(): DeserializedResult<T> = when (this) {
+        is JSON.Null -> DeserializedResult.Success<T>(null)
         else -> {
             (value as? T)?.
-                    let { EncodedResult.Success(it) } ?:
-                    EncodedResult.Failure(TypeMisMatchException(toString()))
+                    let { DeserializedResult.Success(it) } ?:
+                    DeserializedResult.Failure(TypeMisMatchException(toString()))
 
         }
     }

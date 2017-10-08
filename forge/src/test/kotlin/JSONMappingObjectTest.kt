@@ -1,6 +1,6 @@
 import com.github.kittinunf.forge.Forge
 import com.github.kittinunf.forge.core.Deserializable
-import com.github.kittinunf.forge.core.EncodedResult
+import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.apply
 import com.github.kittinunf.forge.core.at
@@ -33,7 +33,7 @@ class JSONMappingObjectTest : BaseTest() {
     data class SimpleUser(val id: Int, val name: String) {
 
         class Deserializer : Deserializable<SimpleUser> {
-            override val deserializer: (JSON) -> EncodedResult<SimpleUser> = { json ->
+            override val deserializer: (JSON) -> DeserializedResult<SimpleUser> = { json ->
                 ::SimpleUser.create.
                         map(json at "id").
                         apply(json at "name")
@@ -54,7 +54,7 @@ class JSONMappingObjectTest : BaseTest() {
     data class User(val id: Int, val name: String, val age: Int, val email: String) {
 
         class Deserializer : Deserializable<User> {
-            override val deserializer: (JSON) -> EncodedResult<User> = { json ->
+            override val deserializer: (JSON) -> DeserializedResult<User> = { json ->
                 ::User.create.
                         map(json at "id").
                         apply(json at "name").
@@ -72,10 +72,10 @@ class JSONMappingObjectTest : BaseTest() {
 
         val curry = ::User.curry()
 
-        val id: EncodedResult<Int> = (json at "id")
-        val name: EncodedResult<String> = (json at "name")
-        val age: EncodedResult<Int> = (json at "age")
-        val email: EncodedResult<String> = (json at "email")
+        val id: DeserializedResult<Int> = (json at "id")
+        val name: DeserializedResult<String> = (json at "name")
+        val age: DeserializedResult<Int> = (json at "age")
+        val email: DeserializedResult<String> = (json at "email")
 
         val user = curry(id.get())(name.get())(age.get())(email.get())
 
@@ -89,7 +89,7 @@ class JSONMappingObjectTest : BaseTest() {
 
         class Deserializer : Deserializable<UserWithOptionalFields> {
 
-            override val deserializer: (JSON) -> EncodedResult<UserWithOptionalFields> = { json ->
+            override val deserializer: (JSON) -> DeserializedResult<UserWithOptionalFields> = { json ->
                 ::UserWithOptionalFields.create.
                         map(json at "name").
                         apply(json maybeAt "city").
@@ -108,11 +108,11 @@ class JSONMappingObjectTest : BaseTest() {
 
         val curry = ::UserWithOptionalFields.curry()
 
-        val name: EncodedResult<String> = (json at "name")
-        val phone: EncodedResult<String> = (json at "phone")
-        val weight: EncodedResult<Float> = (json at "weight")
-        val city: EncodedResult<String> = (json maybeAt "city")
-        val gender: EncodedResult<String> = (json maybeAt "gender")
+        val name: DeserializedResult<String> = (json at "name")
+        val phone: DeserializedResult<String> = (json at "phone")
+        val weight: DeserializedResult<Float> = (json at "weight")
+        val city: DeserializedResult<String> = (json maybeAt "city")
+        val gender: DeserializedResult<String> = (json maybeAt "gender")
 
         val user = curry(name.get())(city.get())(gender.get())(phone.get())(weight.get())
 
@@ -136,7 +136,7 @@ class JSONMappingObjectTest : BaseTest() {
 
     class UserDeserializer : Deserializable<User> {
 
-        override val deserializer: (JSON) -> EncodedResult<User> = { json ->
+        override val deserializer: (JSON) -> DeserializedResult<User> = { json ->
             ::User.create.
                     map(json at "id").
                     apply(json at "name").
@@ -189,7 +189,7 @@ class JSONMappingObjectTest : BaseTest() {
 
         class Deserializer : Deserializable<UserCreatedAt> {
 
-            override val deserializer: (JSON) -> EncodedResult<UserCreatedAt> = { json ->
+            override val deserializer: (JSON) -> DeserializedResult<UserCreatedAt> = { json ->
                 ::UserCreatedAt.create.
                         map(json at "id").
                         apply(toDate() map (json at "created_at"))
@@ -232,7 +232,7 @@ class JSONMappingObjectTest : BaseTest() {
 
             class Deserializer : Deserializable<Address> {
 
-                override val deserializer: (JSON) -> EncodedResult<Address> = { json ->
+                override val deserializer: (JSON) -> DeserializedResult<Address> = { json ->
                     ::Address.create.
                             map(json at "street").
                             apply(json at "suite").
@@ -244,7 +244,7 @@ class JSONMappingObjectTest : BaseTest() {
         }
 
         class Deserializer : Deserializable<Friend> {
-            override val deserializer: (JSON) -> EncodedResult<Friend> = {
+            override val deserializer: (JSON) -> DeserializedResult<Friend> = {
                 ::Friend.create.
                         map(it at "id").
                         apply(it at "name").
@@ -254,10 +254,10 @@ class JSONMappingObjectTest : BaseTest() {
 
     }
 
-    data class UserWithFriends(val id: Int, val name: String, val age: Int, val email: String, val friends: List<EncodedResult<Friend>>) {
+    data class UserWithFriends(val id: Int, val name: String, val age: Int, val email: String, val friends: List<DeserializedResult<Friend>>) {
 
         class Deserializer : Deserializable<UserWithFriends> {
-            override val deserializer: (JSON) -> EncodedResult<UserWithFriends> = { json ->
+            override val deserializer: (JSON) -> DeserializedResult<UserWithFriends> = { json ->
                 ::UserWithFriends.create.
                         map(json at "id").
                         apply(json at "name").

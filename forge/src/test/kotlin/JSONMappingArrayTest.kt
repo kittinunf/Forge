@@ -1,6 +1,6 @@
 import com.github.kittinunf.forge.Forge
 import com.github.kittinunf.forge.core.Deserializable
-import com.github.kittinunf.forge.core.EncodedResult
+import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.apply
 import com.github.kittinunf.forge.core.at
@@ -17,7 +17,7 @@ class JSONMappingArrayTest : BaseTest() {
     data class User(val id: Int, val username: String, val name: String, val age: Int, val email: String) {
 
         class Deserializer : Deserializable<User> {
-            override val deserializer: (JSON) -> EncodedResult<User> = { json ->
+            override val deserializer: (JSON) -> DeserializedResult<User> = { json ->
                 ::User.create.
                         map(json at "id").
                         apply(json at "username").
@@ -78,7 +78,7 @@ class JSONMappingArrayTest : BaseTest() {
                 apply(j at "is_male")
     }
 
-    data class UserWithDogs(val email: String, val phone: String, val dogs: List<EncodedResult<Dog>>?)
+    data class UserWithDogs(val email: String, val phone: String, val dogs: List<DeserializedResult<Dog>>?)
 
     val userWithDogDeserializer = { j: JSON ->
         ::UserWithDogs.create.
@@ -90,7 +90,7 @@ class JSONMappingArrayTest : BaseTest() {
     @Test
     fun testUserWithDogsArrayDeserializing() {
         val users = Forge.modelsFromJson(usersJson, userWithDogDeserializer)
-        val dogs = users.map { r: EncodedResult<UserWithDogs> ->
+        val dogs = users.map { r: DeserializedResult<UserWithDogs> ->
             r.map { it.dogs }.let { it?.map { it.get<Dog>() } }
         }
 
