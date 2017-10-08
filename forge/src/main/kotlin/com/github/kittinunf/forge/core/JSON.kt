@@ -48,7 +48,7 @@ sealed class JSON : Sequence<JSON> {
                 is JSONObject -> return parse(toMap(json))
                 is JSONArray -> return parse(toList(json))
 
-                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(hashMapOf<kotlin.String, JSON>()) { accum, entry ->
+                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(mutableMapOf()) { accum, entry ->
                     val (key, value) = entry
                     val jsonValue = parse(value)
                     accum += key to jsonValue
@@ -81,7 +81,7 @@ sealed class JSON : Sequence<JSON> {
 
         //recursive
         private fun _toMap(json: JSONObject): Map<kotlin.String, Any> {
-            return json.asSequence().fold(hashMapOf<kotlin.String, Any>()) { accum, item ->
+            return json.asSequence().fold(mutableMapOf()) { accum, item ->
                 val (key, value) = item
                 val newValue: Any = if (value is JSONObject) {
                     _toMap(value)
@@ -97,13 +97,11 @@ sealed class JSON : Sequence<JSON> {
 
         //recursive
         private fun _toList(json: JSONArray): List<Any> {
-            return json.asSequence().fold(arrayListOf<Any>()) { accum, value ->
-                val newValue: Any = if (value is JSONArray) {
-                    _toList(value)
-                } else if (value is JSONObject) {
-                    _toMap(value)
-                } else {
-                    value
+            return json.asSequence().fold(mutableListOf()) { accum, value ->
+                val newValue = when (value) {
+                    is JSONArray -> _toList(value)
+                    is JSONObject -> _toMap(value)
+                    else -> value
                 }
                 accum.add(newValue)
                 accum
@@ -112,15 +110,13 @@ sealed class JSON : Sequence<JSON> {
 
     }
 
-    fun <T : Any?> valueAs(): EncodedResult<T> {
-        when (this) {
-            is JSON.Null -> return EncodedResult.Success<T>(null)
-            else -> {
-                return (value as? T)?.
-                        let { EncodedResult.Success(it) } ?:
-                        EncodedResult.Failure<T>(TypeMisMatchException(this.toString()))
+    fun <T : Any?> valueAs(): EncodedResult<T> = when (this) {
+        is JSON.Null -> EncodedResult.Success<T>(null)
+        else -> {
+            (value as? T)?.
+                    let { EncodedResult.Success(it) } ?:
+                    EncodedResult.Failure(TypeMisMatchException(toString()))
 
-            }
         }
     }
 
@@ -130,7 +126,7 @@ sealed class JSON : Sequence<JSON> {
         val initial: JSON? = this
         return keys.fold(initial) { json, key ->
             when (json) {
-                is JSON.Object -> json.value.get(key)
+                is JSON.Object -> json.value[key]
                 else -> null
             }
         }

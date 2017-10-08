@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     ext {
-        publishVersion = '0.1'
+        publishVersion = '0.3.0'
 
         kotlinVersion = '1.1.4-3'
         jsonVersion = '20170516'
