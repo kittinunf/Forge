@@ -81,7 +81,7 @@ sealed class JSON : Sequence<JSON> {
 
         //recursive
         private fun _toMap(json: JSONObject): Map<kotlin.String, Any> {
-            return json.asSequence().fold(hashMapOf<kotlin.String, Any>()) { accum, item ->
+            return json.asSequence().fold(mutableMapOf()) { accum, item ->
                 val (key, value) = item
                 val newValue: Any = if (value is JSONObject) {
                     _toMap(value)
@@ -97,7 +97,7 @@ sealed class JSON : Sequence<JSON> {
 
         //recursive
         private fun _toList(json: JSONArray): List<Any> {
-            return json.asSequence().fold(arrayListOf<Any>()) { accum, value ->
+            return json.asSequence().fold(mutableListOf()) { accum, value ->
                 val newValue: Any = if (value is JSONArray) {
                     _toList(value)
                 } else if (value is JSONObject) {
@@ -112,15 +112,13 @@ sealed class JSON : Sequence<JSON> {
 
     }
 
-    fun <T : Any?> valueAs(): EncodedResult<T> {
-        when (this) {
-            is JSON.Null -> return EncodedResult.Success<T>(null)
-            else -> {
-                return (value as? T)?.
-                        let { EncodedResult.Success(it) } ?:
-                        EncodedResult.Failure<T>(TypeMisMatchException(this.toString()))
+    fun <T : Any?> valueAs(): EncodedResult<T> = when (this) {
+        is JSON.Null -> EncodedResult.Success<T>(null)
+        else -> {
+            (value as? T)?.
+                    let { EncodedResult.Success(it) } ?:
+                    EncodedResult.Failure(TypeMisMatchException(this.toString()))
 
-            }
         }
     }
 
@@ -130,7 +128,7 @@ sealed class JSON : Sequence<JSON> {
         val initial: JSON? = this
         return keys.fold(initial) { json, key ->
             when (json) {
-                is JSON.Object -> json.value.get(key)
+                is JSON.Object -> json.value[key]
                 else -> null
             }
         }
