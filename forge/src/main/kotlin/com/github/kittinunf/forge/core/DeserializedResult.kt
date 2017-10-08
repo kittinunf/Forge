@@ -1,6 +1,6 @@
 package com.github.kittinunf.forge.core
 
-sealed class EncodedResult<out T : Any?> {
+sealed class DeserializedResult<out T : Any?> {
 
     operator abstract fun component1(): T?
     operator abstract fun component2(): Exception?
@@ -12,9 +12,9 @@ sealed class EncodedResult<out T : Any?> {
         }
     }
 
-    fun <U> map(f: (T) -> U): EncodedResult<U> = when (this) {
-        is EncodedResult.Success -> EncodedResult.Success(f(this.get()))
-        is EncodedResult.Failure -> EncodedResult.Failure(this.get())
+    fun <U> map(f: (T) -> U): DeserializedResult<U> = when (this) {
+        is DeserializedResult.Success -> DeserializedResult.Success(f(this.get()))
+        is DeserializedResult.Failure -> DeserializedResult.Failure(this.get())
     }
 
     fun <X> let(f: (T) -> X): X? = when (this) {
@@ -28,14 +28,14 @@ sealed class EncodedResult<out T : Any?> {
         is Failure<T> -> this.error as X
     }
 
-    class Success<out T>(val value: T?) : EncodedResult<T>() {
+    class Success<out T>(val value: T?) : DeserializedResult<T>() {
 
         override fun component1() = value
         override fun component2() = null
 
     }
 
-    class Failure<out T>(val error: Exception) : EncodedResult<T>() {
+    class Failure<out T>(val error: Exception) : DeserializedResult<T>() {
 
         override fun component1() = null
         override fun component2() = error
