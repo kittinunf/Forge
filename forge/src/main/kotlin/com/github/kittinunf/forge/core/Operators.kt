@@ -21,12 +21,12 @@ infix fun <T> JSON.at(key: String): EncodedResult<T> = at(key) { valueAs<T>() }
 infix fun <T> JSON.maybeAt(key: String): EncodedResult<T> = maybeAt(key) { valueAs<T>() }
 
 fun <T> JSON.list(key: String, deserializer: JSON.() -> EncodedResult<T>): EncodedResult<List<EncodedResult<T>>> {
-    return find(key)?.map(deserializer)?.toList().let { EncodedResult.Success(it) } ?:
-            EncodedResult.Failure<List<EncodedResult<T>>>(PropertyNotFoundException(key))
+    return find(key)?.map(deserializer)?.toList()?.let { EncodedResult.Success(it) } ?:
+            EncodedResult.Failure(PropertyNotFoundException(key))
 }
 
 fun <T> JSON.maybeList(key: String, deserializer: JSON.() -> EncodedResult<T>): EncodedResult<List<EncodedResult<T>>> {
-    return find(key)?.map(deserializer)?.toList().let { EncodedResult.Success(it) } ?:
+    return find(key)?.map(deserializer)?.toList()?.let { EncodedResult.Success(it) } ?:
             EncodedResult.Success(null)
 }
 

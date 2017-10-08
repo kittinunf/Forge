@@ -58,15 +58,13 @@ class JSONObjectTest : BaseTest() {
     fun testJSONInvalidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val notFoundName: EncodedResult<String>? = json.find("n")?.
-                let { it.valueAs<String>() } ?:
+        val notFoundName: EncodedResult<String>? = json.find("n")?.valueAs() ?:
                 EncodedResult.Failure(PropertyNotFoundException("n"))
 
         assertThat(notFoundName, notNullValue())
         assertThat(notFoundName!!.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
 
-        val notFoundAddressSt: EncodedResult<String>? = json.find("address.st")?.
-                let { it.valueAs<String>() } ?:
+        val notFoundAddressSt: EncodedResult<String>? = json.find("address.st")?.valueAs<String>() ?:
                 EncodedResult.Failure(PropertyNotFoundException("address.st"))
 
         assertThat(notFoundAddressSt, notNullValue())

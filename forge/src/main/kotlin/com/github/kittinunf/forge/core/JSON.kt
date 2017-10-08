@@ -48,7 +48,7 @@ sealed class JSON : Sequence<JSON> {
                 is JSONObject -> return parse(toMap(json))
                 is JSONArray -> return parse(toList(json))
 
-                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(hashMapOf<kotlin.String, JSON>()) { accum, entry ->
+                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(mutableMapOf()) { accum, entry ->
                     val (key, value) = entry
                     val jsonValue = parse(value)
                     accum += key to jsonValue
@@ -98,12 +98,10 @@ sealed class JSON : Sequence<JSON> {
         //recursive
         private fun _toList(json: JSONArray): List<Any> {
             return json.asSequence().fold(mutableListOf()) { accum, value ->
-                val newValue: Any = if (value is JSONArray) {
-                    _toList(value)
-                } else if (value is JSONObject) {
-                    _toMap(value)
-                } else {
-                    value
+                val newValue = when (value) {
+                    is JSONArray -> _toList(value)
+                    is JSONObject -> _toMap(value)
+                    else -> value
                 }
                 accum.add(newValue)
                 accum
@@ -117,7 +115,7 @@ sealed class JSON : Sequence<JSON> {
         else -> {
             (value as? T)?.
                     let { EncodedResult.Success(it) } ?:
-                    EncodedResult.Failure(TypeMisMatchException(this.toString()))
+                    EncodedResult.Failure(TypeMisMatchException(toString()))
 
         }
     }
