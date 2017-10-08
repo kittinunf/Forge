@@ -38,8 +38,8 @@ fun userDeserializer(json: JSON) =
         apply(json at "name").
         apply(json at "age").
         apply(json maybeAt "email").
-        apply(json.list("friends", ::userDeserializer)).
-        apply(json.maybeList("dogs", ::dogDeserializer))
+        apply(json.list("friends", ::userDeserializer)).  //userDeserializer is a function, use :: for function reference
+        apply(json.maybeList("dogs", dogDeserializer))  //dogDeserializer is a lambda, we use it directly
 
 val dogDeserializer = { json: JSON ->
     ::Dog.create.
