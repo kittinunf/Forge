@@ -6,8 +6,11 @@ import com.github.kittinunf.forge.core.apply
 import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.map
 import com.github.kittinunf.forge.core.maybeList
-import com.github.kittinunf.forge.extension.lift
 import com.github.kittinunf.forge.util.create
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.nullValue
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Test
 
 class JSONMappingArrayTest : BaseTest() {
 

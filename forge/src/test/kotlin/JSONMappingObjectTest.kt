@@ -268,16 +268,16 @@ class JSONMappingObjectTest : BaseTest() {
         assertThat(user, notNullValue())
         assertThat(user.friends.size, equalTo(3))
 
-        val first = user.friends[0].get<Friend>()
+        val first = user.friends[0]
         assertThat(first.id, equalTo(10))
         assertThat(first.name, equalTo("Leanne Graham"))
 
 
-        val second = user.friends[1].get<Friend>()
+        val second = user.friends[1]
         assertThat(second.name, equalTo("Ervin Howell"))
         assertThat(second.address.street, equalTo("Victor Plains"))
 
-        val third = user.friends[2].get<Friend>()
+        val third = user.friends[2]
         assertThat(third.address.street, equalTo("Douglas Extension"))
         assertThat(third.address.suite, equalTo("Suite 847"))
     }
