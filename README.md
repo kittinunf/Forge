@@ -2,7 +2,7 @@
 
 [ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.4.3-blue.svg)](http://kotlinlang.org) [![Build Status](https://travis-ci.org/kittinunf/Forge.svg?branch=master)](https://travis-ci.org/kittinunf/Forge) [![](https://jitpack.io/v/kittinunf/forge.svg)](https://jitpack.io/#kittinunf/forge/) [![Codecov](https://codecov.io/github/kittinunf/Forge/coverage.svg?branch=master)](https://codecov.io/gh/kittinunf/Forge)
 
-Functional style JSON parsing written in Kotlin
+Forge is a JSON parsing library that helps you map your Kotlin class from a JSON in a functional way. Forge is highly inspired by [Aeson](https://hackage.haskell.org/package/aeson), JSON parsing library in Haskell.
 
 ## Installation
 
@@ -21,6 +21,33 @@ dependencies {
 ```
 
 ### Usage (tl;dr:)
+
+Given you have JSON as such
+
+``` Json
+{
+  "id": 1,
+  "name": "Clementina DuBuque",
+  "age": 46,
+  "email": "Rey.Padberg@karina.biz",
+  "friends": [
+    {
+        "id": 11,
+        "name": "Ervin Howell",
+        "age": 32,
+        "email": "Shanna@melissa.tv",
+        "friends": []
+    }
+  ],
+  "dogs": [
+    {
+      "name": "Lucy",
+      "breed": "Dachshund",
+      "is_male": false
+    }
+  ]
+}
+```
 
 ``` Kotlin
 data class User(val id: Int,
