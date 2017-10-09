@@ -1,3 +1,4 @@
+import com.github.kittinunf.forge.util.create
 import com.github.kittinunf.forge.util.curry
 
 import org.hamcrest.CoreMatchers.equalTo
@@ -11,7 +12,7 @@ class CurryingTest {
     @Test
     fun testCurrying2() {
         val multiply = { x: Int, y: Int -> x * y }
-        val curry = multiply.curry()
+        val curry = multiply.create
         assertThat(curry(2)(3), equalTo(6))
     }
 
@@ -24,7 +25,7 @@ class CurryingTest {
     @Test
     fun testCurrying4() {
         val multiply = { w: Int, x: Int, y: Int, z: Int -> w * x * y * z }
-        val curry = multiply.curry()
+        val curry = multiply.create
         assertThat(curry(1)(2)(3)(4), equalTo(24))
     }
 
@@ -37,7 +38,7 @@ class CurryingTest {
     @Test
     fun testCurrying6() {
         val multiply = { u: Int, v: Int, w: Int, x: Int, y: Int, z: Int -> u * v * w * x * y * z }
-        val curry = multiply.curry()
+        val curry = multiply.create
         assertThat(curry(1)(2)(3)(4)(5)(6), equalTo(720))
     }
 
@@ -45,6 +46,19 @@ class CurryingTest {
     fun testCurrying7() {
         val concat = { t: String, u: String, v: String, w: String, x: String, y: String, z: String -> t + u + v + w + x + y + z }
         assertThat(concat.curry()("a")("bb")("ccc")("dddd")("eeeee")("f")("gg"), equalTo("abbcccddddeeeeefgg"))
+    }
+
+    @Test
+    fun testCurrying8() {
+        val multiply = { s: Int, t: Int, u: Int, v: Int, w: Int, x: Int, y: Int, z: Int -> s * t * u * v * w * x * y * z }
+        val curry = multiply.create
+        assertThat(curry(1)(2)(3)(4)(5)(6)(7)(8), equalTo(40320))
+    }
+
+    @Test
+    fun testCurrying9() {
+        val concat = { r: String, s: String, t: String, u: String, v: String, w: String, x: String, y: String, z: String -> r + s + t + u + v + w + x + y + z }
+        assertThat(concat.curry()("a")("bb")("ccc")("dddd")("eeeee")("f")("gg")("hhh")("iiii"), equalTo("abbcccddddeeeeefgghhhiiii"))
     }
 
 }
