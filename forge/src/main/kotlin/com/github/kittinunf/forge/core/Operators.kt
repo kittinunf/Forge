@@ -29,7 +29,7 @@ fun <T> JSON.list(key: String, deserializer: JSON.() -> DeserializedResult<T>): 
             ?: DeserializedResult.Failure(PropertyNotFoundException(key))
 }
 
-fun <T> JSON.mayList(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> {
+fun <T> JSON.maybeList(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> {
     return find(key)?.map(deserializer)
             ?.toList()
             ?.lift()

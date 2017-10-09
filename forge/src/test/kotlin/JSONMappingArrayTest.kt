@@ -78,7 +78,7 @@ class JSONMappingArrayTest : BaseTest() {
                 apply(j at "is_male")
     }
 
-    data class UserWithDogs(val email: String, val phone: String, val dogs: List<DeserializedResult<Dog>>?)
+    data class UserWithDogs(val email: String, val phone: String, val dogs: List<Dog>?)
 
     val userWithDogDeserializer = { j: JSON ->
         ::UserWithDogs.create.
