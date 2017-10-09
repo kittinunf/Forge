@@ -2,21 +2,92 @@
 
 [ ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.4.3-blue.svg)](http://kotlinlang.org) [![Build Status](https://travis-ci.org/kittinunf/Forge.svg?branch=master)](https://travis-ci.org/kittinunf/Forge) [![](https://jitpack.io/v/kittinunf/forge.svg)](https://jitpack.io/#kittinunf/forge/) [![Codecov](https://codecov.io/github/kittinunf/Forge/coverage.svg?branch=master)](https://codecov.io/gh/kittinunf/Forge)
 
-Functional style JSON parsing written in Kotlin
+Forge is a JSON parsing library that helps you map your Kotlin class from a JSON in a functional way. Forge is highly inspired by [Aeson](https://hackage.haskell.org/package/aeson), JSON parsing library in Haskell.
 
 ## Installation
 
 ### Gradle
 
-```Groovy
+#### jcenter
+
+```
 repositories {
     jcenter()
-    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.kittinunf.forge:forge:<latest-version>'
 }
 ```
 
-```Groovy
-dependencies {
-    compile 'com.github.kittinunf:forge:<latest-version>'
+### Usage (tl;dr:)
+
+Given you have JSON as such
+
+``` Json
+{
+  "id": 1,
+  "name": "Clementina DuBuque",
+  "age": 46,
+  "email": "Rey.Padberg@karina.biz",
+  "friends": [
+    {
+        "id": 11,
+        "name": "Ervin Howell",
+        "age": 32,
+        "email": "Shanna@melissa.tv",
+        "friends": []
+    }
+  ],
+  "dogs": [
+    {
+      "name": "Lucy",
+      "breed": "Dachshund",
+      "is_male": false
+    }
+  ]
 }
+```
+
+``` Kotlin
+data class User(val id: Int,
+                val name: String,
+                val age: Int,
+                val email: String?,
+                val friends: List<DeserializedResult<User>>,
+                val dogs: List<DeserializedResult<Dog>>?)
+
+data class Dog(val name: String, val breed: String, val male: Boolean)
+
+fun userDeserializer(json: JSON) =
+    ::User.create.
+        map(json at "id").
+        apply(json at "name").
+        apply(json at "age").
+        apply(json maybeAt "email").
+        apply(json.list("friends", ::userDeserializer)).  //userDeserializer is a function, use :: as a function reference
+        apply(json.maybeList("dogs", dogDeserializer))  //dogDeserializer is a lambda, use it directly
+
+val dogDeserializer = { json: JSON ->
+    ::Dog.create.
+        map(json at "name").
+        apply(json at "breed").
+        apply(json at "is_male")
+}
+
+//jsonContent is when you receive data as a JSON
+val result = Forge.modelFromJson(jsonContent, ::userDeserializer)
+
+when (result) {
+    DeserializedResult.Success -> {
+        val user = result.value
+        //success, do something with user
+    }
+
+    DeserializedResult.Failure -> {
+        val error = result.error
+        //failure, do something with error
+    }
+}
+
 ```
