@@ -20,16 +20,6 @@ import java.util.*
 
 class JSONMappingObjectTest : BaseTest() {
 
-    @Test
-    fun testCurrying() {
-        val multiply = { x: Int, y: Int -> x * y }
-        val curry = multiply.curry()
-        assertThat(curry(2)(3), equalTo(6))
-
-        val concatOfThree = { x: String, y: String, z: String -> x + y + z }
-        assertThat(concatOfThree.curry()("a")("bb")("ccc"), equalTo("abbccc"))
-    }
-
     data class SimpleUser(val id: Int, val name: String) {
 
         class Deserializer : Deserializable<SimpleUser> {
@@ -49,6 +39,7 @@ class JSONMappingObjectTest : BaseTest() {
 
         assertThat(user!!.id, equalTo(1))
         assertThat(user.name, equalTo("Clementina DuBuque"))
+        assertThat(ex, nullValue())
     }
 
     data class User(val id: Int, val name: String, val age: Int, val email: String) {
@@ -117,10 +108,10 @@ class JSONMappingObjectTest : BaseTest() {
         val user = curry(name.get())(city.get())(gender.get())(phone.get())(weight.get())
 
         assertThat(user.name, equalTo("Clementina DuBuque"))
-        assertThat(user.city, nullValue())
-        assertThat(user.gender, nullValue())
         assertThat(user.phone, equalTo("024-648-3804"))
         assertThat(user.weight, equalTo(72.5f))
+        assertThat(user.city, nullValue())
+        assertThat(user.gender, nullValue())
     }
 
     @Test
@@ -254,7 +245,7 @@ class JSONMappingObjectTest : BaseTest() {
 
     }
 
-    data class UserWithFriends(val id: Int, val name: String, val age: Int, val email: String, val friends: List<DeserializedResult<Friend>>) {
+    data class UserWithFriends(val id: Int, val name: String, val age: Int, val email: String, val friends: List<Friend>) {
 
         class Deserializer : Deserializable<UserWithFriends> {
             override val deserializer: (JSON) -> DeserializedResult<UserWithFriends> = { json ->
