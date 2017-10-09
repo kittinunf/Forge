@@ -5,21 +5,26 @@ sealed class DeserializedResult<out T : Any?> {
     operator abstract fun component1(): T?
     operator abstract fun component2(): Exception?
 
-    fun fold(ft: (T?) -> Unit, fe: (Exception) -> Unit) {
+    inline fun fold(ft: (T?) -> Unit, fe: (Exception) -> Unit) {
         return when (this) {
             is Success<T> -> ft(this.value)
             is Failure<T> -> fe(this.error)
         }
     }
 
-    fun <U> map(f: (T) -> U): DeserializedResult<U> = when (this) {
+    inline fun <U> map(f: (T) -> U): DeserializedResult<U> = when (this) {
         is DeserializedResult.Success -> DeserializedResult.Success(f(this.get()))
         is DeserializedResult.Failure -> DeserializedResult.Failure(this.get())
     }
 
-    fun <X> let(f: (T) -> X): X? = when (this) {
+    inline fun <X> let(f: (T) -> X): X? = when (this) {
         is Success<T> -> f(this.get())
         is Failure<T> -> null
+    }
+
+    inline fun <U> flatMap(fm: (T?) -> DeserializedResult<U>): DeserializedResult<U> = when (this) {
+        is DeserializedResult.Success -> fm(this.value)
+        is DeserializedResult.Failure -> DeserializedResult.Failure(this.error)
     }
 
     @Suppress("UNCHECKED_CAST")

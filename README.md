@@ -49,13 +49,15 @@ Given you have JSON as such
 }
 ```
 
+You can write your Kotlin class definition as such
+
 ``` Kotlin
 data class User(val id: Int,
                 val name: String,
                 val age: Int,
                 val email: String?,
-                val friends: List<DeserializedResult<User>>,
-                val dogs: List<DeserializedResult<Dog>>?)
+                val friends: List<User>,
+                val dogs: List<Dog>?)
 
 data class Dog(val name: String, val breed: String, val male: Boolean)
 
@@ -74,6 +76,12 @@ val dogDeserializer = { json: JSON ->
         apply(json at "breed").
         apply(json at "is_male")
 }
+
+```
+
+Viola!, then, you can deserialize your JSON like
+
+``` Kotlin
 
 //jsonContent is when you receive data as a JSON
 val result = Forge.modelFromJson(jsonContent, ::userDeserializer)
