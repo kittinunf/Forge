@@ -1,6 +1,10 @@
 import com.github.kittinunf.forge.util.create
 import com.github.kittinunf.forge.util.curry
 
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Test
+
 class CurryingTest {
 
     @Test
