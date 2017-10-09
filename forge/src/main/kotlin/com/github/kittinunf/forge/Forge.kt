@@ -1,8 +1,8 @@
 package com.github.kittinunf.forge
 
 import com.github.kittinunf.forge.core.Deserializable
-import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.DeserializedResult
+import com.github.kittinunf.forge.core.JSON
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -19,4 +19,3 @@ object Forge {
             JSON.parse(JSONArray(json)).toList().map { it.deserializer() }
 
 }
-

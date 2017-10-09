@@ -221,7 +221,3 @@ fun <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I
 
 val <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I, J, K, L, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> X
     get() = curry()
-
-
-
- 

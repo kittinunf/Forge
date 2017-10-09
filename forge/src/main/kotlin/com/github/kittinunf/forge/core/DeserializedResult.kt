@@ -1,6 +1,6 @@
 package com.github.kittinunf.forge.core
 
-sealed class DeserializedResult<out T : Any?> {
+sealed class DeserializedResult<out T> {
 
     operator abstract fun component1(): T?
     operator abstract fun component2(): Exception?
@@ -13,17 +13,12 @@ sealed class DeserializedResult<out T : Any?> {
     }
 
     inline fun <U> map(f: (T) -> U): DeserializedResult<U> = when (this) {
-        is DeserializedResult.Success -> DeserializedResult.Success(f(this.get()))
-        is DeserializedResult.Failure -> DeserializedResult.Failure(this.get())
+        is DeserializedResult.Success -> DeserializedResult.Success(f(get()))
+        is DeserializedResult.Failure -> DeserializedResult.Failure(this.error)
     }
 
-    inline fun <X> let(f: (T) -> X): X? = when (this) {
-        is Success<T> -> f(this.get())
-        is Failure<T> -> null
-    }
-
-    inline fun <U> flatMap(fm: (T?) -> DeserializedResult<U>): DeserializedResult<U> = when (this) {
-        is DeserializedResult.Success -> fm(this.value)
+    inline fun <U> flatMap(fm: (T) -> DeserializedResult<U>): DeserializedResult<U> = when (this) {
+        is DeserializedResult.Success -> fm(get())
         is DeserializedResult.Failure -> DeserializedResult.Failure(this.error)
     }
 
