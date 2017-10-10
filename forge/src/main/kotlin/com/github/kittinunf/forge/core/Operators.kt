@@ -11,11 +11,13 @@ fun <T, U> DeserializedResult<(T) -> U>.apply(deserializedResult: DeserializedRe
         }
 
 fun <T> JSON.at(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<T> {
-    return find(key)?.deserializer() ?: DeserializedResult.Failure(PropertyNotFoundException(key))
+    return find(key)?.deserializer()
+            ?: DeserializedResult.Failure(PropertyNotFoundException(key))
 }
 
 fun <T> JSON.maybeAt(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<T> {
-    return find(key)?.deserializer() ?: DeserializedResult.Success(null)
+    return find(key)?.deserializer()
+            ?: DeserializedResult.Success(null)
 }
 
 infix fun <T> JSON.at(key: String): DeserializedResult<T> = at(key) { valueAs<T>() }
