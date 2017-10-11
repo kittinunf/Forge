@@ -1,6 +1,6 @@
-import JSONMappingObjectTest.Friend.Address
-import com.github.kittinunf.forge.BaseTest
-import com.github.kittinunf.forge.Forge
+package com.github.kittinunf.forge
+
+import com.github.kittinunf.forge.JSONMappingObjectTest.Friend.Address
 import com.github.kittinunf.forge.core.Deserializable
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
