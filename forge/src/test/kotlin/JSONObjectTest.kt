@@ -1,3 +1,4 @@
+import com.github.kittinunf.forge.BaseTest
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.PropertyNotFoundException

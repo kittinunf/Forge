@@ -2,6 +2,6 @@ package com.github.kittinunf.forge.core
 
 interface Deserializable<out T : Any> {
 
-    val deserializer: (JSON) -> DeserializedResult<T>
+    fun deserialize(json: JSON): DeserializedResult<T>
 
 }

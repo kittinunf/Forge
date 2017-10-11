@@ -1,3 +1,5 @@
+package com.github.kittinunf.forge
+
 import org.junit.Before
 import java.io.File
 
@@ -11,7 +13,9 @@ open class BaseTest {
 
     init {
         val dir = System.getProperty("user.dir")
-        assetsDir = File(dir, "src/test/assets/")
+        val file = File(dir)
+
+        assetsDir = file.walkTopDown().filter { it.name == "assets" }.first()
     }
 
     @Before

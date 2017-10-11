@@ -1,3 +1,4 @@
+import com.github.kittinunf.forge.BaseTest
 import com.github.kittinunf.forge.Forge
 import com.github.kittinunf.forge.core.Deserializable
 import com.github.kittinunf.forge.core.DeserializedResult
@@ -14,19 +15,21 @@ import org.junit.Test
 
 class JSONMappingArrayTest : BaseTest() {
 
-    data class User(val id: Int, val username: String, val name: String, val age: Int, val email: String) {
+    data class User(val id: Int,
+                    val username: String,
+                    val name: String,
+                    val age: Int,
+                    val email: String)
 
-        class Deserializer : Deserializable<User> {
-            override val deserializer: (JSON) -> DeserializedResult<User> = { json ->
-                ::User.create.
-                        map(json at "id").
-                        apply(json at "username").
-                        apply(json at "name").
-                        apply(json at "age").
-                        apply(json at "email")
-            }
+    class UserDeserializer : Deserializable<User> {
+        override fun deserialize(json: JSON): DeserializedResult<User> {
+            return ::User.create.
+                    map(json at "id").
+                    apply(json at "username").
+                    apply(json at "name").
+                    apply(json at "age").
+                    apply(json at "email")
         }
-
     }
 
     data class Company(val name: String, val catchPhrase: String)
@@ -48,7 +51,7 @@ class JSONMappingArrayTest : BaseTest() {
 
     @Test
     fun testUserModelArrayDeserializing() {
-        val results = Forge.modelsFromJson(usersJson, User.Deserializer())
+        val results = Forge.modelsFromJson(usersJson, UserDeserializer())
         val users: List<User> = results.map { it.get<User>() }
 
         assertThat(users.count(), equalTo(10))

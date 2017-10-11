@@ -1,3 +1,5 @@
+package com.github.kittinunf.forge
+
 import com.github.kittinunf.forge.util.create
 import com.github.kittinunf.forge.util.curry
 
