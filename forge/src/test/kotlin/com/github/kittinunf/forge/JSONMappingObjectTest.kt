@@ -137,6 +137,10 @@ class JSONMappingObjectTest : BaseTest() {
         assertThat(c.get(Calendar.DATE), equalTo(27))
         assertThat(c.get(Calendar.MONTH), equalTo(1))
         assertThat(c.get(Calendar.YEAR), equalTo(2015))
+        assertThat(c.get(Calendar.HOUR_OF_DAY), equalTo(15))
+        assertThat(c.get(Calendar.MINUTE), equalTo(10))
+        assertThat(c.get(Calendar.SECOND), equalTo(39))
+        assertThat(c.get(Calendar.MILLISECOND), equalTo(971))
     }
 
     @Test
@@ -153,6 +157,11 @@ class JSONMappingObjectTest : BaseTest() {
         assertThat(c.get(Calendar.DATE), equalTo(27))
         assertThat(c.get(Calendar.MONTH), equalTo(1))
         assertThat(c.get(Calendar.YEAR), equalTo(2015))
+        assertThat(c.get(Calendar.HOUR), equalTo(3))
+        assertThat(c.get(Calendar.AM_PM), equalTo(Calendar.PM))
+        assertThat(c.get(Calendar.MINUTE), equalTo(10))
+        assertThat(c.get(Calendar.SECOND), equalTo(39))
+        assertThat(c.get(Calendar.MILLISECOND), equalTo(971))
     }
 
     class UserWithOptionalFieldsDeserializer : Deserializable<UserWithOptionalFields> {
@@ -219,7 +228,6 @@ class JSONMappingObjectTest : BaseTest() {
         val first = user.friends[0]
         assertThat(first.id, equalTo(10))
         assertThat(first.name, equalTo("Leanne Graham"))
-
 
         val second = user.friends[1]
         assertThat(second.name, equalTo("Ervin Howell"))
