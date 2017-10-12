@@ -1,13 +1,62 @@
 package com.github.kittinunf.forge
 
+import com.github.kittinunf.forge.core.DeserializedResult
+import com.github.kittinunf.forge.core.JSON
+import com.github.kittinunf.forge.core.at
+import com.github.kittinunf.forge.core.maybeAt
+import com.github.kittinunf.forge.model.User
+import com.github.kittinunf.forge.model.UserWithOptionalFields
 import com.github.kittinunf.forge.util.create
 import com.github.kittinunf.forge.util.curry
 
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.json.JSONObject
 import org.junit.Test
 
-class CurryingTest {
+class CurryingTest : BaseTest() {
+
+    @Test
+    fun testUserModelCurry() {
+        val json = JSON.parse((JSONObject(userJson)))
+
+        val curry = ::User.curry()
+
+        val id: DeserializedResult<Int> = (json at "id")
+        val username: DeserializedResult<String> = (json at "username")
+        val name: DeserializedResult<String> = (json at "name")
+        val age: DeserializedResult<Int> = (json at "age")
+        val email: DeserializedResult<String> = (json at "email")
+
+        val user = curry(id.get())(username.get())(name.get())(age.get())(email.get())
+
+        assertThat(user.id, equalTo(1))
+        assertThat(user.name, equalTo("Clementina DuBuque"))
+        assertThat(user.age, equalTo(46))
+        assertThat(user.email, equalTo("Rey.Padberg@karina.biz"))
+    }
+
+    @Test
+    fun testUserModelOptionalCurry() {
+        val json = JSON.parse((JSONObject(userJson)))
+
+        val curry = ::UserWithOptionalFields.curry()
+
+        val name: DeserializedResult<String> = (json at "name")
+        val phone: DeserializedResult<String> = (json at "phone")
+        val weight: DeserializedResult<Float> = (json at "weight")
+        val city: DeserializedResult<String> = (json maybeAt "city")
+        val gender: DeserializedResult<String> = (json maybeAt "gender")
+
+        val user = curry(name.get())(city.get())(gender.get())(phone.get())(weight.get())
+
+        assertThat(user.name, equalTo("Clementina DuBuque"))
+        assertThat(user.phone, equalTo("024-648-3804"))
+        assertThat(user.weight, equalTo(72.5f))
+        assertThat(user.city, nullValue())
+        assertThat(user.gender, nullValue())
+    }
 
     @Test
     fun testCurrying2() {
