@@ -1,3 +1,5 @@
+package com.github.kittinunf.forge
+
 import com.github.kittinunf.forge.core.DeserializedResult
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.instanceOf
