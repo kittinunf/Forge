@@ -3,9 +3,10 @@
 buildscript {
     repositories {
         jcenter()
+	google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-rc1'
+        classpath 'com.android.tools.build:gradle:3.0.0-rc2'
 
         classpath 'com.novoda:bintray-release:0.5.0'
 
