@@ -5,7 +5,6 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
@@ -14,7 +13,7 @@ allprojects {
     ext {
         publishVersion = '0.3.0'
 
-        kotlinVersion = '1.2.0'
+        kotlinVersion = '1.2.31'
         jsonVersion = '20170516'
 
         junitVersion = '4.12'
