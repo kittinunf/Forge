@@ -1,7 +1,7 @@
 package com.github.kittinunf.forge.core
 
-interface Serializable {
+interface Serializable<in T : Any> {
 
-    fun serialize(): JSON
+    fun serialize(model: T): JSON
 
 }

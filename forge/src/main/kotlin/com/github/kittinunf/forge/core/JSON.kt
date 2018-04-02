@@ -83,12 +83,10 @@ sealed class JSON : Sequence<JSON> {
         private fun _toMap(json: JSONObject): Map<kotlin.String, Any> {
             return json.asSequence().fold(mutableMapOf()) { accum, item ->
                 val (key, value) = item
-                val newValue: Any = if (value is JSONObject) {
-                    _toMap(value)
-                } else if (value is JSONArray) {
-                    _toList(value)
-                } else {
-                    value
+                val newValue: Any = when (value) {
+                    is JSONObject -> _toMap(value)
+                    is JSONArray -> _toList(value)
+                    else -> value
                 }
                 accum += (key to newValue)
                 accum
@@ -99,8 +97,8 @@ sealed class JSON : Sequence<JSON> {
         private fun _toList(json: JSONArray): List<Any> {
             return json.asSequence().fold(mutableListOf()) { accum, value ->
                 val newValue = when (value) {
-                    is JSONArray -> _toList(value)
                     is JSONObject -> _toMap(value)
+                    is JSONArray -> _toList(value)
                     else -> value
                 }
                 accum.add(newValue)
