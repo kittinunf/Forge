@@ -1,5 +1,6 @@
 import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.support.ReporterType
+import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
 
 plugins {
     kotlin("jvm") version "1.3.30"
@@ -90,7 +91,7 @@ subprojects {
         publications {
             register(project.name, MavenPublication::class) {
                 from(components["java"])
-                artifact(sourcesJar)
+                artifact(LazyPublishArtifact(sourcesJar))
                 artifact(javadocJar)
                 groupId = "com.github.kittinunf.forge"
                 artifactId = project.name
