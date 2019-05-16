@@ -15,7 +15,6 @@ fun JSONArray.asSequence(): Sequence<Any> {
             }
 
             override fun hasNext() = it.hasNext()
-
         }
     }
 }

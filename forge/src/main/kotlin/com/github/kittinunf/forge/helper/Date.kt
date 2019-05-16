@@ -4,7 +4,7 @@ import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.TypeMisMatchException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 fun toDate(style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): (String) -> Date = {
     val formatter = SimpleDateFormat(style)

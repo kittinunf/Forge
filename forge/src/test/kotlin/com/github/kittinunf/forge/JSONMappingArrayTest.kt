@@ -23,28 +23,27 @@ class JSONMappingArrayTest : BaseTest() {
 
     class UserDeserializer : Deserializable<User> {
         override fun deserialize(json: JSON): DeserializedResult<User> {
-            return ::User.create.
-                    map(json at "id").
-                    apply(json at "username").
-                    apply(json at "name").
-                    apply(json at "age").
-                    apply(json at "email")
+            return ::User.create
+                    .map(json at "id")
+                    .apply(json at "username")
+                    .apply(json at "name")
+                    .apply(json at "age")
+                    .apply(json at "email")
         }
     }
 
     val companyDeserializer = { json: JSON ->
-        ::Company.create.
-                map(json at "name").
-                apply(json at "catch_phrase")
+        ::Company.create
+                .map(json at "name")
+                .apply(json at "catch_phrase")
     }
 
-
     val userModelWithCompany = { json: JSON ->
-        ::UserWithCompany.create.
-                map(json at "id").
-                apply(json at "username").
-                apply(json maybeAt "is_deleted").
-                apply(json.at("company", companyDeserializer))
+        ::UserWithCompany.create
+                .map(json at "id")
+                .apply(json at "username")
+                .apply(json maybeAt "is_deleted")
+                .apply(json.at("company", companyDeserializer))
     }
 
     @Test
@@ -71,17 +70,17 @@ class JSONMappingArrayTest : BaseTest() {
     }
 
     val dogDeserializer = { j: JSON ->
-        ::Dog.create.
-                map(j at "name").
-                apply(j at "breed").
-                apply(j at "is_male")
+        ::Dog.create
+                .map(j at "name")
+                .apply(j at "breed")
+                .apply(j at "is_male")
     }
 
     val userWithDogDeserializer = { j: JSON ->
-        ::UserWithDogs.create.
-                map(j at "email").
-                apply(j at "phone").
-                apply(j.maybeList("dogs", dogDeserializer))
+        ::UserWithDogs.create
+                .map(j at "email")
+                .apply(j at "phone")
+                .apply(j.maybeList("dogs", dogDeserializer))
     }
 
     @Test
@@ -119,5 +118,4 @@ class JSONMappingArrayTest : BaseTest() {
         assertThat(dogs[4][2].name, equalTo("Daisy"))
         assertThat(dogs[4][3].male, equalTo(false))
     }
-
 }

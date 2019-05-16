@@ -22,15 +22,12 @@ sealed class JSON : Sequence<JSON> {
             }
 
             override fun hasNext() = it.hasNext()
-
         }
-
     }
 
     class Array(override val value: List<JSON> = listOf()) : JSON() {
 
         override fun iterator() = value.iterator()
-
     }
 
     class String(override val value: kotlin.String = "") : JSON()
@@ -79,7 +76,7 @@ sealed class JSON : Sequence<JSON> {
             } else emptyList()
         }
 
-        //recursive
+        // recursive
         private fun _toMap(json: JSONObject): Map<kotlin.String, Any> {
             return json.asSequence().fold(mutableMapOf()) { accum, item ->
                 val (key, value) = item
@@ -95,7 +92,7 @@ sealed class JSON : Sequence<JSON> {
             }
         }
 
-        //recursive
+        // recursive
         private fun _toList(json: JSONArray): List<Any> {
             return json.asSequence().fold(mutableListOf()) { accum, value ->
                 val newValue = when (value) {
@@ -107,16 +104,14 @@ sealed class JSON : Sequence<JSON> {
                 accum
             }
         }
-
     }
 
     fun <T : Any?> valueAs(): DeserializedResult<T> = when (this) {
         is JSON.Null -> DeserializedResult.Success<T>(null)
         else -> {
-            (value as? T)?.
-                    let { DeserializedResult.Success(it) } ?:
-                    DeserializedResult.Failure(TypeMisMatchException(toString()))
-
+            (value as? T)
+                    ?.let { DeserializedResult.Success(it) }
+                    ?: DeserializedResult.Failure(TypeMisMatchException(toString()))
         }
     }
 
@@ -131,5 +126,4 @@ sealed class JSON : Sequence<JSON> {
             }
         }
     }
-
 }

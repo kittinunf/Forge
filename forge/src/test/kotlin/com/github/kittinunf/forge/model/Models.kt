@@ -1,12 +1,14 @@
 package com.github.kittinunf.forge.model
 
-import java.util.*
+import java.util.Date
 
-data class User(val id: Int,
-                val username: String,
-                val name: String,
-                val age: Int,
-                val email: String)
+data class User(
+    val id: Int,
+    val username: String,
+    val name: String,
+    val age: Int,
+    val email: String
+)
 
 data class Company(val name: String, val catchPhrase: String)
 
@@ -25,7 +27,6 @@ data class UserCreatedAt(val id: Int, val createdAt: Date)
 data class Friend(val id: Int, val name: String, val address: Friend.Address) {
 
     data class Address(val street: String, val suite: String, val city: String)
-
 }
 
 data class UserWithFriends(val id: Int, val name: String, val age: Int, val email: String, val friends: List<Friend>)

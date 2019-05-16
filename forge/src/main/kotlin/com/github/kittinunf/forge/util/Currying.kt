@@ -48,7 +48,6 @@ fun <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.curry(): (A) -> (B) -> (C) ->
 val <A, B, C, D, E, X> Function5<A, B, C, D, E, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> X
     get() = curry()
 
-
 fun <A, B, C, D, E, F, X> Function6<A, B, C, D, E, F, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> X {
     return { a ->
         { b ->

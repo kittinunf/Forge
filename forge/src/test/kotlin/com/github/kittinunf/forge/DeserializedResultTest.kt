@@ -120,5 +120,4 @@ class DeserializedResultTest {
         assertThat(e, instanceOf(RuntimeException::class.java))
         assertThat(e?.message, equalTo("error"))
     }
-
 }
