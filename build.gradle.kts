@@ -90,8 +90,8 @@ subprojects {
         publications {
             register(project.name, MavenPublication::class) {
                 from(components["java"])
-//                artifact(sourcesJar)
-//                artifact(javadocJar)
+                artifact(sourcesJar)
+                artifact(javadocJar)
                 groupId = "com.github.kittinunf.forge"
                 artifactId = project.name
                 version = "1.0.0-alpha1"
