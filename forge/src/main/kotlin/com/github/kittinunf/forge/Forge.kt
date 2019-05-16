@@ -17,5 +17,4 @@ object Forge {
 
     fun <T : Any> modelsFromJson(json: String, deserializer: JSON.() -> DeserializedResult<T>): List<DeserializedResult<T>> =
             JSON.parse(JSONArray(json)).toList().map { it.deserializer() }
-
 }

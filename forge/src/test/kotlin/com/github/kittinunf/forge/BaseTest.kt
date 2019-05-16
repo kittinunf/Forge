@@ -23,6 +23,4 @@ open class BaseTest {
 
     @Before
     fun setUp() {}
-
 }
- 

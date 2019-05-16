@@ -129,5 +129,4 @@ class CurryingTest : BaseTest() {
         val curry = multiply.create
         assertThat(curry(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11)(12), equalTo(479_001_600))
     }
-
 }

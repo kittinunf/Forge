@@ -16,8 +16,6 @@ fun JSONObject.asSequence(): Sequence<Pair<String, Any>> {
             }
 
             override fun hasNext() = it.hasNext()
-
         }
-
     }
 }

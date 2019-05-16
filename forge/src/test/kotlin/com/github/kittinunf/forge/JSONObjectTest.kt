@@ -49,7 +49,6 @@ class JSONObjectTest : BaseTest() {
         assertThat(addressStreet, notNullValue())
         assertThat(addressStreet!!.get<String>(), equalTo("Kattie Turnpike"))
 
-
         val addressGeoLat = json.find("address.geo.lat")?.valueAs<Double>()
 
         assertThat(addressGeoLat, notNullValue())
@@ -60,17 +59,16 @@ class JSONObjectTest : BaseTest() {
     fun testJSONInvalidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val notFoundName = json.find("n")?.valueAs<String>() ?:
-                DeserializedResult.Failure(PropertyNotFoundException("n"))
+        val notFoundName = json.find("n")?.valueAs<String>()
+                ?: DeserializedResult.Failure(PropertyNotFoundException("n"))
 
         assertThat(notFoundName, notNullValue())
         assertThat(notFoundName.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
 
-        val notFoundAddressSt = json.find("address.st")?.valueAs<String>() ?:
-                DeserializedResult.Failure(PropertyNotFoundException("address.st"))
+        val notFoundAddressSt = json.find("address.st")?.valueAs<String>()
+                ?: DeserializedResult.Failure(PropertyNotFoundException("address.st"))
 
         assertThat(notFoundAddressSt, notNullValue())
         assertThat(notFoundAddressSt.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
     }
-
 }
