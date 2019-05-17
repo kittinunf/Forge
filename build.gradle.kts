@@ -1,6 +1,7 @@
+
+import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
 import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.support.ReporterType
-import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
 
 plugins {
     kotlin("jvm") version "1.3.30"
@@ -33,7 +34,8 @@ subprojects {
     }
 
     configure<JacocoPluginExtension> {
-        toolVersion = "0.8.3"
+        val jacocoVersion: String by project
+        toolVersion = jacocoVersion
     }
 
     tasks.withType<JacocoReport> {
@@ -58,8 +60,10 @@ subprojects {
         source = sourceSets["main"].allJava
     }
 
-    version = "1.0.0-alpha1"
-    group = "com.github.kittinunf.forge"
+    val artifactVersion: String by project
+    val artifactGroup: String by project
+    version = artifactVersion
+    group = artifactGroup
 
     bintray {
         user = findProperty("BINTRAY_USER") as? String
@@ -74,7 +78,7 @@ subprojects {
             vcsUrl = "https://github.com/kittinunf/Forge"
             setLicenses("MIT")
             with(version) {
-                name = "1.0.0-alpha1"
+                name = artifactVersion
             }
         }
     }
@@ -93,9 +97,9 @@ subprojects {
                 from(components["java"])
                 artifact(LazyPublishArtifact(sourcesJar))
                 artifact(javadocJar)
-                groupId = "com.github.kittinunf.forge"
+                groupId = artifactGroup
                 artifactId = project.name
-                version = "1.0.0-alpha1"
+                version = artifactVersion
                 pom {
                     licenses {
                         license {
