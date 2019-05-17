@@ -1,6 +1,10 @@
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.30")
-    implementation("org.json:json:20170516")
+val kotlinVersion: String by project
+val jsonVersion: String by project
+val junitVersion: String by project
 
-    testImplementation("junit:junit:4.12")
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    implementation("org.json:json:$jsonVersion")
+
+    testImplementation("junit:junit:$junitVersion")
 }
