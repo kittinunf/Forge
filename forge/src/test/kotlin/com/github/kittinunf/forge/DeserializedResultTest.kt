@@ -70,7 +70,7 @@ class DeserializedResultTest {
     fun testFlatMapOnSuccessWithSuccess() {
         val success = DeserializedResult.Success(listOf("hello world"))
 
-        val fmapped = success.flatMap { DeserializedResult.Success(it?.count()) }
+        val fmapped = success.flatMap { DeserializedResult.Success(it.count()) }
 
         assertThat(fmapped, instanceOf(DeserializedResult.Success::class.java))
 
