@@ -3,7 +3,7 @@
   "name": "Clementina DuBuque",
   "username": "Moriah.Stanton",
   "age": 46,
-  "weight" : 72.5,
+  "weight": 72.5,
   "email": "Rey.Padberg@karina.biz",
   "is_deleted": true,
   "created_at": "2015-02-27T15:10:39.971Z",
@@ -23,5 +23,26 @@
     "name": "Hoeger LLC",
     "catch_phrase": "Centralized empowering task-force",
     "bs": "target end-to-end models"
+  },
+  "levels": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "friend": {
+    "id": 2,
+    "name": "Tabitha Duran",
+    "username": "tabitha.duran",
+    "age": 21,
+    "weight": 122.5,
+    "email" : "tabitha.duran@zytrac.biz",
+    "address" : {
+      "street" : "Pulaski Street",
+      "suite" : "Fredericktown 8234",
+      "city" : "South Carolina",
+      "zipcode" : "34433-34534"
+    }
   }
 }

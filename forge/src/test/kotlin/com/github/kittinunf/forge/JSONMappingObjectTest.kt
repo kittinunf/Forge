@@ -55,17 +55,8 @@ class JSONMappingObjectTest : BaseTest() {
                         .apply(json at "name")
                         .apply(json at "age")
                         .apply(json at "email")
-    }
-
-    @Test
-    fun testUserModelInModelDeserializing() {
-        val result = Forge.modelFromJson(userJson, UserDeserializer())
-        val user: User = result.get()
-
-        assertThat(user.id, equalTo(1))
-        assertThat(user.name, equalTo("Clementina DuBuque"))
-        assertThat(user.age, equalTo(46))
-        assertThat(user.email, equalTo("Rey.Padberg@karina.biz"))
+                        .apply(json list "levels")
+                        .apply(json.at("friend", FriendDeserializer()::deserialize))
     }
 
     @Test
@@ -77,6 +68,19 @@ class JSONMappingObjectTest : BaseTest() {
         assertThat(user.name, equalTo("Clementina DuBuque"))
         assertThat(user.age, equalTo(46))
         assertThat(user.email, equalTo("Rey.Padberg@karina.biz"))
+        assertThat(user.levels, equalTo(listOf(1, 2, 3, 4, 5)))
+    }
+
+    @Test
+    fun testUserModelInUserModelDeserializing() {
+        val result = Forge.modelFromJson(userJson, UserDeserializer())
+        val user = result.get<User>().friend!!
+
+        assertThat(user.id, equalTo(2))
+        assertThat(user.name, equalTo("Tabitha Duran"))
+        assertThat(user.address.street, equalTo("Pulaski Street"))
+        assertThat(user.address.suite, equalTo("Fredericktown 8234"))
+        assertThat(user.address.city, equalTo("South Carolina"))
     }
 
     val companyDeserializer = { json: JSON ->

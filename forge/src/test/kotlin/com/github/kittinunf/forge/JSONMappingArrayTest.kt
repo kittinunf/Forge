@@ -1,5 +1,6 @@
 package com.github.kittinunf.forge
 
+import com.github.kittinunf.forge.JSONMappingObjectTest.FriendDeserializer
 import com.github.kittinunf.forge.core.Deserializable
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
@@ -8,6 +9,7 @@ import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.map
 import com.github.kittinunf.forge.core.maybeAt
 import com.github.kittinunf.forge.core.maybeList
+import com.github.kittinunf.forge.extension.lift
 import com.github.kittinunf.forge.model.Company
 import com.github.kittinunf.forge.model.Dog
 import com.github.kittinunf.forge.model.User
@@ -29,6 +31,8 @@ class JSONMappingArrayTest : BaseTest() {
                     .apply(json at "name")
                     .apply(json at "age")
                     .apply(json at "email")
+                    .apply(json maybeList "levels")
+                    .apply(json.maybeAt("friend", FriendDeserializer()::deserialize))
         }
     }
 
@@ -48,8 +52,8 @@ class JSONMappingArrayTest : BaseTest() {
 
     @Test
     fun testUserModelArrayDeserializing() {
-        val results = Forge.modelsFromJson(usersJson, UserDeserializer())
-        val users: List<User> = results.map { it.get<User>() }
+        val results = Forge.modelsFromJson(usersJson, UserDeserializer()).lift()
+        val users: List<User> = results.get()
 
         assertThat(users.count(), equalTo(10))
         assertThat(users[0].id, equalTo(1))
@@ -61,8 +65,8 @@ class JSONMappingArrayTest : BaseTest() {
 
     @Test
     fun testUserModelWithCompanyArrayDeserializing() {
-        val users = Forge.modelsFromJson(usersJson, userModelWithCompany)
-        val companies = users.map { it.get<UserWithCompany>().company }
+        val users = Forge.modelsFromJson(usersJson, userModelWithCompany).lift()
+        val companies = users.get<List<UserWithCompany>>().map { it.company }
 
         assertThat(companies.count(), equalTo(10))
         assertThat(companies[5].name, equalTo("Considine-Lockman"))

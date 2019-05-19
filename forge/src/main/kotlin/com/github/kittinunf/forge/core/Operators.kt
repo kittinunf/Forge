@@ -20,9 +20,9 @@ fun <T> JSON.maybeAt(key: String, deserializer: JSON.() -> DeserializedResult<T>
             ?: DeserializedResult.Success(null)
 }
 
-infix fun <T> JSON.at(key: String): DeserializedResult<T> = at(key) { valueAs<T>() }
+infix fun <T> JSON.at(key: String): DeserializedResult<T> = at(key, deserializer = { valueAs<T>() })
 
-infix fun <T> JSON.maybeAt(key: String): DeserializedResult<T> = maybeAt(key) { valueAs<T>() }
+infix fun <T> JSON.maybeAt(key: String): DeserializedResult<T> = maybeAt(key, deserializer = { valueAs<T>() })
 
 fun <T> JSON.list(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> {
     return find(key)?.map(deserializer)
@@ -38,6 +38,6 @@ fun <T> JSON.maybeList(key: String, deserializer: JSON.() -> DeserializedResult<
             ?: DeserializedResult.Success(null)
 }
 
-infix fun <T> JSON.list(key: String) = list(key) { valueAs<T>() }
+infix fun <T> JSON.list(key: String) = list(key, deserializer = { valueAs<T>() })
 
-infix fun <T> JSON.maybeList(key: String) = list(key) { valueAs<T>() }
+infix fun <T> JSON.maybeList(key: String) = maybeList(key, deserializer = { valueAs<T>() })

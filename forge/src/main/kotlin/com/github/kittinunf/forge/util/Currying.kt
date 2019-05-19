@@ -220,3 +220,71 @@ fun <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I
 
 val <A, B, C, D, E, F, G, H, I, J, K, L, X> Function12<A, B, C, D, E, F, G, H, I, J, K, L, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> X
     get() = curry()
+
+fun <A, B, C, D, E, F, G, H, I, J, K, L, M, X> Function13<A, B, C, D, E, F, G, H, I, J, K, L, M, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> X {
+    return { a ->
+        { b ->
+            { c ->
+                { d ->
+                    { e ->
+                        { f ->
+                            { g ->
+                                { h ->
+                                    { i ->
+                                        { j ->
+                                            { k ->
+                                                { l ->
+                                                    { m ->
+                                                        invoke(a, b, c, d, e, f, g, h, i, j, k, l, m)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+val <A, B, C, D, E, F, G, H, I, J, K, L, M, X> Function13<A, B, C, D, E, F, G, H, I, J, K, L, M, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> X
+    get() = curry()
+
+fun <A, B, C, D, E, F, G, H, I, J, K, L, M, N, X> Function14<A, B, C, D, E, F, G, H, I, J, K, L, M, N, X>.curry(): (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> X {
+    return { a ->
+        { b ->
+            { c ->
+                { d ->
+                    { e ->
+                        { f ->
+                            { g ->
+                                { h ->
+                                    { i ->
+                                        { j ->
+                                            { k ->
+                                                { l ->
+                                                    { m ->
+                                                        { n ->
+                                                            invoke(a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+val <A, B, C, D, E, F, G, H, I, J, K, L, M, N, X> Function14<A, B, C, D, E, F, G, H, I, J, K, L, M, N, X>.create: (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> (G) -> (H) -> (I) -> (J) -> (K) -> (L) -> (M) -> (N) -> X
+    get() = curry()

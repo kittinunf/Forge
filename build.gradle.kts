@@ -1,12 +1,11 @@
-
 import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
-import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.support.ReporterType
 
 plugins {
     kotlin("jvm") version "1.3.30"
     id("org.jmailen.kotlinter") version "1.24.0"
 
+    jacoco
     `maven-publish`
     id("com.jfrog.bintray") version "1.8.4"
 }
@@ -22,8 +21,8 @@ allprojects {
 subprojects {
     apply {
         plugin("kotlin")
-        plugin("jacoco")
         plugin("org.jmailen.kotlinter")
+        plugin("jacoco")
         plugin("maven-publish")
         plugin("com.jfrog.bintray")
     }
@@ -33,7 +32,7 @@ subprojects {
         getByName("test").java.srcDirs("src/main/kotlin")
     }
 
-    configure<JacocoPluginExtension> {
+    jacoco {
         val jacocoVersion: String by project
         toolVersion = jacocoVersion
     }
@@ -46,7 +45,7 @@ subprojects {
         }
     }
 
-    configure<KotlinterExtension> {
+    kotlinter {
         reporters = arrayOf(ReporterType.plain.name, ReporterType.checkstyle.name)
     }
 

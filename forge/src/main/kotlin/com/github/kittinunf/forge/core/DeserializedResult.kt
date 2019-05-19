@@ -32,11 +32,15 @@ sealed class DeserializedResult<out T> {
 
         override fun component1() = value
         override fun component2() = null
+
+        override fun toString() = "[Success($value)]"
     }
 
     class Failure<out T>(val error: Exception) : DeserializedResult<T>() {
 
         override fun component1() = null
         override fun component2() = error
+
+        override fun toString() = "[Failure($error)]"
     }
 }

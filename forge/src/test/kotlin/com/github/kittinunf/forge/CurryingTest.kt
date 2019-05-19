@@ -1,9 +1,11 @@
 package com.github.kittinunf.forge
 
+import com.github.kittinunf.forge.JSONMappingObjectTest.FriendDeserializer
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.maybeAt
+import com.github.kittinunf.forge.model.Friend
 import com.github.kittinunf.forge.model.User
 import com.github.kittinunf.forge.model.UserWithOptionalFields
 import com.github.kittinunf.forge.util.create
@@ -28,8 +30,10 @@ class CurryingTest : BaseTest() {
         val name: DeserializedResult<String> = (json at "name")
         val age: DeserializedResult<Int> = (json at "age")
         val email: DeserializedResult<String> = (json at "email")
+        val levels: DeserializedResult<List<Int>> = (json at "levels")
+        val fr: DeserializedResult<Friend> = (json.at("friend", FriendDeserializer()::deserialize))
 
-        val user = curry(id.get())(username.get())(name.get())(age.get())(email.get())
+        val user = curry(id.get())(username.get())(name.get())(age.get())(email.get())(levels.get())(fr.get())
 
         assertThat(user.id, equalTo(1))
         assertThat(user.name, equalTo("Clementina DuBuque"))
@@ -128,5 +132,18 @@ class CurryingTest : BaseTest() {
         val multiply = { o: Int, p: Int, q: Int, r: Int, s: Int, t: Int, u: Int, v: Int, w: Int, x: Int, y: Int, z: Int -> o * p * q * r * s * t * u * v * w * x * y * z }
         val curry = multiply.create
         assertThat(curry(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11)(12), equalTo(479_001_600))
+    }
+
+    @Test
+    fun testCurrying13() {
+        val concat = { o: String, p: String, q: String, r: String, s: String, t: String, u: String, v: String, w: String, x: String, y: String, z: String -> o + p + q + r + s + t + u + v + w + x + y + z }
+        assertThat(concat.curry()("-")("a")("bb")("ccc")("dddd")("eeeee")("f")("gg")("hhh")("iiii")("jjjjj")("k"), equalTo("-abbcccddddeeeeefgghhhiiiijjjjjk"))
+    }
+
+    @Test
+    fun testCurrying14() {
+        val multiply = { m: Int, n: Int, o: Int, p: Int, q: Int, r: Int, s: Int, t: Int, u: Int, v: Int, w: Int, x: Int, y: Int, z: Int -> m + n + o + p + q + r + s + t + u + v + w + x + y + z }
+        val curry = multiply.create
+        assertThat(curry(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11)(12)(13)(14), equalTo(105))
     }
 }
