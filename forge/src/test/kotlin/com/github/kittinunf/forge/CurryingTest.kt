@@ -1,9 +1,11 @@
 package com.github.kittinunf.forge
 
+import com.github.kittinunf.forge.JSONMappingObjectTest.FriendDeserializer
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.maybeAt
+import com.github.kittinunf.forge.model.Friend
 import com.github.kittinunf.forge.model.User
 import com.github.kittinunf.forge.model.UserWithOptionalFields
 import com.github.kittinunf.forge.util.create
@@ -28,8 +30,10 @@ class CurryingTest : BaseTest() {
         val name: DeserializedResult<String> = (json at "name")
         val age: DeserializedResult<Int> = (json at "age")
         val email: DeserializedResult<String> = (json at "email")
+        val levels: DeserializedResult<List<Int>> = (json at "levels")
+        val fr: DeserializedResult<Friend> = (json.at("friend", FriendDeserializer()::deserialize))
 
-        val user = curry(id.get())(username.get())(name.get())(age.get())(email.get())
+        val user = curry(id.get())(username.get())(name.get())(age.get())(email.get())(levels.get())(fr.get())
 
         assertThat(user.id, equalTo(1))
         assertThat(user.name, equalTo("Clementina DuBuque"))

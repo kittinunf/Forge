@@ -7,7 +7,9 @@ data class User(
     val username: String,
     val name: String,
     val age: Int,
-    val email: String
+    val email: String,
+    val levels: List<Int>?,
+    val friend: Friend?
 )
 
 data class Company(val name: String, val catchPhrase: String)
