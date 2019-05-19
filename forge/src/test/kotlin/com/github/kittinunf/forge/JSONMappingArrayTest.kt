@@ -65,8 +65,8 @@ class JSONMappingArrayTest : BaseTest() {
 
     @Test
     fun testUserModelWithCompanyArrayDeserializing() {
-        val users = Forge.modelsFromJson(usersJson, userModelWithCompany)
-        val companies = users.map { it.get<UserWithCompany>().company }
+        val users = Forge.modelsFromJson(usersJson, userModelWithCompany).lift()
+        val companies = users.get<List<UserWithCompany>>().map { it.company }
 
         assertThat(companies.count(), equalTo(10))
         assertThat(companies[5].name, equalTo("Considine-Lockman"))
