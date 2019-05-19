@@ -135,4 +135,11 @@ class CurryingTest : BaseTest() {
         val concat = { o: String, p: String, q: String, r: String, s: String, t: String, u: String, v: String, w: String, x: String, y: String, z: String -> o + p + q + r + s + t + u + v + w + x + y + z }
         assertThat(concat.curry()("-")("a")("bb")("ccc")("dddd")("eeeee")("f")("gg")("hhh")("iiii")("jjjjj")("k"), equalTo("-abbcccddddeeeeefgghhhiiiijjjjjk"))
     }
+
+    @Test
+    fun testCurrying14() {
+        val multiply = { m: Int, n: Int, o: Int, p: Int, q: Int, r: Int, s: Int, t: Int, u: Int, v: Int, w: Int, x: Int, y: Int, z: Int -> m + n + o + p + q + r + s + t + u + v + w + x + y + z }
+        val curry = multiply.create
+        assertThat(curry(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11)(12)(13)(14), equalTo(105))
+    }
 }
