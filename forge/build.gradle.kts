@@ -6,7 +6,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("org.json:json:$jsonVersion")
-    implementation("com.github.kittinunf.result:result:$resultVersion")
 
     testImplementation("junit:junit:$junitVersion")
 }
