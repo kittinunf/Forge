@@ -2,7 +2,7 @@ package com.github.kittinunf.forge
 
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
-import com.github.kittinunf.forge.core.PropertyNotFoundException
+import com.github.kittinunf.forge.core.MissingAttributeError
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.notNullValue
@@ -60,15 +60,15 @@ class JSONObjectTest : BaseTest() {
         val json = JSON.parse((JSONObject(userJson)))
 
         val notFoundName = json.find("n")?.valueAs<String>()
-                ?: DeserializedResult.Failure(PropertyNotFoundException("n"))
+                ?: DeserializedResult.Failure(MissingAttributeError("n"))
 
         assertThat(notFoundName, notNullValue())
-        assertThat(notFoundName.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
+        assertThat(notFoundName.error(), instanceOf(MissingAttributeError::class.java))
 
         val notFoundAddressSt = json.find("address.st")?.valueAs<String>()
-                ?: DeserializedResult.Failure(PropertyNotFoundException("address.st"))
+                ?: DeserializedResult.Failure(MissingAttributeError("address.st"))
 
         assertThat(notFoundAddressSt, notNullValue())
-        assertThat(notFoundAddressSt.get<Exception>(), instanceOf(PropertyNotFoundException::class.java))
+        assertThat(notFoundAddressSt.error(), instanceOf(MissingAttributeError::class.java))
     }
 }

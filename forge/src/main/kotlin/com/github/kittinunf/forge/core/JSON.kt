@@ -106,12 +106,11 @@ sealed class JSON : Sequence<JSON> {
         }
     }
 
-    fun <T : Any?> valueAs(): DeserializedResult<T> = when (this) {
+    fun <T : Any?> valueAs(key: kotlin.String = ""): DeserializedResult<T> = when (this) {
         is JSON.Null -> DeserializedResult.Success<T>(null)
         else -> {
-            (value as? T)
-                    ?.let { DeserializedResult.Success(it) }
-                    ?: DeserializedResult.Failure(TypeMisMatchException(toString()))
+            (value as? T)?.let { DeserializedResult.Success(it) }
+                    ?: DeserializedResult.Failure(AttributeTypeInvalidError(key, javaClass, this.value))
         }
     }
 

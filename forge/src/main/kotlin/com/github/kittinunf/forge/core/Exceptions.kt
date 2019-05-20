@@ -1,5 +1,8 @@
 package com.github.kittinunf.forge.core
 
-class PropertyNotFoundException(val propertyName: String) : RuntimeException("Property name \"$propertyName\" is not found")
+sealed class ForgeError(message: String) : Exception(message)
 
-class TypeMisMatchException(val expectedType: String) : RuntimeException("Type mismatch, expect type $expectedType")
+class MissingAttributeError(val key: String) : ForgeError("Attribute name \"$key\" is not found")
+
+class AttributeTypeInvalidError(val key: String, val expectedType: Class<*>, val receivedValue: Any) :
+        ForgeError("Attribute Type Invalid, for key: $key, expect type: $expectedType, received value: $receivedValue")

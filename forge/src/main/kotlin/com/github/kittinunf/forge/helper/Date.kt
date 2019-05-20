@@ -1,8 +1,8 @@
 package com.github.kittinunf.forge.helper
 
+import com.github.kittinunf.forge.core.AttributeTypeInvalidError
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
-import com.github.kittinunf.forge.core.TypeMisMatchException
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -15,5 +15,5 @@ fun deserializeDate(style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", json: JSON):
     is JSON.String -> {
         DeserializedResult.Success(toDate(style).invoke(json.value))
     }
-    else -> DeserializedResult.Failure(TypeMisMatchException("String"))
+    else -> DeserializedResult.Failure(AttributeTypeInvalidError("", String::class.java, json.value))
 }
