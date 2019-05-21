@@ -8,8 +8,8 @@ import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.list
 import com.github.kittinunf.forge.core.map
 import com.github.kittinunf.forge.core.maybeAt
-import com.github.kittinunf.forge.helper.deserializeDate
-import com.github.kittinunf.forge.helper.toDate
+import com.github.kittinunf.forge.deserializer.deserializeDate
+import com.github.kittinunf.forge.deserializer.toDate
 import com.github.kittinunf.forge.model.Company
 import com.github.kittinunf.forge.model.Friend
 import com.github.kittinunf.forge.model.Friend.Address
@@ -20,7 +20,6 @@ import com.github.kittinunf.forge.model.UserWithCompany
 import com.github.kittinunf.forge.model.UserWithFriends
 import com.github.kittinunf.forge.model.UserWithOptionalFields
 import com.github.kittinunf.forge.util.create
-import com.github.kittinunf.forge.util.curry
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.CoreMatchers.nullValue
@@ -114,7 +113,7 @@ class JSONMappingObjectTest : BaseTest() {
         override fun deserialize(json: JSON): DeserializedResult<UserCreatedAt> =
                 ::UserCreatedAt.create
                         .map(json at "id")
-                        .apply(json.at("created_at", ::deserializeDate.curry()("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")))
+                        .apply(json.at("created_at", deserializer = { deserializeDate() }))
     }
 
     class UserCreatedAt2Deserializer : Deserializable<UserCreatedAt> {
@@ -186,7 +185,7 @@ class JSONMappingObjectTest : BaseTest() {
         assertThat(user.city, nullValue())
         assertThat(user.gender, nullValue())
         assertThat(user.phone, equalTo("024-648-3804"))
-        assertThat(user.weight, equalTo(72.5f))
+        assertThat(user.weight, equalTo(72.5))
     }
 
     class AddressDeserializer : Deserializable<Friend.Address> {

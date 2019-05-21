@@ -106,14 +106,6 @@ sealed class JSON : Sequence<JSON> {
         }
     }
 
-    fun <T : Any?> valueAs(key: kotlin.String = ""): DeserializedResult<T> = when (this) {
-        is JSON.Null -> DeserializedResult.Success<T>(null)
-        else -> {
-            (value as? T)?.let { DeserializedResult.Success(it) }
-                    ?: DeserializedResult.Failure(AttributeTypeInvalidError(key, javaClass, this.value))
-        }
-    }
-
     fun find(keyPath: kotlin.String): JSON? {
         val keys = keyPath.split(".")
 

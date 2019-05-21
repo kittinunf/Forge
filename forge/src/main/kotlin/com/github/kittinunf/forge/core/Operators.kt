@@ -2,6 +2,7 @@ package com.github.kittinunf.forge.core
 
 import com.github.kittinunf.forge.core.DeserializedResult.Failure
 import com.github.kittinunf.forge.core.DeserializedResult.Success
+import com.github.kittinunf.forge.deserializer.deserializeAs
 import com.github.kittinunf.forge.extension.lift
 
 infix fun <T, U> Function1<T, U>.map(deserializedResult: DeserializedResult<T>) = deserializedResult.map(this)
@@ -20,24 +21,20 @@ fun <T> JSON.maybeAt(key: String, deserializer: JSON.() -> DeserializedResult<T>
     return find(key)?.deserializer() ?: Success(null)
 }
 
-inline infix fun <reified T> JSON.at(key: String): DeserializedResult<T> = at(key, deserializer = { valueAs<T>(key) })
+inline infix fun <reified T> JSON.at(key: String): DeserializedResult<T> = at(key, deserializer = { deserializeAs<T>() })
 
-inline infix fun <reified T> JSON.maybeAt(key: String): DeserializedResult<T> = maybeAt(key, deserializer = { valueAs<T>(key) })
+inline infix fun <reified T> JSON.maybeAt(key: String): DeserializedResult<T> = maybeAt(key, deserializer = { deserializeAs<T>() })
 
 fun <T> JSON.list(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> {
-    return find(key)?.map(deserializer)
-            ?.toList()
-            ?.lift()
+    return find(key)?.map(deserializer)?.toList()?.lift()
             ?: Failure(MissingAttributeError(key))
 }
 
 fun <T> JSON.maybeList(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> {
-    return find(key)?.map(deserializer)
-            ?.toList()
-            ?.lift()
+    return find(key)?.map(deserializer)?.toList()?.lift()
             ?: Success(null)
 }
 
-inline infix fun <reified T> JSON.list(key: String) = list(key, deserializer = { valueAs<T>(key) })
+inline infix fun <reified T> JSON.list(key: String) = list(key, deserializer = { deserializeAs<T>() })
 
-inline infix fun <reified T> JSON.maybeList(key: String) = maybeList(key, deserializer = { valueAs<T>(key) })
+inline infix fun <reified T> JSON.maybeList(key: String) = maybeList(key, deserializer = { deserializeAs<T>() })

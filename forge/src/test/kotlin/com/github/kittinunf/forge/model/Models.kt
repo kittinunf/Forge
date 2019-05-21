@@ -22,11 +22,11 @@ data class UserWithDogs(val email: String, val phone: String, val dogs: List<Dog
 
 data class SimpleUser(val id: Int, val name: String)
 
-data class UserWithOptionalFields(val name: String, val city: String?, val gender: String?, val phone: String, val weight: Float)
+data class UserWithOptionalFields(val name: String, val city: String?, val gender: String?, val phone: String, val weight: Double)
 
 data class UserCreatedAt(val id: Int, val createdAt: Date)
 
-data class Friend(val id: Int, val name: String, val address: Friend.Address) {
+data class Friend(val id: Int, val name: String, val address: Address) {
 
     data class Address(val street: String, val suite: String, val city: String)
 }
