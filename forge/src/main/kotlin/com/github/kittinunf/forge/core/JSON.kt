@@ -112,7 +112,7 @@ sealed class JSON : Sequence<JSON> {
         val initial: JSON? = this
         return keys.fold(initial) { json, key ->
             when (json) {
-                is JSON.Object -> json.value[key]
+                is Object -> json.value[key]
                 else -> null
             }
         }
