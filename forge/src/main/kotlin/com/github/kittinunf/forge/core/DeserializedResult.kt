@@ -18,11 +18,11 @@ sealed class DeserializedResult<out T> {
     @Suppress("UNCHECKED_CAST")
     fun <X> get(): X = when (this) {
         is Success -> value as X
-        is Failure -> error("${javaClass.simpleName} is a Success state: $this")
+        is Failure -> error("DeserializedResult is a Success state: $this")
     }
 
     fun error(): ForgeError = when (this) {
-        is Success -> error("${javaClass.simpleName} is a Failure state: $this")
+        is Success -> error("DeserializedResult is a Failure state: $this")
         is Failure -> error
     }
 
