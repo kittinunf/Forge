@@ -49,7 +49,7 @@ class CurryingTest : BaseTest() {
 
         val name: DeserializedResult<String> = (json at "name")
         val phone: DeserializedResult<String> = (json at "phone")
-        val weight: DeserializedResult<Float> = (json at "weight")
+        val weight: DeserializedResult<Double> = (json at "weight")
         val city: DeserializedResult<String> = (json maybeAt "city")
         val gender: DeserializedResult<String> = (json maybeAt "gender")
 
@@ -57,7 +57,7 @@ class CurryingTest : BaseTest() {
 
         assertThat(user.name, equalTo("Clementina DuBuque"))
         assertThat(user.phone, equalTo("024-648-3804"))
-        assertThat(user.weight, equalTo(72.5f))
+        assertThat(user.weight, equalTo(72.5))
         assertThat(user.city, nullValue())
         assertThat(user.gender, nullValue())
     }
