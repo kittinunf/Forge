@@ -21,7 +21,7 @@ class DeserializedResultTest {
 
         assertThat(value, equalTo("foo"))
         assertThat(error, instanceOf(MissingAttributeError::class.java))
-        assertThat(error.message, equalTo("Attribute name \"bar\" is not found"))
+        assertThat(error.message, equalTo("Attribute is Missing - key \"bar\" is not found"))
     }
 
     @Test
@@ -97,6 +97,6 @@ class DeserializedResultTest {
         val (v, e) = fmapped
         assertThat(v, nullValue())
         assertThat(e, instanceOf(MissingAttributeError::class.java))
-        assertThat(e?.message, equalTo("Attribute name \"error\" is not found"))
+        assertThat(e?.message, equalTo("Attribute is Missing - key \"error\" is not found"))
     }
 }
