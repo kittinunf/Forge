@@ -63,6 +63,13 @@ class CurryingTest : BaseTest() {
     }
 
     @Test
+    fun testCurrying1() {
+        val negate = { x: Int -> x * (-1) }
+        val curry = negate.create
+        assertThat(curry(1), equalTo(-1))
+    }
+
+    @Test
     fun testCurrying2() {
         val multiply = { x: Int, y: Int -> x * y }
         val curry = multiply.create
