@@ -1,5 +1,12 @@
 package com.github.kittinunf.forge.util
 
+fun <A, X> Function1<A, X>.curry(): (A) -> X {
+    return { a -> invoke(a) }
+}
+
+val <A, X> Function1<A, X>.create: (A) -> (X)
+    get() = curry()
+
 fun <A, B, X> Function2<A, B, X>.curry(): (A) -> (B) -> X {
     return { a ->
         { b -> invoke(a, b) }
