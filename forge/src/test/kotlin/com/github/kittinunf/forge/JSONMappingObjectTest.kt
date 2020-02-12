@@ -113,7 +113,7 @@ class JSONMappingObjectTest : BaseTest() {
         override fun deserialize(json: JSON): DeserializedResult<UserCreatedAt> =
                 ::UserCreatedAt.create
                         .map(json at "id")
-                        .apply(json.at("created_at", deserializer = { deserializeDate() }))
+                        .apply(json.at("created_at", deserializer = { deserializeDate("created_at") }))
     }
 
     class UserCreatedAt2Deserializer : Deserializable<UserCreatedAt> {

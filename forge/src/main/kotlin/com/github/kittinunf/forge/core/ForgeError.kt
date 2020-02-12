@@ -6,5 +6,3 @@ class MissingAttributeError(val key: String) : ForgeError("Attribute is Missing 
 
 class AttributeTypeInvalidError(val key: String, val expectedClass: Class<*>, val receivedValue: Any) :
         ForgeError("Attribute Type Invalid - key: \"$key\", expect type: $expectedClass, received value: ${if (receivedValue is String) "\"$receivedValue\"" else receivedValue}")
-
-class OtherError(val e: Exception) : ForgeError(e.message ?: "")

@@ -13,10 +13,10 @@ fun toDate(style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): (String) -> Date = {
     formatter.parse(it)
 }
 
-fun JSON.deserializeDate(style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): DeserializedResult<Date> =
+fun JSON.deserializeDate(key: String, style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): DeserializedResult<Date> =
         when (this) {
             is JSON.String -> {
                 Success(toDate(style).invoke(value))
             }
-            else -> Failure(AttributeTypeInvalidError("", javaClass, value))
+            else -> Failure(AttributeTypeInvalidError(key, javaClass, value))
         }
