@@ -1,9 +1,9 @@
 package com.github.kittinunf.forge
 
-import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.MissingAttributeError
 import com.github.kittinunf.forge.deserializer.deserializeAs
+import com.github.kittinunf.result.Result.Failure
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.notNullValue
@@ -33,27 +33,27 @@ class JSONObjectTest : BaseTest() {
 
         val id = json.find("id")?.deserializeAs<Int>()
         assertThat(id, notNullValue())
-        assertThat(id!!.get<Int>(), equalTo(1))
+        assertThat(id!!.get(), equalTo(1))
 
         val name = json.find("name")?.deserializeAs<String>()
 
         assertThat(name, notNullValue())
-        assertThat(name!!.get<String>(), equalTo("Clementina DuBuque"))
+        assertThat(name!!.get(), equalTo("Clementina DuBuque"))
 
         val isDeleted = json.find("is_deleted")?.deserializeAs<Boolean>()
 
         assertThat(isDeleted, notNullValue())
-        assertThat(isDeleted!!.get<Boolean>(), equalTo(true))
+        assertThat(isDeleted!!.get(), equalTo(true))
 
         val addressStreet = json.find("address.street")?.deserializeAs<String>()
 
         assertThat(addressStreet, notNullValue())
-        assertThat(addressStreet!!.get<String>(), equalTo("Kattie Turnpike"))
+        assertThat(addressStreet!!.get(), equalTo("Kattie Turnpike"))
 
         val addressGeoLat = json.find("address.geo.lat")?.deserializeAs<Double>()
 
         assertThat(addressGeoLat, notNullValue())
-        assertThat(addressGeoLat!!.get<Double>(), equalTo(-38.2386))
+        assertThat(addressGeoLat!!.get(), equalTo(-38.2386))
     }
 
     @Test
@@ -61,15 +61,15 @@ class JSONObjectTest : BaseTest() {
         val json = JSON.parse((JSONObject(userJson)))
 
         val notFoundName = json.find("n")?.deserializeAs<String>()
-                ?: DeserializedResult.Failure(MissingAttributeError("n"))
+                ?: Failure(MissingAttributeError("n"))
 
         assertThat(notFoundName, notNullValue())
-        assertThat(notFoundName.error(), instanceOf(MissingAttributeError::class.java))
+        assertThat((notFoundName as Failure).error, instanceOf(MissingAttributeError::class.java))
 
         val notFoundAddressSt = json.find("address.st")?.deserializeAs<String>()
-                ?: DeserializedResult.Failure(MissingAttributeError("address.st"))
+                ?: Failure(MissingAttributeError("address.st"))
 
         assertThat(notFoundAddressSt, notNullValue())
-        assertThat(notFoundAddressSt.error(), instanceOf(MissingAttributeError::class.java))
+        assertThat((notFoundAddressSt as Failure).error, instanceOf(MissingAttributeError::class.java))
     }
 }

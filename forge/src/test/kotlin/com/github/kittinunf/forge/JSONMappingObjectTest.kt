@@ -73,7 +73,7 @@ class JSONMappingObjectTest : BaseTest() {
     @Test
     fun testUserModelInUserModelDeserializing() {
         val result = Forge.modelFromJson(userJson, UserDeserializer())
-        val user = result.get<User>().friend!!
+        val user = result.get().friend!!
 
         assertThat(user.id, equalTo(2))
         assertThat(user.name, equalTo("Tabitha Duran"))
@@ -179,7 +179,7 @@ class JSONMappingObjectTest : BaseTest() {
     @Test
     fun testUserModelWithOptionalFieldsDeserializing() {
         val result = Forge.modelFromJson(userJson, UserWithOptionalFieldsDeserializer())
-        val user = result.get<UserWithOptionalFields>()
+        val user = result.get()
 
         assertThat(user.name, equalTo("Clementina DuBuque"))
         assertThat(user.city, nullValue())
@@ -218,7 +218,7 @@ class JSONMappingObjectTest : BaseTest() {
     @Test
     fun testUserWithFriendsDeserializing() {
         val results = Forge.modelFromJson(userFriendsJson, UserWithFriendsDeserializer())
-        val user = results.get<UserWithFriends>()
+        val user = results.get()
 
         assertThat(user, notNullValue())
         assertThat(user.friends.size, equalTo(3))
