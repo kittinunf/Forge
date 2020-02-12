@@ -15,6 +15,7 @@ import com.github.kittinunf.forge.model.User
 import com.github.kittinunf.forge.model.UserWithCompany
 import com.github.kittinunf.forge.model.UserWithDogs
 import com.github.kittinunf.forge.util.create
+import com.github.kittinunf.result.map
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.junit.Assert.assertThat
@@ -64,7 +65,7 @@ class JSONMappingArrayTest : BaseTest() {
 
     @Test
     fun testUserModelWithCompanyArrayDeserializing() {
-        val users = Forge.modelsFromJson(usersJson, userModelWithCompany)
+        val users = Forge.modelsFromJson(usersJson, userModelWithCompany).lift()
         val companies = users.get().map { it.company }
 
         assertThat(companies.count(), equalTo(10))
@@ -90,30 +91,30 @@ class JSONMappingArrayTest : BaseTest() {
     fun testUserWithDogsArrayDeserializing() {
         val users = Forge.modelsFromJson(usersJson, userWithDogDeserializer)
 
-        val dogs = users.get().map { it.dogs }
+        val dogs = users.map { it.map(UserWithDogs::dogs).get() }
 
-        val firstUser = users.get()[0]
+        val firstUser = users[0].get()
         assertThat(firstUser.email, equalTo("Sincere@april.biz"))
         assertThat(dogs[0]!!.size, equalTo(1))
         assertThat(dogs[0]!!.first().name, equalTo("Lucy"))
 
-        val secondUser = users.get()[1]
+        val secondUser = users[1].get()
         assertThat(secondUser.phone, equalTo("010-692-6593 x09125"))
         assertThat(dogs[1]!!.size, equalTo(2))
         assertThat(dogs[1]!!.first().breed, equalTo("Rottweiler"))
         assertThat(dogs[1]!!.last().name, equalTo("Maggie"))
 
-        val thirdUser = users.get()[2]
+        val thirdUser = users[2].get()
         assertThat(thirdUser.email, equalTo("Nathan@yesenia.net"))
         assertThat(dogs[2], nullValue())
 
-        val fourthUser = users.get()[3]
+        val fourthUser = users[3].get()
         assertThat(fourthUser.email, equalTo("Julianne.OConner@kory.org"))
         assertThat(dogs[3]!!.size, equalTo(1))
         assertThat(dogs[3]!!.first().name, equalTo("Cooper"))
         assertThat(dogs[3]!!.first().male, equalTo(true))
 
-        val fifthUser = users.get()[4]
+        val fifthUser = users[4].get()
         assertThat(fifthUser.phone, equalTo("(254)954-1289"))
         assertThat(dogs[4]!!.size, equalTo(4))
         assertThat(dogs[4]!!.first().breed, equalTo("Yorkshire Terrier"))
