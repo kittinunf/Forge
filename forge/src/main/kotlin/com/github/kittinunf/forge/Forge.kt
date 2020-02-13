@@ -13,8 +13,8 @@ object Forge {
     fun <T : Any> modelFromJson(json: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<T> = JSON.parse(JSONObject(json)).deserializer()
 
     fun <T : Any, U : Deserializable<T>> modelsFromJson(json: String, deserializer: U): List<DeserializedResult<T>> =
-            JSON.parse(JSONArray(json)).toList().map { deserializer.deserialize(it) }
+            JSON.parse(JSONArray(json)).toList().map(deserializer::deserialize)
 
     fun <T : Any> modelsFromJson(json: String, deserializer: JSON.() -> DeserializedResult<T>): List<DeserializedResult<T>> =
-            JSON.parse(JSONArray(json)).toList().map { it.deserializer() }
+            JSON.parse(JSONArray(json)).toList().map(deserializer)
 }

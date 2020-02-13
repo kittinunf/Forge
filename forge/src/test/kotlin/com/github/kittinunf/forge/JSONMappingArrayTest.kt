@@ -9,13 +9,13 @@ import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.map
 import com.github.kittinunf.forge.core.maybeAt
 import com.github.kittinunf.forge.core.maybeList
-import com.github.kittinunf.forge.extension.lift
 import com.github.kittinunf.forge.model.Company
 import com.github.kittinunf.forge.model.Dog
 import com.github.kittinunf.forge.model.User
 import com.github.kittinunf.forge.model.UserWithCompany
 import com.github.kittinunf.forge.model.UserWithDogs
 import com.github.kittinunf.forge.util.create
+import com.github.kittinunf.result.lift
 import com.github.kittinunf.result.map
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
