@@ -1,6 +1,7 @@
 package com.github.kittinunf.forge
 
 import com.github.kittinunf.forge.core.AttributeTypeInvalidError
+import com.github.kittinunf.forge.core.ForgeError
 import com.github.kittinunf.forge.core.JSON
 import com.github.kittinunf.forge.core.MissingAttributeError
 import com.github.kittinunf.forge.core.apply
@@ -8,8 +9,10 @@ import com.github.kittinunf.forge.core.at
 import com.github.kittinunf.forge.core.list
 import com.github.kittinunf.forge.core.map
 import com.github.kittinunf.forge.util.create
+import com.github.kittinunf.result.Result.Failure
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
@@ -48,8 +51,8 @@ class ParsingErrorTest : BaseTest() {
 
         val user = Forge.modelFromJson(json, User1.deserializer)
 
-        assertThat(user.error(), instanceOf(MissingAttributeError::class.java))
-        assertThat(user.error().message, equalTo("Attribute is Missing - key \"id\" is not found"))
+        assertThat((user as Failure).error, instanceOf(MissingAttributeError::class.java))
+        assertThat(user.error.message, equalTo("Attribute is Missing - key \"id\" is not found"))
     }
 
     @Test
@@ -64,8 +67,8 @@ class ParsingErrorTest : BaseTest() {
 
         val user = Forge.modelFromJson(json, User1.deserializer)
 
-        assertThat(user.error(), instanceOf(AttributeTypeInvalidError::class.java))
-        assertThat(user.error().message, equalTo("Attribute Type Invalid - key: \"age\", expect type: class java.lang.Double, received value: 46"))
+        assertThat((user as Failure).error, instanceOf(AttributeTypeInvalidError::class.java))
+        assertThat(user.error.message, equalTo("Attribute Type Invalid - key: \"age\", expected type: class java.lang.Double, received value: 46"))
     }
 
     @Test
@@ -79,8 +82,8 @@ class ParsingErrorTest : BaseTest() {
 
         val user = Forge.modelFromJson(json, User2.deserializer)
 
-        assertThat(user.error(), instanceOf(MissingAttributeError::class.java))
-        assertThat(user.error().message, equalTo("Attribute is Missing - key \"levels\" is not found"))
+        assertThat((user as Failure).error, instanceOf(MissingAttributeError::class.java))
+        assertThat(user.error.message, equalTo("Attribute is Missing - key \"levels\" is not found"))
     }
 
     @Test
@@ -95,7 +98,33 @@ class ParsingErrorTest : BaseTest() {
 
         val user = Forge.modelFromJson(json, User2.deserializer)
 
-        assertThat(user.error(), instanceOf(AttributeTypeInvalidError::class.java))
-        assertThat(user.error().message, equalTo("Attribute Type Invalid - key: \"levels\", expect type: class java.lang.Integer, received value: \"1\""))
+        assertThat((user as Failure).error, instanceOf(AttributeTypeInvalidError::class.java))
+        assertThat(user.error.message, equalTo("Attribute Type Invalid - key: \"levels\", expected type: class java.lang.Integer, received value: \"1\""))
+    }
+
+    @Test
+    fun testSomeInvalidTypeItems() {
+        val json = """
+        [
+            {
+                "name": "Clementina DuBuque",
+                "age": 46,
+                "levels" : ["3","2","1"]
+            },
+            {
+                "name": "DuBuque Clementina",
+                "age": 64,
+                "levels" : [3,2,1]
+            }
+        ]
+        """.trimIndent()
+
+        val result = Forge.modelsFromJson(json, User2.deserializer)
+        val (users, error) = result
+
+        assertThat((error as ForgeError), instanceOf(AttributeTypeInvalidError::class.java))
+        assertThat((error as AttributeTypeInvalidError).expectedClass, instanceOf(Class::class.java))
+        assertThat(error.message, equalTo("Attribute Type Invalid - key: \"levels\", expected type: class java.lang.Integer, received value: \"3\""))
+        assertThat(users, nullValue())
     }
 }

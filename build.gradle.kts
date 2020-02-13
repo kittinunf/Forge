@@ -3,7 +3,7 @@ import org.jmailen.gradle.kotlinter.support.ReporterType
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("org.jmailen.kotlinter") version "1.24.0"
+    id("org.jmailen.kotlinter") version "2.3.0"
 
     jacoco
     `maven-publish`
