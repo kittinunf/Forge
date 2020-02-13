@@ -15,6 +15,7 @@ import com.github.kittinunf.forge.model.User
 import com.github.kittinunf.forge.model.UserWithCompany
 import com.github.kittinunf.forge.model.UserWithDogs
 import com.github.kittinunf.forge.util.create
+import com.github.kittinunf.result.lift
 import com.github.kittinunf.result.map
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
