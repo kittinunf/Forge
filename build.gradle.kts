@@ -2,8 +2,8 @@ import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
 import org.jmailen.gradle.kotlinter.support.ReporterType
 
 plugins {
-    kotlin("jvm") version "1.3.30"
-    id("org.jmailen.kotlinter") version "1.24.0"
+    kotlin("jvm") version "1.3.60"
+    id("org.jmailen.kotlinter") version "2.3.0"
 
     jacoco
     `maven-publish`
@@ -111,3 +111,7 @@ subprojects {
         }
     }
 }
+
+fun <T> NamedDomainObjectContainer<T>.release(configure: T.() -> Unit) = getByName("release", configure)
+fun <T> NamedDomainObjectContainer<T>.debug(configure: T.() -> Unit) = getByName("debug", configure)
+fun <T> NamedDomainObjectContainer<T>.all(configure: T.() -> Unit) = getByName("all", configure)
