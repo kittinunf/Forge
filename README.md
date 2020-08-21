@@ -34,12 +34,20 @@ Given you have JSON as such
   "name": "Clementina DuBuque",
   "age": 46,
   "email": "Rey.Padberg@karina.biz",
+  "phone": {
+    "name": "My Phone",
+    "model": "Pixel 3XL"
+  },
   "friends": [
     {
         "id": 11,
         "name": "Ervin Howell",
         "age": 32,
         "email": "Shanna@melissa.tv",
+        "phone": {
+            "name": "My iPhone",
+            "model": "iPhone X"
+        },
         "friends": []
     }
   ],
@@ -60,9 +68,11 @@ data class User(val id: Int,
                 val name: String,
                 val age: Int,
                 val email: String?,
+                val phone: Phone,
                 val friends: List<User>,
                 val dogs: List<Dog>?)
 
+data class Phone(val name: String, val model: String)
 data class Dog(val name: String, val breed: String, val male: Boolean)
 
 fun userDeserializer(json: JSON) =
@@ -71,8 +81,15 @@ fun userDeserializer(json: JSON) =
         apply(json at "name").
         apply(json at "age").
         apply(json maybeAt "email").
+        apply(json.at("phone", phoneDeserializer)),  // phoneDeserializer is a lambda, use it directly
         apply(json.list("friends", ::userDeserializer)).  //userDeserializer is a function, use :: as a function reference
-        apply(json.maybeList("dogs", dogDeserializer))  //dogDeserializer is a lambda, use it directly
+        apply(json.maybeList("dogs", dogDeserializer))
+
+val phoneDeserializer = { json: JSON ->
+    ::Dog.create.
+        map(json at "name").
+        apply(json at "model")
+}
 
 val dogDeserializer = { json: JSON ->
     ::Dog.create.
