@@ -68,8 +68,8 @@ data class User(val id: Int,
                 val name: String,
                 val age: Int,
                 val email: String?,
+                val phone: Phone,
                 val friends: List<User>,
-                val dog: Dog,
                 val dogs: List<Dog>?)
 
 data class Phone(val name: String, val model: String)
