@@ -118,6 +118,9 @@ subprojects {
                         developer {
                             name.set("janjaali")
                         }
+                        developer {
+                            name.set("pgreze")
+                        }
                     }
 
                     contributors {
