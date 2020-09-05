@@ -31,26 +31,26 @@ class JSONObjectTest : BaseTest() {
     fun testJSONValidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val id = json.find("id")?.deserializeAs<Int>()
+        val id = json.find("id")?.deserializeAs<Int>("")
         assertThat(id, notNullValue())
         assertThat(id!!.get(), equalTo(1))
 
-        val name = json.find("name")?.deserializeAs<String>()
+        val name = json.find("name")?.deserializeAs<String>("")
 
         assertThat(name, notNullValue())
         assertThat(name!!.get(), equalTo("Clementina DuBuque"))
 
-        val isDeleted = json.find("is_deleted")?.deserializeAs<Boolean>()
+        val isDeleted = json.find("is_deleted")?.deserializeAs<Boolean>("")
 
         assertThat(isDeleted, notNullValue())
         assertThat(isDeleted!!.get(), equalTo(true))
 
-        val addressStreet = json.find("address.street")?.deserializeAs<String>()
+        val addressStreet = json.find("address.street")?.deserializeAs<String>("")
 
         assertThat(addressStreet, notNullValue())
         assertThat(addressStreet!!.get(), equalTo("Kattie Turnpike"))
 
-        val addressGeoLat = json.find("address.geo.lat")?.deserializeAs<Double>()
+        val addressGeoLat = json.find("address.geo.lat")?.deserializeAs<Double>("")
 
         assertThat(addressGeoLat, notNullValue())
         assertThat(addressGeoLat!!.get(), equalTo(-38.2386))
@@ -60,13 +60,13 @@ class JSONObjectTest : BaseTest() {
     fun testJSONInvalidValue() {
         val json = JSON.parse((JSONObject(userJson)))
 
-        val notFoundName = json.find("n")?.deserializeAs<String>()
+        val notFoundName = json.find("n")?.deserializeAs<String>("")
             ?: Failure(MissingAttributeError("n"))
 
         assertThat(notFoundName, notNullValue())
         assertThat((notFoundName as Failure).error, instanceOf(MissingAttributeError::class.java))
 
-        val notFoundAddressSt = json.find("address.st")?.deserializeAs<String>()
+        val notFoundAddressSt = json.find("address.st")?.deserializeAs<String>("")
             ?: Failure(MissingAttributeError("address.st"))
 
         assertThat(notFoundAddressSt, notNullValue())
