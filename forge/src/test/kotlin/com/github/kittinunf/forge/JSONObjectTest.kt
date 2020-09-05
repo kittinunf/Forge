@@ -61,13 +61,13 @@ class JSONObjectTest : BaseTest() {
         val json = JSON.parse((JSONObject(userJson)))
 
         val notFoundName = json.find("n")?.deserializeAs<String>()
-                ?: Failure(MissingAttributeError("n"))
+            ?: Failure(MissingAttributeError("n"))
 
         assertThat(notFoundName, notNullValue())
         assertThat((notFoundName as Failure).error, instanceOf(MissingAttributeError::class.java))
 
         val notFoundAddressSt = json.find("address.st")?.deserializeAs<String>()
-                ?: Failure(MissingAttributeError("address.st"))
+            ?: Failure(MissingAttributeError("address.st"))
 
         assertThat(notFoundAddressSt, notNullValue())
         assertThat((notFoundAddressSt as Failure).error, instanceOf(MissingAttributeError::class.java))
