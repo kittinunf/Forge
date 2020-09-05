@@ -12,27 +12,27 @@ infix fun <T, U> Function1<T, U>.map(result: DeserializedResult<T>) = result.map
 fun <T, U> DeserializedResult<(T) -> U>.apply(result: DeserializedResult<T>): DeserializedResult<U> = flatMap(result::map)
 
 inline infix fun <reified T> JSON.at(key: String): DeserializedResult<T> =
-        at(key, deserializer = { deserializeAs<T>(key) })
+    at(key, deserializer = { deserializeAs<T>(key) })
 
 inline infix fun <reified T> JSON.maybeAt(key: String): DeserializedResult<T> =
-        maybeAt(key, deserializer = { deserializeAs<T>(key) })
+    maybeAt(key, deserializer = { deserializeAs<T>(key) })
 
 fun <T> JSON.at(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<T> =
-        find(key)?.deserializer() ?: Failure(MissingAttributeError(key))
+    find(key)?.deserializer() ?: Failure(MissingAttributeError(key))
 
 @Suppress("UNCHECKED_CAST")
 fun <T> JSON.maybeAt(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<T> =
-        find(key)?.deserializer() ?: Success(null) as DeserializedResult<T>
+    find(key)?.deserializer() ?: Success(null) as DeserializedResult<T>
 
 inline infix fun <reified T> JSON.list(key: String): DeserializedResult<List<T>> =
-        list(key, deserializer = { deserializeAs<T>(key) })
+    list(key, deserializer = { deserializeAs<T>(key) })
 
 inline infix fun <reified T> JSON.maybeList(key: String): DeserializedResult<List<T>> =
-        maybeList(key, deserializer = { deserializeAs<T>(key) })
+    maybeList(key, deserializer = { deserializeAs<T>(key) })
 
 fun <T> JSON.list(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> =
-        find(key)?.map(deserializer)?.toList()?.lift() ?: Failure(MissingAttributeError(key))
+    find(key)?.map(deserializer)?.toList()?.lift() ?: Failure(MissingAttributeError(key))
 
 @Suppress("UNCHECKED_CAST")
 fun <T> JSON.maybeList(key: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> =
-        find(key)?.map(deserializer)?.toList()?.lift() ?: Success(null) as DeserializedResult<List<T>>
+    find(key)?.map(deserializer)?.toList()?.lift() ?: Success(null) as DeserializedResult<List<T>>

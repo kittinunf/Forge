@@ -2,8 +2,8 @@ import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
 import org.jmailen.gradle.kotlinter.support.ReporterType
 
 plugins {
-    kotlin("jvm") version "1.3.60"
-    id("org.jmailen.kotlinter") version "2.3.0"
+    kotlin("jvm") version "1.4.0"
+    id("org.jmailen.kotlinter") version "3.0.2"
 
     jacoco
     `maven-publish`

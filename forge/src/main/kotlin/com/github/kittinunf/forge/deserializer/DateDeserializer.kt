@@ -14,9 +14,9 @@ fun toDate(style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): (String) -> Date = {
 }
 
 fun JSON.deserializeDate(key: String, style: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): DeserializedResult<Date> =
-        when (this) {
-            is JSON.String -> {
-                Success(toDate(style).invoke(value))
-            }
-            else -> Failure(AttributeTypeInvalidError(key, javaClass, value))
+    when (this) {
+        is JSON.String -> {
+            Success(toDate(style).invoke(value))
         }
+        else -> Failure(AttributeTypeInvalidError(key, javaClass, value))
+    }

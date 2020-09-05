@@ -31,9 +31,9 @@ class JSONMappingObjectTest : BaseTest() {
 
     class SimpleUserDeserializer : Deserializable<SimpleUser> {
         override fun deserialize(json: JSON): DeserializedResult<SimpleUser> =
-                ::SimpleUser.create
-                        .map(json at "id")
-                        .apply(json at "name")
+            ::SimpleUser.create
+                .map(json at "id")
+                .apply(json at "name")
     }
 
     @Test
@@ -48,14 +48,14 @@ class JSONMappingObjectTest : BaseTest() {
 
     class UserDeserializer : Deserializable<User> {
         override fun deserialize(json: JSON): DeserializedResult<User> =
-                ::User.create
-                        .map(json at "id")
-                        .apply(json at "username")
-                        .apply(json at "name")
-                        .apply(json at "age")
-                        .apply(json at "email")
-                        .apply(json list "levels")
-                        .apply(json.at("friend", FriendDeserializer()::deserialize))
+            ::User.create
+                .map(json at "id")
+                .apply(json at "username")
+                .apply(json at "name")
+                .apply(json at "age")
+                .apply(json at "email")
+                .apply(json list "levels")
+                .apply(json.at("friend", FriendDeserializer()::deserialize))
     }
 
     @Test
@@ -84,16 +84,16 @@ class JSONMappingObjectTest : BaseTest() {
 
     val companyDeserializer = { json: JSON ->
         ::Company.create
-                .map(json at "name")
-                .apply(json at "catch_phrase")
+            .map(json at "name")
+            .apply(json at "catch_phrase")
     }
 
     val userModelWithCompanyDeserializer = { json: JSON ->
         ::UserWithCompany.create
-                .map(json at "id")
-                .apply(json at "username")
-                .apply(json at "is_deleted")
-                .apply(json.at("company", companyDeserializer))
+            .map(json at "id")
+            .apply(json at "username")
+            .apply(json at "is_deleted")
+            .apply(json.at("company", companyDeserializer))
     }
 
     @Test
@@ -111,17 +111,17 @@ class JSONMappingObjectTest : BaseTest() {
     class UserCreatedAt1Deserializer : Deserializable<UserCreatedAt> {
 
         override fun deserialize(json: JSON): DeserializedResult<UserCreatedAt> =
-                ::UserCreatedAt.create
-                        .map(json at "id")
-                        .apply(json.at("created_at", deserializer = { deserializeDate("created_at") }))
+            ::UserCreatedAt.create
+                .map(json at "id")
+                .apply(json.at("created_at", deserializer = { deserializeDate("created_at") }))
     }
 
     class UserCreatedAt2Deserializer : Deserializable<UserCreatedAt> {
 
         override fun deserialize(json: JSON): DeserializedResult<UserCreatedAt> =
-                ::UserCreatedAt.create
-                        .map(json at "id")
-                        .apply(toDate() map (json at "created_at"))
+            ::UserCreatedAt.create
+                .map(json at "id")
+                .apply(toDate() map (json at "created_at"))
     }
 
     @Test
@@ -168,12 +168,12 @@ class JSONMappingObjectTest : BaseTest() {
     class UserWithOptionalFieldsDeserializer : Deserializable<UserWithOptionalFields> {
 
         override fun deserialize(json: JSON): DeserializedResult<UserWithOptionalFields> =
-                ::UserWithOptionalFields.create
-                        .map(json at "name")
-                        .apply(json maybeAt "city")
-                        .apply(json maybeAt "gender")
-                        .apply(json at "phone")
-                        .apply(json at "weight")
+            ::UserWithOptionalFields.create
+                .map(json at "name")
+                .apply(json maybeAt "city")
+                .apply(json maybeAt "gender")
+                .apply(json at "phone")
+                .apply(json at "weight")
     }
 
     @Test
@@ -191,28 +191,28 @@ class JSONMappingObjectTest : BaseTest() {
     class AddressDeserializer : Deserializable<Friend.Address> {
 
         override fun deserialize(json: JSON): DeserializedResult<Friend.Address> =
-                ::Address.create
-                        .map(json at "street")
-                        .apply(json at "suite")
-                        .apply(json at "city")
+            ::Address.create
+                .map(json at "street")
+                .apply(json at "suite")
+                .apply(json at "city")
     }
 
     class FriendDeserializer : Deserializable<Friend> {
         override fun deserialize(json: JSON): DeserializedResult<Friend> =
-                ::Friend.create
-                        .map(json at "id")
-                        .apply(json at "name")
-                        .apply(json.at("address", AddressDeserializer()::deserialize))
+            ::Friend.create
+                .map(json at "id")
+                .apply(json at "name")
+                .apply(json.at("address", AddressDeserializer()::deserialize))
     }
 
     class UserWithFriendsDeserializer : Deserializable<UserWithFriends> {
         override fun deserialize(json: JSON): DeserializedResult<UserWithFriends> =
-                ::UserWithFriends.create
-                        .map(json at "id")
-                        .apply(json at "name")
-                        .apply(json at "age")
-                        .apply(json at "email")
-                        .apply(json.list("friends", FriendDeserializer()::deserialize))
+            ::UserWithFriends.create
+                .map(json at "id")
+                .apply(json at "name")
+                .apply(json at "age")
+                .apply(json at "email")
+                .apply(json.list("friends", FriendDeserializer()::deserialize))
     }
 
     @Test
