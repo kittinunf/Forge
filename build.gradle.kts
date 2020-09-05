@@ -118,13 +118,13 @@ subprojects {
                         developer {
                             name.set("janjaali")
                         }
-                        developer {
-                            name.set("pgreze")
-                        }
                     }
 
                     contributors {
                         // https://github.com/kittinunf/Result/graphs/contributors
+                        contributor {
+                            name.set("pgreze")
+                        }
                     }
 
                     scm {
