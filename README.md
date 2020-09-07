@@ -11,7 +11,9 @@ Forge is a JSON parsing library that helps you map your Kotlin class from a JSON
 
 ## Ideology
 
-Have you ever felt that how others JSON libraries out there work? Magic under the hood? or a complex annnotation processing? With Forge, we don't do any of those. Forge aims to provide a full control over how to parse JSON into a Kotlin class, no more magic, no more annotation.
+Have you ever wonder that how other JSON libraries out there work? Magic under the hood? or a complex annnotation processing? If that is something that you don't want, with Forge, we don't do any of those. 
+
+Forge aims to provide a full control over how to parse JSON into a Kotlin class, no more magic, no more annotation.
 
 ## Installation
 
