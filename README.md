@@ -1,23 +1,25 @@
 # Forge
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.40-blue.svg)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.0-blue.svg)](http://kotlinlang.org)
 [![jcenter](https://api.bintray.com/packages/kittinunf/maven/Forge/images/download.svg)](https://bintray.com/kittinunf/maven/Forge/_latestVersion)
-[![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.github.kittinunf.result/forge/badge.svg)](https://search.maven.org/search?q=g:com.github.kittinunf.forge)
+[![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.github.kittinunf.forge/forge/badge.svg)](https://search.maven.org/search?q=g:com.github.kittinunf.forge)
 [![Build Status](https://travis-ci.org/kittinunf/Forge.svg?branch=master)](https://travis-ci.org/kittinunf/Forge)
 [![](https://jitpack.io/v/kittinunf/forge.svg)](https://jitpack.io/#kittinunf/forge/) 
 [![Codecov](https://codecov.io/github/kittinunf/Forge/coverage.svg?branch=master)](https://codecov.io/gh/kittinunf/Forge)
 
 Forge is a JSON parsing library that helps you map your Kotlin class from a JSON in a functional way. Forge is highly inspired by [Aeson](https://hackage.haskell.org/package/aeson), JSON parsing library in Haskell.
 
+## Ideology
+
+Have you ever felt that how others JSON libraries out there work? Magic under the hood? or a complex annnotation processing? With Forge, we don't do any of those. Forge aims to provide a full control over how to parse JSON into a Kotlin class, no more magic, no more annotation.
+
 ## Installation
 
 ### Gradle
 
-#### jcenter
-
 ```
 repositories {
-    jcenter()
+    jcenter() //or mavenCentral()
 }
 
 dependencies {
