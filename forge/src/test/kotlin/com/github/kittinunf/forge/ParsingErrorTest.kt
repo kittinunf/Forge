@@ -22,9 +22,9 @@ class ParsingErrorTest : BaseTest() {
         companion object {
             val deserializer = { j: JSON ->
                 ::User1.create
-                        .map(j at "id")
-                        .apply(j at "name")
-                        .apply(j at "age")
+                    .map(j at "id")
+                    .apply(j at "name")
+                    .apply(j at "age")
             }
         }
     }
@@ -33,21 +33,22 @@ class ParsingErrorTest : BaseTest() {
         companion object {
             val deserializer = { j: JSON ->
                 ::User2.create
-                        .map(j at "name")
-                        .apply(j at "age")
-                        .apply(j list "levels")
+                    .map(j at "name")
+                    .apply(j at "age")
+                    .apply(j list "levels")
             }
         }
     }
 
     @Test
     fun testMissingItem() {
-        val json = """
+        val json =
+            """
         {
           "name": "Clementina DuBuque",
           "age": 46,
         }
-        """.trimIndent()
+            """.trimIndent()
 
         val user = Forge.modelFromJson(json, User1.deserializer)
 
@@ -57,13 +58,14 @@ class ParsingErrorTest : BaseTest() {
 
     @Test
     fun testInvalidTypeItem() {
-        val json = """
+        val json =
+            """
         {
           "id": 1,
           "name": "Clementina DuBuque",
           "age": 46
         }
-        """.trimIndent()
+            """.trimIndent()
 
         val user = Forge.modelFromJson(json, User1.deserializer)
 
@@ -73,12 +75,13 @@ class ParsingErrorTest : BaseTest() {
 
     @Test
     fun testMissingItems() {
-        val json = """
+        val json =
+            """
         {
           "name": "Clementina DuBuque",
           "age": 46
         }
-        """.trimIndent()
+            """.trimIndent()
 
         val user = Forge.modelFromJson(json, User2.deserializer)
 
@@ -88,13 +91,14 @@ class ParsingErrorTest : BaseTest() {
 
     @Test
     fun testInvalidTypeItems() {
-        val json = """
+        val json =
+            """
         {
           "name": "Clementina DuBuque",
           "age": 46,
           "levels" : ["1","2","3"]
         }
-        """.trimIndent()
+            """.trimIndent()
 
         val user = Forge.modelFromJson(json, User2.deserializer)
 
@@ -104,7 +108,8 @@ class ParsingErrorTest : BaseTest() {
 
     @Test
     fun testSomeInvalidTypeItems() {
-        val json = """
+        val json =
+            """
         [
             {
                 "name": "Clementina DuBuque",
@@ -117,7 +122,7 @@ class ParsingErrorTest : BaseTest() {
                 "levels" : [3,2,1]
             }
         ]
-        """.trimIndent()
+            """.trimIndent()
 
         val result = Forge.modelsFromJson(json, User2.deserializer)
         val (users, error) = result

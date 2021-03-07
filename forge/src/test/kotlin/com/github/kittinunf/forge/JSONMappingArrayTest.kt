@@ -17,7 +17,7 @@ import com.github.kittinunf.forge.model.UserWithDogs
 import com.github.kittinunf.forge.util.create
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
-import org.junit.Assert.assertThat
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class JSONMappingArrayTest : BaseTest() {
@@ -25,28 +25,28 @@ class JSONMappingArrayTest : BaseTest() {
     class UserDeserializer : Deserializable<User> {
         override fun deserialize(json: JSON): DeserializedResult<User> {
             return ::User.create
-                    .map(json at "id")
-                    .apply(json at "username")
-                    .apply(json at "name")
-                    .apply(json at "age")
-                    .apply(json at "email")
-                    .apply(json maybeList "levels")
-                    .apply(json.maybeAt("friend", FriendDeserializer()::deserialize))
+                .map(json at "id")
+                .apply(json at "username")
+                .apply(json at "name")
+                .apply(json at "age")
+                .apply(json at "email")
+                .apply(json maybeList "levels")
+                .apply(json.maybeAt("friend", FriendDeserializer()::deserialize))
         }
     }
 
     val companyDeserializer = { json: JSON ->
         ::Company.create
-                .map(json at "name")
-                .apply(json at "catch_phrase")
+            .map(json at "name")
+            .apply(json at "catch_phrase")
     }
 
     val userModelWithCompany = { json: JSON ->
         ::UserWithCompany.create
-                .map(json at "id")
-                .apply(json at "username")
-                .apply(json maybeAt "is_deleted")
-                .apply(json.at("company", companyDeserializer))
+            .map(json at "id")
+            .apply(json at "username")
+            .apply(json maybeAt "is_deleted")
+            .apply(json.at("company", companyDeserializer))
     }
 
     @Test
@@ -74,16 +74,16 @@ class JSONMappingArrayTest : BaseTest() {
 
     val dogDeserializer = { j: JSON ->
         ::Dog.create
-                .map(j at "name")
-                .apply(j at "breed")
-                .apply(j at "is_male")
+            .map(j at "name")
+            .apply(j at "breed")
+            .apply(j at "is_male")
     }
 
     val userWithDogDeserializer = { j: JSON ->
         ::UserWithDogs.create
-                .map(j at "email")
-                .apply(j at "phone")
-                .apply(j.maybeList("dogs", dogDeserializer))
+            .map(j at "email")
+            .apply(j at "phone")
+            .apply(j.maybeList("dogs", dogDeserializer))
     }
 
     @Test
