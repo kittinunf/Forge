@@ -1,6 +1,9 @@
 package com.github.kittinunf.forge
 
-import com.github.kittinunf.forge.core.*
+import com.github.kittinunf.forge.core.Deserializable
+import com.github.kittinunf.forge.core.DeserializedResult
+import com.github.kittinunf.forge.core.JSON
+import com.github.kittinunf.forge.core.Serializable
 import com.github.kittinunf.result.lift
 import org.json.JSONArray
 import org.json.JSONObject
