@@ -3,6 +3,7 @@ package com.github.kittinunf.forge
 import com.github.kittinunf.forge.core.Deserializable
 import com.github.kittinunf.forge.core.DeserializedResult
 import com.github.kittinunf.forge.core.JSON
+import com.github.kittinunf.forge.core.Serializable
 import com.github.kittinunf.result.lift
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,4 +21,10 @@ object Forge {
 
     fun <T : Any> modelsFromJson(json: String, deserializer: JSON.() -> DeserializedResult<T>): DeserializedResult<List<T>> =
         JSON.parse(JSONArray(json)).toList().map(deserializer).lift()
+
+    fun <T : Any, U : Serializable<T>> jsonFromModel(model: T, serializer: U): JSON =
+        serializer.serialize(model)
+
+    fun <T : Any> jsonFromModel(model: T, serializer: T.() -> JSON): JSON =
+        model.serializer()
 }

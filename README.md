@@ -7,7 +7,7 @@
 [![](https://jitpack.io/v/kittinunf/forge.svg)](https://jitpack.io/#kittinunf/forge/) 
 [![Codecov](https://codecov.io/github/kittinunf/Forge/coverage.svg?branch=master)](https://codecov.io/gh/kittinunf/Forge)
 
-Forge is a JSON parsing library that helps you map your Kotlin class from a JSON in a functional way. Forge is highly inspired by [Aeson](https://hackage.haskell.org/package/aeson), JSON parsing library in Haskell.
+Forge is a JSON library that helps you map your Kotlin class from a JSON and vice versa in a functional way. Forge is highly inspired by [Aeson](https://hackage.haskell.org/package/aeson), JSON parsing library in Haskell.
 
 ## Ideology
 
@@ -125,6 +125,53 @@ when (result) {
 }
 
 ```
+
+You can also serialize you Kotlin class definition as JSON such:
+
+```kotlin
+fun userSerializer(user: User) = JSON.Object(mapOf(
+    "id" to user.id.toJson(),
+    "name" to user.name.toJson(),
+    "age" to user.age.toJson(),
+    "email" to user.email.maybeJson(),
+    "friends" to user.friends.toJson(::userSerializer),
+    "dogs" to user.dogs.maybeJson(::dogSerializer)
+))
+
+fun dogSerializer(dog: Dog) = JSON.Object(mapOf(
+    "name" to dog.name.toJson(),
+    "breed" to dog.breed.toJson(),
+    "male" to dog.male.toJson()
+))
+
+val json = Forge.jsonFromModel(model, ::userSerializer)
+
+json.asString() 
+/* ==>
+{
+  "id": 1,
+  "name": "Clementina DuBuque",
+  "age": 46,
+  "email": "Rey.Padberg@karina.biz",
+  "friends": [
+    {
+        "id": 11,
+        "name": "Ervin Howell",
+        "age": 32,
+        "email": "Shanna@melissa.tv",
+        "friends": []
+    }
+  ],
+  "dogs": [
+    {
+      "name": "Lucy",
+      "breed": "Dachshund",
+      "is_male": false
+    }
+  ]
+}
+*/
+``` 
 
 ## Credits
 
