@@ -10,7 +10,6 @@ import com.github.kittinunf.forge.model.User
 import com.github.kittinunf.forge.model.UserWithOptionalFields
 import com.github.kittinunf.forge.util.create
 import com.github.kittinunf.forge.util.curry
-
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat

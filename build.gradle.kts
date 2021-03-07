@@ -1,9 +1,9 @@
-import org.gradle.api.internal.artifacts.dsl.LazyPublishArtifact
+import com.jfrog.bintray.gradle.BintrayExtension
 import org.jmailen.gradle.kotlinter.support.ReporterType
 
 plugins {
-    kotlin("jvm") version "1.3.60"
-    id("org.jmailen.kotlinter") version "2.3.0"
+    kotlin("jvm") version "1.4.0"
+    id("org.jmailen.kotlinter") version "3.0.2"
 
     jacoco
     `maven-publish`
@@ -49,65 +49,128 @@ subprojects {
         reporters = arrayOf(ReporterType.plain.name, ReporterType.checkstyle.name)
     }
 
-    val sourcesJar by tasks.registering(Jar::class) {
-        from(sourceSets["main"].allSource)
-        archiveClassifier.set("sources")
-    }
+    val artifactRepo: String by project
+    val artifactName: String by project
+    val artifactDesc: String by project
+    val artifactUserOrg: String by project
+    val artifactUrl: String by project
+    val artifactScm: String by project
+    val artifactLicenseName: String by project
+    val artifactLicenseUrl: String by project
 
-    val doc by tasks.creating(Javadoc::class) {
-        isFailOnError = false
-        source = sourceSets["main"].allJava
-    }
+    val artifactPublish: String by project
+    val artifactGroupId: String by project
+    version = artifactPublish
+    group = artifactGroupId
 
-    val artifactVersion: String by project
-    val artifactGroup: String by project
-    version = artifactVersion
-    group = artifactGroup
+    //publishing
+    configure<PublishingExtension> {
 
-    bintray {
-        user = findProperty("BINTRAY_USER") as? String
-        key = findProperty("BINTRAY_KEY") as? String
-        setPublications(project.name)
-        with(pkg) {
-            repo = "maven"
-            name = "Forge"
-            desc = "Functional style JSON parsing written in Kotlin"
-            userOrg = "kittinunf"
-            websiteUrl = "https://github.com/kittinunf/Forge"
-            vcsUrl = "https://github.com/kittinunf/Forge"
-            setLicenses("MIT")
-            with(version) {
-                name = artifactVersion
-            }
+        val sourceSets = project.the<SourceSetContainer>()
+
+        val sourcesJar by tasks.registering(Jar::class) {
+            from(sourceSets["main"].allSource)
+            classifier = "sources"
         }
-    }
 
-    val javadocJar by tasks.creating(Jar::class) {
-        val doc by tasks
-        dependsOn(doc)
-        from(doc)
+        val javadocJar by tasks.creating(Jar::class) {
+            val doc by tasks.creating(Javadoc::class) {
+                isFailOnError = false
+                source = sourceSets["main"].allJava
+            }
 
-        archiveClassifier.set("javadoc")
-    }
+            dependsOn(doc)
+            from(doc)
 
-    publishing {
+            classifier = "javadoc"
+        }
+
         publications {
             register(project.name, MavenPublication::class) {
                 from(components["java"])
-                artifact(LazyPublishArtifact(sourcesJar))
+                artifact(sourcesJar.get())
                 artifact(javadocJar)
-                groupId = artifactGroup
+                groupId = artifactGroupId
                 artifactId = project.name
-                version = artifactVersion
+                version = artifactPublish
+
                 pom {
+                    name.set(project.name)
+                    description.set(artifactDesc)
+
+                    packaging = "jar"
+                    url.set(artifactUrl)
+
                     licenses {
                         license {
                             name.set("MIT License")
                             url.set("http://www.opensource.org/licenses/mit-license.php")
                         }
                     }
+
+                    developers {
+                        developer {
+                            name.set("kittinunf")
+                        }
+                        developer {
+                            name.set("babedev")
+                        }
+                        developer {
+                            name.set("janjaali")
+                        }
+                    }
+
+                    contributors {
+                        // https://github.com/kittinunf/Result/graphs/contributors
+                        contributor {
+                            name.set("pgreze")
+                        }
+                    }
+
+                    scm {
+                        url.set(artifactUrl)
+                        connection.set(artifactScm)
+                        developerConnection.set(artifactScm)
+                    }
                 }
             }
+        }
+    }
+
+    // bintray
+    configure<BintrayExtension> {
+        user = findProperty("BINTRAY_USER") as? String
+        key = findProperty("BINTRAY_KEY") as? String
+        setPublications(project.name)
+        publish = true
+        pkg.apply {
+            repo = artifactRepo
+            name = artifactName
+            desc = artifactDesc
+            userOrg = artifactUserOrg
+            websiteUrl = artifactUrl
+            vcsUrl = artifactUrl
+            setLicenses(artifactLicenseName)
+            version.apply {
+                name = artifactPublish
+                gpg(delegateClosureOf<BintrayExtension.GpgConfig> {
+                    sign = true
+                    passphrase = System.getenv("GPG_PASSPHRASE") ?: ""
+                })
+            }
+        }
+    }
+
+    // jacoco
+    configure<JacocoPluginExtension> {
+        toolVersion = extra.get("jacoco") as String
+    }
+
+    tasks.withType<JacocoReport> {
+        reports {
+            html.isEnabled = true
+            xml.isEnabled = true
+            csv.isEnabled = false
         }
     }
 }

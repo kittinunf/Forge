@@ -45,12 +45,14 @@ sealed class JSON : Sequence<JSON> {
                 is JSONObject -> return parse(toMap(json))
                 is JSONArray -> return parse(toList(json))
 
-                is Map<*, *> -> return Object((json as Map<kotlin.String, Any>).asSequence().fold(mutableMapOf()) { accum, entry ->
-                    val (key, value) = entry
-                    val jsonValue = parse(value)
-                    accum += key to jsonValue
-                    accum
-                })
+                is Map<*, *> -> return Object(
+                    (json as Map<kotlin.String, Any>).asSequence().fold(mutableMapOf()) { accum, entry ->
+                        val (key, value) = entry
+                        val jsonValue = parse(value)
+                        accum += key to jsonValue
+                        accum
+                    }
+                )
 
                 is List<*> -> return Array(json.map { parse(it!!) })
 
