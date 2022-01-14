@@ -91,7 +91,7 @@ fun userDeserializer(json: JSON) =
         apply(json.maybeList("dogs", dogDeserializer))
 
 val phoneDeserializer = { json: JSON ->
-    ::Dog.create.
+    ::Phone.create.
         map(json at "name").
         apply(json at "model")
 }
